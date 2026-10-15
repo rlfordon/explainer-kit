@@ -153,13 +153,25 @@ a link carries only the trusted widgets.
 a period every 200 characters so Messages and Signal keep it whole — both tricks from Tiny
 Little Office) and appends it to the viewer's address: `viewer/index.html#/v1/z…`.
 
-`viewer/index.html` is one static file. Host it anywhere static (GitHub Pages, a firm's own
-domain). **It is live at https://rlfordon.github.io/explainer/** (the website repo's
-`public/explainer/`). `kit.json` names that address, so `--link` prints a share link for it
-next to the local one, and `--viewer-only` also writes the website's copy; commit and push
-the website to deploy a new viewer. Old links keep working as long as the format version
-(`#/v1/`) is unchanged and their key is still on the viewer's list. Each rendered page ends
-with a line saying who signed it. Its guarantees, all tested:
+`viewer/index.html` is one static file. Host it on the author's own website (the host
+website): anywhere static, such as GitHub Pages or a firm's own domain. Old links keep
+working as long as the format version (`#/v1/`) is unchanged and their key is still on the
+viewer's list. Each rendered page ends with a line saying who signed it.
+
+Nothing about the author or the host website is built into the code. It all comes from
+`kit.json`:
+
+| Field | What it is |
+|---|---|
+| `"viewer"` | The viewer's address on the host website. `--link` prints a share link for it next to the local one. |
+| `"viewerCopy"` | Optional: a path in the host website's files where `--viewer-only` also writes the viewer, ready to commit and deploy. |
+| `"keys"` | The authors' public keys, each with the name readers see under a signed page. `--keygen` adds one. |
+
+The `kit.json` in this repository belongs to the maintainer's own site. To use the kit for
+yours, set `"viewer"` and `"viewerCopy"` to your site, empty `"keys"`, and run `--keygen`;
+otherwise your viewer would trust the maintainer's key, not yours.
+
+The viewer's guarantees, all tested:
 
 - **Nothing leaves the browser.** Its CSP is `default-src 'none'` with only its own script
   (by hash) and fonts from its own folder (`font-src 'self'`) allowed; the only requests are
@@ -181,10 +193,10 @@ page), and one link cannot expire or be revoked on its own. See *Next*.
 
 The viewer opens only links signed by a key on its list, so nobody else can use your
 viewer's address to show their own page, and a page that was changed after you made it
-will not open. The reader sees *Signed by Rebecca Fordon* at the foot of the page. The name
-comes from the viewer's list, never from the link.
+will not open. The reader sees *Signed by* and the author's name at the foot of the page.
+The name comes from the viewer's list, never from the link.
 
-- **Making a key**: `node build.mjs --keygen --name "Rebecca Fordon"`. This writes the private key to
+- **Making a key**: `node build.mjs --keygen --name "Author Name"`. This writes the private key to
   `~/.explainer-kit/signing-key.json`, outside every repository (`EXPLAINER_KIT_KEY` names
   another file), and adds its public half to `kit.json` `"keys"`. Then rebuild the viewer
   (`--viewer-only`) and deploy it. From then on `--link` signs every link. It refuses to make

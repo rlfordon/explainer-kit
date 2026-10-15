@@ -9,9 +9,9 @@ A link is data, never code. It carries the page's text and settings, and the vie
 them with widgets already built into it, escaping every string. Two guarantees follow, and
 both are tested:
 
-1. **Nothing from the link runs.** The viewer lives at Rebecca's own address
-   (`rlfordon.github.io/explainer/`). If it ran code from links, anyone could write a link
-   that runs their code under her name: a fake login form, or a page that sends what a
+1. **Nothing from the link runs.** The viewer lives at the author's own address, on the host
+   website. If it ran code from links, anyone could write a link that runs their code under
+   the author's name: a fake login form, or a page that sends what a
    reader types somewhere else. Tiny Little Office made the same call for the same reason.
 2. **Nothing leaves the browser.** The viewer's Content Security Policy lets the page load
    only its own script and its own fonts. That is what lets a client page say "nothing in
@@ -24,7 +24,7 @@ its list, so a stranger cannot use the viewer's address at all. See the README's
 
 | In html-explainer | Why a link can't carry it | The file target |
 |---|---|---|
-| Bespoke demos: canvas simulations, sound, animation, mechanism demos (the Gutenberg press) | Each is a program, and guarantee 1 forbids running one. Also large: the custom code in Rebecca's pages alone runs 7,000–22,000 characters of link. | Yes, through a `demo` fence |
+| Bespoke demos: canvas simulations, sound, animation, mechanism demos (the Gutenberg press) | Each is a program, and guarantee 1 forbids running one. Also large: the custom code in the maintainer's own html-explainer pages alone runs 7,000–22,000 characters of link. | Yes, through a `demo` fence |
 | Custom diagrams (SVG) and images | SVG can carry scripts and outside references, so the viewer strips it. An outside image tells its server the page was opened (guarantee 2); an embedded one makes the link enormous. | Yes, through `html` |
 | "Go bold" art direction | Page CSS can hide parts of the page or draw a fake "Signed by" line over the real one. A link gets only the vetted choices: theme, accent, topic colours, approved fonts. | Yes, through `style` |
 | The chat dock | The kit's own code, so guarantee 1 allows it. Guarantee 2 does not: chatting sends the page and the questions to an AI provider. | Yes, `--chat` |
@@ -32,12 +32,12 @@ its list, so a stranger cannot use the viewer's address at all. See the README's
 The **Review & edit overlay** is not blocked by either guarantee. It is not built into the
 viewer yet, and in a link its "Download edits" should produce a new link, not an HTML file.
 
-## Decisions waiting on Rebecca
+## Open decisions
 
 - **Custom demos in signed links?** Signing opens a middle path: a signed link could carry
   a custom demo, run in a sealed-off frame (a sandboxed iframe: an opaque origin, so it can't
   touch the site, under its own policy forbidding any network request). The costs: a leaked
-  key would run code under her address instead of only showing text (contained by the frame,
+  key would run code under the host website's address instead of only showing text (contained by the frame,
   ended by revoking the key); links get much longer (email-length, not text-length); and the
   viewer gets harder to secure and test. Worth it only if client pages need demos that
   trusted widgets can't express.

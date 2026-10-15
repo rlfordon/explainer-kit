@@ -3,14 +3,19 @@
 How explainer-kit keeps a shared page safe, what it does not protect, and what is coming.
 The README has the technical detail; [ROADMAP.md](ROADMAP.md) has the plans and open decisions.
 
+Two roles appear throughout. The **author** writes pages and holds the private signing key.
+The **host website** is the author's own site, which serves the viewer page that opens links.
+Both are set in `kit.json`: `"viewer"` is the viewer's address on the host website, and each
+entry in `"keys"` is an author's public key with the name readers see.
+
 ## In short
 
 - A link is the page itself, packed into the part of the address after the `#`. Browsers
   never send that part to any server, so the page is stored nowhere: not on the website,
   not on any service.
-- The viewer that opens links (https://rlfordon.github.io/explainer/) **never runs code from
-  a link**, **never sends anything anywhere**, and **opens only pages signed by Rebecca
-  Fordon's key**.
+- The viewer that opens links, a single static page on the author's own website (the host
+  website), **never runs code from a link**, **never sends anything anywhere**, and **opens
+  only pages signed by the author's key**.
 - **Anyone who has a link can read the page.** Links are not yet encrypted, so treat a link
   like the page itself: do not put anything in one that you would not send by plain email.
 
@@ -18,8 +23,8 @@ The README has the technical detail; [ROADMAP.md](ROADMAP.md) has the plans and 
 
 A viewer like this one draws whatever the link contains, under the address of the site that
 hosts it. If it would run code from a link, anyone could write a link that shows a fake login
-page or quietly sends whatever a reader types to their own server, all under Rebecca's web
-address, where it would look trustworthy.
+page or quietly sends whatever a reader types to their own server, all under the host
+website's address, where it would look trustworthy.
 
 Tiny Little Office, the project this kit borrows the link-as-document idea from, hit exactly
 this. Paul Ford removed one of its apps on 2026-10-11 and recorded why in its design notes
@@ -63,30 +68,31 @@ page out.
   where they came from.
 - Checklist ticks are not saved when reading a link, so nothing is left on the reader's
   device by the page.
-- The viewer is marked `noindex`, and it is not in the website's sitemap.
+- The viewer is marked `noindex`, so search engines leave it out. Keep it out of the host
+  website's sitemap too.
 
-What servers can see: GitHub, which hosts the website, sees that someone loaded the viewer
-(their IP address and the time), the same as any web page. It never sees which page they
+What servers can see: the host website (and the company that hosts it, such as GitHub Pages)
+sees that someone loaded the viewer (their IP address and the time), the same as any web page. It never sees which page they
 opened, because the page lives in the part of the address browsers keep to themselves.
 
-### 3. Only Rebecca's pages open (signing)
+### 3. Only the author's pages open (signing)
 
-Since 2026-10-15, every link is signed with Rebecca's private key, and the viewer opens only
-links whose signature matches the public key built into it.
+Every link is signed with the author's private key, and the viewer opens only links whose
+signature matches a public key built into it.
 
 - **A stranger cannot use the viewer.** A link without a valid signature is refused, with a
   plain message. Reading the viewer's code does not help: the public key can check a
   signature, but only the private key can make one.
 - **A changed page will not open.** The signature covers the whole page, so a link that was
   altered after it was made, even by one character, is refused.
-- **Readers see who made it.** Each page ends with *Signed by Rebecca Fordon*. That name comes
-  from the viewer's own list, never from the link.
+- **Readers see who made it.** Each page ends with *Signed by* and the author's name, as given
+  when the key was made. That name comes from the viewer's own list, never from the link.
 - **Technical detail:** ECDSA P-256 with SHA-256, checked in the browser with Web Crypto
   before anything in the link is unpacked.
 
 A signature proves who made the page and that it is unchanged. The viewer still draws a
 signed page with the trusted widgets only, so a stolen key would let someone show text under
-Rebecca's name, but never run code.
+the author's name, but never run code.
 
 ### 4. Tested on every change
 
@@ -118,7 +124,7 @@ reader's questions to an AI provider using a key the reader enters. A file is fo
 explainers and for pages you choose to send as an attachment. Client pages that must stay
 private should go as links.
 
-## Keeping it safe: what depends on Rebecca
+## Keeping it safe: what depends on the author
 
 - **The private key** is the file `~/.explainer-kit/signing-key.json`, outside every
   repository. It is not encrypted on disk, so anyone with access to the computer's user
@@ -126,9 +132,9 @@ private should go as links.
 - **If the key is lost or stolen**, remove its entry from `kit.json` `"keys"`, rebuild the
   viewer and deploy it. Every link it signed stops opening. Make a new key with
   `node build.mjs --keygen` and re-send any links still needed.
-- **GitHub is the deepest point of trust.** Someone who took over the GitHub account could
-  replace the viewer itself. Keep two-factor authentication on for GitHub, and for any
-  service added later.
+- **The account that publishes the host website is the deepest point of trust.** Someone who
+  took it over (a GitHub account, for a site on GitHub Pages) could replace the viewer itself.
+  Keep two-factor authentication on for it, and for any service added later.
 - **The source code is public.** That is fine: nothing in the design depends on keeping the
   code secret, only the private key.
 
@@ -136,7 +142,7 @@ private should go as links.
 
 | Plan | What it changes | Status |
 |---|---|---|
-| **Short links** | A link of about 80 characters, for text messages and QR codes. The page is encrypted on Rebecca's computer, and only the encrypted copy is stored, on a small Cloudflare service. The key to unlock it stays in the short link, so Cloudflare cannot read the pages. Only Rebecca can create links, and each one can expire or be deleted on its own. The trade-off: Cloudflare can see when each short link is opened, and from what IP address. The long link stays as a backup. | Decided, to be built next |
+| **Short links** | A link of about 80 characters, for text messages and QR codes. The page is encrypted on the author's computer, and only the encrypted copy is stored, on a small Cloudflare service the author runs. The key to unlock it stays in the short link, so Cloudflare cannot read the pages. Only the author can create links, and each one can expire or be deleted on its own. The trade-off: Cloudflare can see when each short link is opened, and from what IP address. The long link stays as a backup. | Decided, to be built next |
 | **Sealing** | Encrypts the page with a password sent separately, following Tiny Little Office's sealed form. A forwarded link alone is then not enough to read it, and every mailbox holds only scrambled text. The signature is checked before the reader is asked for the password, so a forged link is refused first. | Planned |
 | **Custom demos in signed links** | Would let a signed link carry a custom interactive demo, run in a sealed-off frame that cannot touch the site or make network requests. It reopens part of the problem above, contained by the frame and the signature, and makes links much longer. | Open decision |
 | **Opt-in chat in links** | A button where the reader enters their own AI key. The page and their questions would go to the AI provider, by the reader's choice, and the "nothing was sent" note would change while chat is on. | Open decision |
