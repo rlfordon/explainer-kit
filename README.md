@@ -171,6 +171,9 @@ with a line saying who signed it. Its guarantees, all tested:
 - **Leaves nothing behind**: checklist ticks are not stored when reading a link.
 - **Opens only signed links.** See below. `test/signing.mjs` checks it.
 
+[SECURITY.md](SECURITY.md) explains all of this in plain terms, with what a link does not
+protect and what is coming.
+
 What a link does *not* do yet: it is not encrypted (anyone who sees the link can read the
 page), and one link cannot expire or be revoked on its own. See *Next*.
 
