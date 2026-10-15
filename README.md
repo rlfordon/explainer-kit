@@ -229,3 +229,10 @@ test/                check.mjs (exercise + screenshot), security.mjs + evil.md, 
 
 See [ROADMAP.md](ROADMAP.md). It covers what a link can't carry and why, the decisions
 still open, the widgets being built for the Jev pages, and sealing, decks and short links.
+
+## License
+
+MIT (see [LICENSE](LICENSE)). The kit is built on html-explainer by Derek Schwede and Tiny
+Little Office by Paul Ford, both MIT, and serves five fonts under the SIL Open Font License.
+[NOTICE.txt](NOTICE.txt) lists what came from where, with their notices; the build puts it in
+every page and in the viewer as a comment, so each copy carries its credits.

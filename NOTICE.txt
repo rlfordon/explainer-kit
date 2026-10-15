@@ -1,0 +1,44 @@
+explainer-kit, by Rebecca Fordon (https://github.com/rlfordon/explainer-kit), MIT License.
+It includes work from these projects.
+
+html-explainer, by Derek Schwede (https://github.com/ds-vibe/html-explainer)
+  The design system, the widget designs and their behaviour, the review overlay and chat dock
+  (vendor/html-explainer/), and the seeded random number generator its pages use.
+
+Tiny Little Office, by Paul Ford (https://github.com/aboard-io/tinylittleoffice)
+  The idea of a document that lives in its link, the Markdown-with-fences source format, the
+  rule that a link never runs code, and the link encoding conventions in lib/codec.js.
+
+All three are released under the MIT License:
+
+  MIT License
+
+  Copyright (c) 2026 Rebecca Fordon (explainer-kit)
+  Copyright (c) 2026 Derek Schwede (html-explainer)
+  Copyright (c) 2026 Paul Ford (Tiny Little Office)
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+
+Fonts, under the SIL Open Font License 1.1 (each license is in fonts/, next to the font):
+  Bricolage Grotesque, copyright 2022 The Bricolage Grotesque Project Authors
+  IBM Plex Sans and IBM Plex Mono, copyright 2017 IBM Corp., Reserved Font Name "Plex"
+  Newsreader, copyright 2020 The Newsreader Project Authors
+  Source Serif 4, copyright 2014 The Source Serif 4 Project Authors
+
+mulberry32 (lib/rand.js), by Tommy Ettinger, is in the public domain.

@@ -46,6 +46,10 @@ export function widgetCss(names) {
   return css;
 }
 
+// NOTICE.txt (the MIT notices for html-explainer and Tiny Little Office, whose code the page
+// and viewer carry) rides along in every built page as a comment
+const notice = () => `<!--\n${read("NOTICE.txt").replace(/--/g, "- -").trim()}\n-->\n`;
+
 function minCss(css) {
   return css.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\s*\n\s*/g, "\n").replace(/\n+/g, "\n").trim();
 }
@@ -67,7 +71,7 @@ export function buildFile(src, { review = true, chat = false, out } = {}) {
   const script = fileScript(page.used);
   const lang = /^[a-z]{2}(-[A-Za-z]{2})?$/.test(page.head.lang || "") ? page.head.lang : "en";
   const html = `<!DOCTYPE html>
-<html lang="${lang}">
+${notice()}<html lang="${lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -102,7 +106,7 @@ export function buildViewer(out = join(HERE, "viewer/index.html"), { keys = load
   const css = minCss(read("fonts/fonts.css") + widgetCss(Object.keys(WIDGETS)) + read("viewer/viewer.css"));
   const csp = `default-src 'none'; script-src 'sha256-${hash}'; style-src 'unsafe-inline'; img-src data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'`;
   const html = `<!DOCTYPE html>
-<html lang="en">
+${notice()}<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="${csp}">

@@ -1,6 +1,7 @@
 {
   "name": "explainer-kit",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "description": "Modular explainers: a Markdown source format, a widget library, a standalone-file build and a private link viewer. A meld of html-explainer and Tiny Little Office.",
   "scripts": {
