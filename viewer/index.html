@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UG7kclqZ2OflItwSz2w8czrR6cFD4jFzoBhkb1HzvWg='; style-src 'unsafe-inline'; img-src data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-oKdmYkK+IfAdLERsygKolDumxmcGzBj/laowj/QEH/8='; style-src 'unsafe-inline'; img-src data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -124,6 +124,13 @@ table.data td{font-size:15px}
 .btn-ghost{background:transparent;color:var(--ink-2);border-color:var(--line-2)}
 .btn-ghost:hover{background:var(--raise)}
 .btn-ghost[disabled]{opacity:.45;cursor:default}
+.cx-ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s5) var(--s6);margin-bottom:var(--s6)}
+.cx-ctrl label,.cx-ctrl .clab{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s3);font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:var(--s2)}
+.cx-out{font-family:var(--sans);font-size:15px;font-weight:700;letter-spacing:0;text-transform:none;color:var(--ink);white-space:nowrap}
+.cx-ctrl input[type=range]{width:100%;accent-color:var(--accent);height:28px;margin:0}
+.cx-ctrl .seg{flex-wrap:wrap}
+.cx-say{font-size:15.5px;color:var(--ink-2);max-width:var(--measure);margin:var(--s3) 0 0}
+.cx-say .xv{font-variant-numeric:tabular-nums}
 pre.code{font-family:var(--mono);font-size:13.5px;line-height:1.6;background:var(--dk-bg);color:var(--dk-ink);padding:var(--s4) var(--s5);border-radius:5px;overflow-x:auto;margin:0 0 var(--s5)}
 pre.code code{background:none;padding:0;font-size:inherit;color:inherit}
 .dark{--bg:var(--dk-bg);--surface:var(--dk-surface);--surface-2:var(--dk-surface);--raise:var(--dk-line);--line:var(--dk-line);--line-2:var(--dk-line);--ink:var(--dk-ink);--ink-2:var(--dk-ink-2);--ink-3:var(--dk-ink-2);--accent:var(--accent-lt);--accent-dim:rgba(255,255,255,.14);background:var(--bg);color:var(--ink);border-top:0}
@@ -342,6 +349,236 @@ details.deeper .dbody>*:last-child{margin-bottom:0}
 .checklist input{width:18px;height:18px;margin:3px 0 0;flex:none;accent-color:var(--ok)}
 .checklist li.done span{color:var(--ink-3);text-decoration:line-through;text-decoration-color:var(--line-2)}
 .checklist span p{margin:4px 0 0;font-size:14.5px;color:var(--ink-2)}
+.bars{margin:0 0 var(--s5);max-width:640px}
+.bars-t{font-family:var(--disp);font-size:18px;font-weight:600;line-height:1.3;color:var(--ink);margin:0 0 var(--s4)}
+.bars-cap{font-size:14px;color:var(--ink-3);margin:var(--s3) 0 0;line-height:1.5}
+.bar{display:grid;grid-template-columns:minmax(90px,max-content) minmax(60px,1fr) auto;gap:var(--s3);align-items:center;margin-bottom:var(--s2);font-size:15px}
+.bars .bar .bl{color:var(--ink-2);min-width:0}
+.bar .bt{height:12px;background:var(--raise);border-radius:6px;overflow:hidden}
+.bar .bt i{display:block;height:100%;background:var(--bc,var(--accent));border-radius:6px}
+.bar b{font-family:var(--mono);font-size:13.5px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;min-width:3.2em;text-align:right}
+.bars:not(.peak-set) .bar.peak .bl,.bar.peak b{color:var(--ink);font-weight:700}
+.bar.peak .bt i{background:var(--bc,var(--accent))}
+.bars:has(.peak) .bar:not(.peak) .bt i{background:color-mix(in srgb,var(--bc,var(--accent)) 35%,var(--surface-2))}
+.bars.compact .bar{margin-bottom:4px;font-size:14px}
+.bars.compact .bar .bt{height:8px}
+.bars-stack{display:flex;height:22px;border-radius:4px;overflow:hidden;background:var(--raise)}
+.bars-stack i{display:block;height:100%;background:var(--bc)}
+.bars-legend{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);margin-top:var(--s3);font-size:13.5px;color:var(--ink-2)}
+.bars-legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--bc);margin-right:6px;vertical-align:-1px}
+@media (max-width:640px){.bar{grid-template-columns:minmax(70px,.9fr) minmax(50px,1fr) auto}}
+.waffle{margin:var(--s5) 0;max-width:960px}
+.wf-grid{display:grid;gap:3px}
+.wf-grid i{display:block;aspect-ratio:1;border-radius:2px;background:var(--raise)}
+.waffle .k0{background:var(--k0)} .waffle .k1{background:var(--k1)} .waffle .k2{background:var(--k2)}
+.waffle .k3{background:var(--k3)} .waffle .k4{background:var(--k4)} .waffle .k5{background:var(--k5)}
+.waffle figcaption{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--s2) var(--s5);margin-top:var(--s3);font-size:14px;color:var(--ink-2);line-height:1.5}
+.wf-key{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);font-family:var(--mono);font-size:12px;color:var(--ink-3)}
+.wf-key span{display:inline-flex;align-items:center;gap:6px}
+.wf-key i{display:inline-block;width:10px;height:10px;border-radius:2px}
+@media (max-width:640px){.wf-grid{gap:1.5px}.wf-grid i{border-radius:1px}}
+.cx-presets{display:flex;flex-wrap:wrap;gap:var(--s2);margin-bottom:var(--s5)}
+.cx-presets .btn{font-size:14px;padding:9px 14px}
+.cx-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--s5);margin-bottom:var(--s5)}
+.cx-res{border-top:3px solid var(--accent);padding-top:var(--s3);min-width:0}
+.cx-res b{display:block;font-family:var(--disp);font-size:clamp(26px,3.4vw,36px);font-weight:600;line-height:1.1;color:var(--ink);margin-bottom:6px;overflow-wrap:anywhere}
+.cx-res span{display:block;font-size:14.5px;color:var(--ink-2);line-height:1.45}
+.cx-meter{margin:var(--s4) 0 var(--s3)}
+.cx-track{height:12px;background:var(--raise);border-radius:6px;overflow:hidden}
+.cx-fill{height:100%;background:var(--accent);border-radius:6px;transition:width .15s}
+.cx-fill.over{background:var(--bad)}
+@media (prefers-reduced-motion:reduce){.cx-fill{transition:none}}
+.w-triage .tg-scen{grid-column:1/-1}
+.tg-wrap{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s3);margin:var(--s2) 0 var(--s5)}
+.tg-wrap.has-rows{grid-template-columns:auto minmax(0,1fr)}
+.tg-rows{display:grid;grid-template-rows:repeat(var(--rows,1),1fr);height:calc(var(--rows,1)*64px);margin-top:26px}
+.tg-rows span{display:flex;align-items:center;justify-content:flex-end;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--ink-2);text-align:right;line-height:1.3;max-width:13ch}
+.tg-main{min-width:0;padding:0 8px}
+.tg-plot{position:relative;height:220px;border-bottom:1.5px solid var(--ink)}
+.has-rows .tg-plot{height:calc(var(--rows,1)*64px)}
+.tg-band{position:absolute;top:0;bottom:0;transition:left .1s,width .1s}
+.tg-band.low{background:var(--bad-dim)}
+.tg-band.mid{background:var(--warn-dim)}
+.tg-band.high{background:var(--ok-dim)}
+.tg-band span{position:absolute;top:-22px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tg-band.low span{color:var(--bad)} .tg-band.mid span{color:var(--warn)} .tg-band.high span{color:var(--ok)}
+.tg-plot{margin-top:26px}
+.tg-line{position:absolute;top:-4px;bottom:0;width:2px;margin-left:-1px;background:var(--ink);transition:left .1s}
+.tg-dot{position:absolute;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--dc,var(--c,var(--accent)));border:2px solid var(--dc,var(--c,var(--accent)));opacity:.85;transition:left .15s}
+.tg-dot.ring{background:var(--surface-2);opacity:1}
+.tg-dot.err{width:13px;height:13px;margin:-6.5px 0 0 -6.5px;border-color:var(--ink);border-width:2.5px;opacity:1;z-index:2}
+.tg-axis{position:relative;height:24px;margin-top:4px}
+.tg-axis span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--ink-3)}
+.tg-axlab{text-align:center;font-size:13.5px;color:var(--ink-3);margin-top:2px}
+.tg-legend{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s5);font-size:14px;color:var(--ink-2);margin-bottom:var(--s4)}
+.tg-legend span{display:inline-flex;align-items:center;gap:8px}
+.tg-legend .tg-dot{position:static;margin:0;flex:none}
+.tg-stack{display:flex;height:10px;border-radius:5px;overflow:hidden;margin-bottom:var(--s5);background:var(--raise)}
+.tg-stack span{display:block;height:100%;transition:width .15s}
+.tg-stack .low{background:var(--bad)} .tg-stack .mid{background:var(--warn)} .tg-stack .high{background:var(--ok)}
+.tg-read{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s5)}
+.tg-z{display:flex;gap:var(--s3);align-items:baseline;border-top:3px solid var(--zc);padding-top:var(--s3);min-width:0}
+.tg-z.low{--zc:var(--bad)} .tg-z.mid{--zc:var(--warn)} .tg-z.high{--zc:var(--ok)}
+.tg-z b{font-family:var(--disp);font-size:32px;font-weight:600;line-height:1;color:var(--zc);font-variant-numeric:tabular-nums}
+.tg-z span{font-size:14.5px;color:var(--ink-2);line-height:1.45}
+.tg-say{margin-top:var(--s5)}
+@media (max-width:760px){
+.tg-read{grid-template-columns:1fr}
+.tg-plot{height:200px}
+.tg-dot{width:8px;height:8px;margin:-4px 0 0 -4px}
+.tg-dot.err{width:11px;height:11px;margin:-5.5px 0 0 -5.5px}
+.tg-wrap.has-rows{grid-template-columns:minmax(0,1fr)}
+.tg-rows{display:none}
+}
+@media (prefers-reduced-motion:reduce){.tg-band,.tg-line,.tg-dot,.tg-stack span{transition:none}}
+.w-catalog .cat-filters{display:flex;flex-wrap:wrap;gap:var(--s4) var(--s6);align-items:flex-end;margin-bottom:var(--s4)}
+.cat-fg{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center}
+.cat-fl{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-right:var(--s1);flex-basis:100%}
+.cat-chip{appearance:none;display:inline-flex;align-items:center;gap:7px;min-height:40px;font-family:var(--sans);font-size:14px;font-weight:500;line-height:1.2;padding:8px 14px;border:1px solid var(--line-2);border-radius:999px;background:var(--surface);color:var(--ink-2);cursor:pointer}
+.cat-chip:hover{background:var(--raise)}
+.cat-chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.cat-chip:focus-visible,.cat-pick:focus-visible,.cat-rb:focus-visible,.cat-q:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cat-q{appearance:none;flex:1 1 220px;min-width:0;max-width:360px;min-height:42px;font-family:var(--sans);font-size:15px;padding:9px 14px;border:1px solid var(--line-2);border-radius:var(--r);background:var(--surface);color:var(--ink)}
+.cat-q::placeholder{color:var(--ink-3)}
+.cat-count{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--ink-3);margin:0 0 var(--s4)}
+.cat-empty{color:var(--ink-3);font-size:15.5px;margin:var(--s4) 0 0}
+.cat-pip{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--c,var(--ink-3));flex:none}
+.cat-pip.off{background:transparent;box-shadow:inset 0 0 0 1.5px var(--line-2)}
+.dark .cat-pip{background:var(--c-lt,var(--c,var(--ink-3)))}
+.dark .cat-pip.off{background:transparent}
+.cat-pips{display:inline-flex;gap:5px;align-items:center}
+.cat-tags{display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center}
+.cat-tag{display:inline-flex;align-items:center;gap:6px}
+.cat-tag.plain{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3)}
+.cat-tag .ok,.cat-tag .bad,.cat-tag .warn,.cat-tag .flag{padding:3px 8px;font-size:11px}
+.cat-sec h5{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin:var(--s4) 0 var(--s1)}
+.cat-sec p{font-size:15.5px;color:var(--ink-2);margin:0;max-width:68ch}
+.cat-sec pre.code{margin:0;font-size:13px;white-space:pre-wrap;word-break:break-word}
+.cat-warn{border-left:3px solid var(--bad);padding-left:var(--s4)}
+.cat-warn h5{color:var(--bad)}
+.cat-grp+.cat-grp{margin-top:var(--s6)}
+.cat-gh{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:0 0 var(--s2)}
+.cat-row{border-top:1px solid var(--line)}
+.cat-grp .cat-row:last-child{border-bottom:1px solid var(--line)}
+.cat-rb{appearance:none;width:100%;text-align:left;background:none;border:0;color:var(--ink);font:inherit;padding:var(--s3) var(--s1);display:grid;grid-template-columns:minmax(0,1fr) auto 24px;column-gap:var(--s4);row-gap:4px;align-items:center;min-height:44px}
+button.cat-rb{cursor:pointer}
+button.cat-rb:hover{background:var(--raise)}
+.cat-rb .cat-nm{font-weight:600;font-size:16px}
+.cat-rb .cat-tags{justify-self:end}
+.cat-rb .cat-sum{grid-column:1/3;font-size:14.5px;color:var(--ink-2);line-height:1.5}
+div.cat-rb{grid-template-columns:minmax(0,1fr) auto}
+div.cat-rb .cat-sum{grid-column:1/-1}
+.cat-chev{grid-column:3;grid-row:1;width:24px;height:24px;display:grid;place-items:center;color:var(--ink-3)}
+.cat-chev::before{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s}
+.cat-rb[aria-expanded="true"] .cat-chev::before{transform:rotate(45deg)}
+@media (prefers-reduced-motion:reduce){.cat-chev::before{transition:none}}
+.cat-det{padding:0 var(--s1) var(--s4);display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));column-gap:var(--s6)}
+.cat-det .cat-sec h5{margin-top:var(--s2)}
+.cat-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:var(--s6);align-items:start}
+.cat-index{list-style:none;margin:0;padding:0}
+.cat-index li{margin:0}
+.cat-ih{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);padding:var(--s4) 0 var(--s2)}
+.cat-pick{appearance:none;width:100%;text-align:left;font:inherit;color:var(--ink);background:none;border:0;border-top:1px solid var(--line);padding:var(--s3) var(--s3);display:flex;gap:var(--s3);align-items:center;cursor:pointer;min-height:44px}
+.cat-li:last-child .cat-pick{border-bottom:1px solid var(--line)}
+.cat-pick:hover{background:var(--raise)}
+.cat-pick[aria-current="true"]{background:var(--surface);box-shadow:inset 3px 0 0 var(--accent)}
+.cat-pick .cat-nm{flex:1;font-size:15.5px;font-weight:500;line-height:1.35}
+.cat-pick[aria-current="true"] .cat-nm{font-weight:600}
+.cat-pick .cat-tags{flex:none;justify-content:flex-end;max-width:45%}
+.cat-panel{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:var(--s5);position:sticky;top:72px}
+.cat-art{scroll-margin-top:72px}
+.cat-art+.cat-art{margin-top:var(--s6);padding-top:var(--s5);border-top:1px solid var(--line)}
+.cat-live .cat-art+.cat-art{margin-top:0;padding-top:0;border-top:0}
+.cat-at{font-size:22px;margin:0 0 var(--s3)}
+.cat-meta{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);margin-bottom:var(--s4)}
+.cat-lead{font-size:16px;color:var(--ink);margin:0 0 var(--s2)}
+@media (max-width:900px){
+.cat-split{grid-template-columns:1fr}
+.cat-panel{position:static}
+}
+@media (max-width:640px){
+.cat-rb{grid-template-columns:minmax(0,1fr) 24px}
+.cat-rb .cat-tags{grid-column:1;grid-row:2;justify-self:start}
+.cat-rb .cat-sum{grid-column:1/-1}
+div.cat-rb{grid-template-columns:1fr}
+.cat-pick .cat-tags{max-width:none}
+.cat-panel{padding:var(--s4)}
+.w-catalog .cat-filters{gap:var(--s4)}
+.cat-q{max-width:none}
+}
+@media print{
+.cat-filters,.cat-count,.cat-side{display:none!important}
+.cat-det[hidden],.cat-art[hidden],.cat-row[hidden],.cat-li[hidden],.cat-grp[hidden]{display:block!important}
+.cat-panel{position:static;border:0;padding:0}
+.cat-split{display:block}
+}
+.cat-tag .muted{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3)}
+.lc{display:grid;grid-template-columns:minmax(240px,1fr) minmax(0,2fr);gap:var(--s6);align-items:start}
+.lc>*{min-width:0}
+.lc-qs{display:flex;flex-direction:column;gap:var(--s2);margin-bottom:var(--s5)}
+.lc-q{appearance:none;text-align:left;font-family:var(--sans);font-size:14.5px;line-height:1.45;color:var(--ink);padding:10px 12px;min-height:40px;border:1.5px solid var(--line-2);border-radius:var(--r);background:var(--surface);cursor:pointer}
+.lc-q:hover{background:var(--raise)}
+.lc-q[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-dim);font-weight:600}
+.lc-ctrl{margin-bottom:var(--s5)}
+.lc-ctrl .clab{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:var(--s2)}
+.lc-note{margin:var(--s4) 0 0}
+.lc-op{display:flex;flex-direction:column}
+.lc-p{display:grid;grid-template-columns:140px minmax(0,1fr);gap:var(--s4);align-items:start;padding:var(--s3) 0;border-bottom:1px solid var(--line)}
+.lc-p:first-child{padding-top:0}
+.lc-m{font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.lc-track{height:12px;background:var(--raise);border-radius:3px;overflow:hidden;margin-bottom:4px}
+.lc-fill{height:100%;background:var(--accent);transition:width .25s}
+@media (prefers-reduced-motion:reduce){.lc-fill{transition:none}}
+.lc-d{color:var(--bad)}
+.lc-d.up{color:var(--ok)}
+.lc-t{font-size:15px;line-height:1.6;padding-left:var(--s3)}
+.lc-p.top .lc-t{box-shadow:inset 4px 0 0 var(--accent)}
+.lc-tag{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:2px}
+.lc-s{appearance:none;display:inline;font:inherit;color:inherit;text-align:left;background:none;border:0;padding:0 2px;margin:0;border-radius:3px;cursor:pointer}
+.lc-s:hover{background:var(--warn-dim)}
+.lc-s.gone{text-decoration:line-through;color:var(--ink-3)}
+.lc-s:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.lc-none{margin:var(--s3) 0 0;font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+@media (max-width:900px){.lc{grid-template-columns:1fr}}
+@media (max-width:600px){.lc-p{grid-template-columns:1fr;gap:var(--s2)}.lc-t{padding-left:var(--s3)}}
+@media print{.lc-restore{display:none}}
+.sp{display:grid;grid-template-columns:minmax(240px,1fr) minmax(0,2fr);gap:var(--s6);align-items:start}
+.sp>*{min-width:0}
+.sp-ctrl{margin-bottom:var(--s5)}
+.sp-ctrl label{display:flex;justify-content:space-between;gap:var(--s3);align-items:baseline;font-family:var(--sans);font-size:14px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.sp-ctrl output{font-family:var(--mono);flex:none}
+.sp-ctrl input[type=range]{width:100%;height:28px;accent-color:var(--ink);margin:0}
+.sp-fixes{display:flex;flex-wrap:wrap;gap:var(--s2)}
+.sp-fixes .btn{font-size:14px;padding:9px 16px;min-height:40px}
+.sp-find{margin:var(--s4) 0 0;padding-left:18px;font-size:14.5px;color:var(--ink-2)}
+.sp-find li{margin-bottom:6px}
+.sp-find b{color:var(--ink)}
+.sp-note{margin:var(--s4) 0 0}
+.sp-mxwrap{overflow-x:auto}
+.sp-mx{display:grid;grid-template-columns:110px repeat(var(--n,8),minmax(34px,1fr));gap:3px;font-family:var(--mono);font-size:12px;font-weight:500}
+.sp-row{display:contents}
+.sp-mx .sp-cell{min-height:38px;display:flex;align-items:center;justify-content:center;border-radius:4px}
+.sp-mx .sp-h{color:var(--ink-2);font-weight:700;justify-content:flex-start;padding-right:6px;overflow-wrap:break-word;line-height:1.2}
+.sp-mx .sp-hc{writing-mode:vertical-rl;transform:rotate(180deg);justify-content:flex-end;min-height:88px;padding:4px 0;color:var(--ink-2);font-weight:700}
+.sp-c{background:var(--raise);color:var(--ink)}
+.sp-c.on{font-weight:700}
+.sp-c.hot{color:var(--bg)}
+.sp-wins{margin-top:var(--s5);display:flex;flex-direction:column;gap:6px}
+.sp-lab{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
+.sp-win{display:grid;grid-template-columns:120px minmax(0,1fr) 40px;gap:var(--s3);align-items:center;font-size:13px;color:var(--ink-2)}
+.sp-track{display:block}
+.sp-bar{display:block;height:12px;background:var(--accent);border-radius:3px}
+.sp-win.dead .sp-bar{background:var(--bad)}
+.sp-win.dead .sp-wn{color:color-mix(in srgb,var(--bad) 70%,var(--ink))}
+.sp-wc{font-family:var(--mono);text-align:right}
+.sp-static{font-size:14.5px;color:var(--ink-2);margin:0}
+@media (max-width:900px){.sp{grid-template-columns:1fr}}
+@media (max-width:600px){
+.sp-mx{grid-template-columns:96px repeat(var(--n,8),minmax(24px,1fr))}
+.sp-mx .sp-h{font-size:10.5px}
+.sp-win{grid-template-columns:96px minmax(0,1fr) 32px}
+}
+@media print{.sp-fixes,.sp-ctrl input{display:none}}
 .x-msg .wrap{padding:var(--s9) var(--s5)}
 .x-msg h1{font-size:clamp(32px,5vw,52px);max-width:18ch;margin-bottom:var(--s4)}
 .x-msg .dek{font-size:19px;color:var(--ink-2);max-width:56ch}
@@ -1532,6 +1769,1158 @@ const checklist = {
 
 return {checklist};
 })();
+__m["../widgets/bars.js"]=(function(){
+/* bars — horizontal bars, or one stacked bar, from a Label | Value table (from the
+ * jev-legal-research.html charts and its "one decision" probability bars). No script.
+ *
+ *   ```bars {title="Share each citator missed" caption="Hellyer (2018), 309 relationships." max=100}
+ *   Citator | Missed
+ *   Shepard's | 33%
+ *   KeyCite | 38%
+ *   BCite | 72% {.bad}
+ *   ```
+ * The value shows as written; its number sets the length, against `max` (default: 100 when
+ * every value ends in %, else the largest value). A colour class on the value cell (ok, bad,
+ * warn, accent, muted, or a topic colour) colours that bar. Fence classes: .stack (one bar,
+ * split in proportion, with a legend), .peak (highlight the largest bar), .compact.
+ */
+const { firstTable, cells, esc, cleanClass } = __m["../lib/wkit.js"];
+
+const COLOURS = { ok: "var(--ok)", bad: "var(--bad)", warn: "var(--warn)", accent: "var(--accent)", muted: "var(--ink-3)", ink: "var(--ink-2)" };
+const STACK = ["var(--accent)", "color-mix(in srgb,var(--accent) 60%,var(--surface-2))", "color-mix(in srgb,var(--accent) 30%,var(--surface-2))", "var(--ink-3)", "var(--warn)", "var(--ok)"];
+
+function numOf(s) {
+  const m = String(s).replace(/,/g, "").match(/-?\d*\.?\d+(?:e[+-]?\d+)?/i);
+  return m ? Number(m[0]) : NaN;
+}
+
+const bars = {
+  render(b, ctx) {
+    const t = firstTable(b.body);
+    if (!t) { ctx.warn("bars: needs a Label | Value table"); return ""; }
+    const kv = b.a.kv, cls = b.a.cls;
+    const rows = t.rows.map((r) => cells(r, 2)).map((c) => ({ label: c[0].text, text: c[1].text, v: numOf(c[1].text), a: c[1].a || c[0].a }))
+      .filter((r) => { if (!Number.isFinite(r.v) || r.v < 0) { ctx.warn(`bars: "${r.text}" has no number`); return false; } return true; });
+    if (!rows.length) return "";
+    const colourOf = (r, i, stack) => {
+      const c = ((r.a && r.a.cls) || []).map(cleanClass).find((x) => COLOURS[x] || ctx.colors[x]);
+      if (c && COLOURS[c]) return { style: `--bc:${COLOURS[c]}`, cls: "" };
+      if (c) return { style: "--bc:var(--c)", cls: ` c-${esc(c)}` };
+      return { style: stack ? `--bc:${STACK[i % STACK.length]}` : "", cls: "" };
+    };
+    const head = kv.title ? `<p class="bars-t">${ctx.inline(kv.title)}</p>` : "";
+    const cap = kv.caption ? `<p class="bars-cap">${ctx.inline(kv.caption)}</p>` : "";
+    const extra = cls.filter((c) => ["compact"].includes(c)).map((c) => " " + c).join("");
+    if (cls.includes("stack")) {
+      const sum = rows.reduce((s, r) => s + r.v, 0) || 1;
+      const segs = rows.map((r, i) => { const c = colourOf(r, i, true); return `<i class="${c.cls.trim()}" style="${c.style};width:${(r.v / sum * 100).toFixed(2)}%"></i>`; }).join("");
+      const legend = rows.map((r, i) => { const c = colourOf(r, i, true); return `<span class="${c.cls.trim()}" style="${c.style}">${ctx.inline(r.label)}, ${ctx.inline(r.text)}</span>`; }).join("");
+      const label = rows.map((r) => `${r.label} ${r.text}`).join(", ");
+      return `<figure class="bars stacked${extra}">${head}<div class="bars-stack" role="img" aria-label="${esc(label)}">${segs}</div><div class="bars-legend">${legend}</div>${cap}</figure>`;
+    }
+    const pctAll = rows.every((r) => /%\s*$/.test(r.text));
+    const max = Number.isFinite(numOf(kv.max)) && numOf(kv.max) > 0 ? numOf(kv.max) : pctAll ? 100 : Math.max(...rows.map((r) => r.v)) || 1;
+    const top = Math.max(...rows.map((r) => r.v));
+    const body = rows.map((r, i) => {
+      const c = colourOf(r, i, false), peak = cls.includes("peak") && r.v === top;
+      return `<div class="bar${peak ? " peak" : ""}${c.cls}"${c.style ? ` style="${c.style}"` : ""}><span class="bl">${ctx.inline(r.label)}</span>` +
+        `<span class="bt"><i style="width:${Math.min(100, r.v / max * 100).toFixed(2)}%"></i></span><b>${ctx.inline(r.text)}</b></div>`;
+    }).join("");
+    return `<figure class="bars${extra}">${head}${body}${cap}</figure>`;
+  },
+};
+
+return {bars};
+})();
+__m["../lib/rand.js"]=(function(){
+/* rand.js — seeded randomness for widgets whose data is generated (synthetic demos) or
+ * scattered (waffle squares, dot jitter), so a page looks the same on every load. The
+ * generator is mulberry32, the one html-explainer's pages use, so the same seed gives the
+ * same numbers as the original demo. No DOM, no Node. */
+
+function rng(seed) {
+  seed = Number(seed) | 0;
+  return function () {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+/* a standard normal draw (Box–Muller) from a generator */
+function gauss(r) {
+  let u = 0, v = 0;
+  while (!u) u = r();
+  while (!v) v = r();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+/* a stable 0–1 value for an index, for jitter that does not depend on draw order */
+function jitter(i, seed = 1) {
+  return rng((i + 1) * 2654435761 ^ seed)();
+}
+
+return {rng,gauss,jitter};
+})();
+__m["../widgets/waffle.js"]=(function(){
+/* waffle — one square per item, coloured by category (from jev-beyond-classification.html's
+ * census of 832 opinions). No script.
+ *
+ *   ```waffle {total=832 cols=52 seed=832 caption="One square per opinion screened."}
+ *   Category | Count | Colour
+ *   Low | rest | muted
+ *   Uncertain | 113 | accent-soft
+ *   Flagged | 23 | accent
+ *   ```
+ * A header row, then Label | count | colour. A count of `rest` takes whatever `total` leaves. Colours: ok, bad,
+ * warn, accent, accent-soft, ink, muted, or a topic colour. Squares are scattered by `seed`
+ * (the same picture on every load); .ordered fills them in row order instead. At most
+ * 5,000 squares.
+ */
+const { firstTable, cells, esc, cleanClass } = __m["../lib/wkit.js"];
+const { rng } = __m["../lib/rand.js"];
+
+const COLOURS = { ok: "var(--ok)", bad: "var(--bad)", warn: "var(--warn)", accent: "var(--accent)", ink: "var(--ink)", muted: "var(--line-2)",
+  "accent-soft": "color-mix(in srgb,var(--accent) 45%,var(--surface-2))" };
+const MAX = 5000;
+
+const waffle = {
+  render(b, ctx) {
+    const t = firstTable(b.body);
+    if (!t) { ctx.warn("waffle: needs a Label | count | colour table"); return ""; }
+    const kv = b.a.kv;
+    const cats = t.rows.map((r) => cells(r, 3)).map((c) => {
+      const word = cleanClass(c[2].text);
+      return { label: c[0].text, raw: c[1].text.trim(), colour: COLOURS[word] || (ctx.colors[word] ? "var(--c)" : ""), topic: !COLOURS[word] && ctx.colors[word] ? word : "" };
+    });
+    const fixed = cats.filter((c) => c.raw !== "rest").reduce((s, c) => s + (Math.max(0, Math.round(Number(c.raw))) || 0), 0);
+    let total = Math.round(Number(kv.total));
+    if (!Number.isFinite(total) || total <= 0) total = fixed;
+    if (total > MAX) { ctx.warn(`waffle: at most ${MAX} squares`); total = MAX; }
+    if (fixed > total) ctx.warn("waffle: the counts add up to more than total");
+    cats.forEach((c, i) => {
+      c.n = c.raw === "rest" ? Math.max(0, total - fixed) : Math.max(0, Math.round(Number(c.raw))) || 0;
+      if (!c.colour) c.colour = ["var(--line-2)", COLOURS["accent-soft"], "var(--accent)", "var(--warn)", "var(--ok)"][i % 5];
+    });
+    // one category index per square; scattered by a seeded shuffle unless .ordered
+    const cells_ = [];
+    cats.forEach((c, i) => { for (let k = 0; k < c.n && cells_.length < total; k++) cells_.push(i); });
+    while (cells_.length < total) cells_.push(-1);
+    if (!b.a.cls.includes("ordered")) {
+      const r = rng(Number(kv.seed) || 1);
+      for (let i = cells_.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [cells_[i], cells_[j]] = [cells_[j], cells_[i]]; }
+    }
+    const cols = Math.min(Math.max(Math.round(Number(kv.cols)) || Math.ceil(Math.sqrt(total * 3)), 4), 120);
+    const rowsN = Math.ceil(total / cols);
+    const label = cats.map((c) => `${c.n} ${c.label}`).join(", ");
+    const sq = cells_.map((ci) => `<i${ci >= 0 ? ` class="k${ci}"` : ""}></i>`).join("");
+    const keyStyle = cats.map((c, i) => `--k${i}:${c.colour}`).join(";");
+    const topicCls = cats.map((c) => (c.topic ? " c-" + esc(c.topic) : "")).join("");
+    return `<figure class="waffle${topicCls}" style="${keyStyle}">` +
+      `<div class="wf-grid" role="img" aria-label="${esc(total + " squares: " + label)}" style="grid-template-columns:repeat(${cols},minmax(0,1fr));grid-template-rows:repeat(${rowsN},auto)">${sq}</div>` +
+      `<figcaption>${kv.caption ? `<span>${ctx.inline(kv.caption)}</span>` : ""}<span class="wf-key">${cats.map((c, i) => `<span><i class="k${i}"></i>${ctx.inline(c.label)}</span>`).join("")}</span></figcaption></figure>`;
+  },
+};
+
+return {waffle};
+})();
+__m["../lib/expr.js"]=(function(){
+/* expr.js — the formula language widgets use (calc, triage), and the number formats.
+ *
+ * A link is data anyone can write, so a formula is parsed here, never handed to eval or
+ * Function. It can use: numbers (12, 0.5, 1e6), "strings" (for == and != only), the names
+ * the widget defines, + - * / % ^ (power), < <= > >= == !=, && || !, a ? b : c, parentheses
+ * and the functions in FN. Nothing else exists, there are no loops, and sizes are capped,
+ * so a hostile formula can only produce a wrong number.
+ *
+ *   compile("t + q*40", ["t", "q"])  → { run(scope) → value, names }   (throws on a bad formula)
+ *   fmt(value, "money")              → "$0.42"
+ *   template("{n | count} requests") → parts for widgets to render (see below)
+ * No DOM, no Node.
+ */
+
+const MAX_LEN = 600, MAX_TOKENS = 300, MAX_DEPTH = 40;
+
+const clamp = (x, a, b) => Math.min(Math.max(x, a), b);
+const FN = {
+  min: (...a) => Math.min(...a), max: (...a) => Math.max(...a), abs: Math.abs,
+  round: (x, d = 0) => { const k = 10 ** clamp(Math.round(d), 0, 10); return Math.round(x * k) / k; },
+  floor: Math.floor, ceil: Math.ceil, sqrt: Math.sqrt, exp: Math.exp, ln: Math.log, log: Math.log,
+  log10: Math.log10, pow: Math.pow, sign: Math.sign, clamp,
+  sigmoid: (z) => 1 / (1 + Math.exp(-z)),
+  logit: (p) => { p = clamp(p, 1e-9, 1 - 1e-9); return Math.log(p / (1 - p)); },
+};
+const CONST = { pi: Math.PI };
+
+function tokenize(src) {
+  const out = [];
+  const re = /\s*(?:(\d+\.?\d*(?:[eE][+-]?\d+)?|\.\d+(?:[eE][+-]?\d+)?)|([A-Za-z_][A-Za-z0-9_]*)|"([^"]*)"|'([^']*)'|(\*\*|<=|>=|==|!=|&&|\|\||[-+*/%^<>!?:(),]))/y;
+  let i = 0;
+  while (i < src.length) {
+    if (/^\s*$/.test(src.slice(i))) break;
+    re.lastIndex = i;
+    const m = re.exec(src);
+    if (!m) throw new Error(`unexpected "${src.slice(i).trim().slice(0, 12)}"`);
+    i = re.lastIndex;
+    if (m[1] !== undefined) out.push({ t: "num", v: Number(m[1]) });
+    else if (m[2] !== undefined) out.push({ t: "id", v: m[2] });
+    else if (m[3] !== undefined || m[4] !== undefined) out.push({ t: "str", v: m[3] ?? m[4] });
+    else out.push({ t: "op", v: m[5] === "**" ? "^" : m[5] });
+    if (out.length > MAX_TOKENS) throw new Error("formula too long");
+  }
+  return out;
+}
+
+const BIN = { "||": 1, "&&": 2, "==": 3, "!=": 3, "<": 4, "<=": 4, ">": 4, ">=": 4, "+": 5, "-": 5, "*": 6, "/": 6, "%": 6, "^": 8 };
+
+function num(x) { return typeof x === "string" ? NaN : Number(x); }
+
+/* Parse to a tree of closures. known: the names the formula may use. */
+function compile(src, known = []) {
+  src = String(src ?? "");
+  if (src.length > MAX_LEN) throw new Error("formula too long");
+  const toks = tokenize(src);
+  const names = new Set();
+  const allowed = new Set(known);
+  let k = 0;
+  const peek = () => toks[k], next = () => toks[k++];
+  const isOp = (v) => toks[k] && toks[k].t === "op" && toks[k].v === v;
+  const expect = (v) => { if (!isOp(v)) throw new Error(`expected "${v}"`); k++; };
+
+  function primary(d) {
+    if (d > MAX_DEPTH) throw new Error("formula nested too deeply");
+    const t = next();
+    if (!t) throw new Error("formula ends too soon");
+    if (t.t === "num") { const v = t.v; return () => v; }
+    if (t.t === "str") { const v = t.v; return () => v; }
+    if (t.t === "op" && t.v === "(") { const e = ternary(d + 1); expect(")"); return e; }
+    if (t.t === "op" && (t.v === "-" || t.v === "+" || t.v === "!")) {
+      const e = binary(d + 1, BIN["^"]); // so -2^2 is -(2^2)
+      return t.v === "-" ? (s) => -num(e(s)) : t.v === "+" ? (s) => num(e(s)) : (s) => !e(s);
+    }
+    if (t.t === "id") {
+      if (isOp("(")) {
+        const f = Object.prototype.hasOwnProperty.call(FN, t.v) ? FN[t.v] : null;
+        if (!f) throw new Error(`unknown function ${t.v}()`);
+        k++;
+        const args = [];
+        if (!isOp(")")) { do { args.push(ternary(d + 1)); } while (isOp(",") && ++k); }
+        expect(")");
+        if (args.length > 20) throw new Error("too many arguments");
+        return (s) => f(...args.map((a) => num(a(s))));
+      }
+      if (Object.prototype.hasOwnProperty.call(CONST, t.v) && !allowed.has(t.v)) { const v = CONST[t.v]; return () => v; }
+      if (t.v === "true" || t.v === "false") { const v = t.v === "true"; return () => v; }
+      if (!allowed.has(t.v)) throw new Error(`unknown name "${t.v}"`);
+      names.add(t.v);
+      const name = t.v;
+      return (s) => (s.has(name) ? s.get(name) : NaN);
+    }
+    throw new Error(`unexpected "${t.v}"`);
+  }
+  function unary(d) { return primary(d); }
+  function binary(d, minPrec) {
+    let left = unary(d);
+    for (;;) {
+      const t = peek();
+      if (!t || t.t !== "op" || !(t.v in BIN) || BIN[t.v] < minPrec) return left;
+      k++;
+      const op = t.v, prec = BIN[op];
+      const right = binary(d + 1, op === "^" ? prec : prec + 1);
+      left = combine(op, left, right);
+    }
+  }
+  function ternary(d) {
+    if (d > MAX_DEPTH) throw new Error("formula nested too deeply");
+    const c = binary(d, 1);
+    if (!isOp("?")) return c;
+    k++;
+    const a = ternary(d + 1);
+    expect(":");
+    const b = ternary(d + 1);
+    return (s) => (c(s) ? a(s) : b(s));
+  }
+  const tree = ternary(0);
+  if (k < toks.length) throw new Error(`unexpected "${toks[k].v}"`);
+  return {
+    names,
+    /* scope: a Map of name → value (a Map, so no name can reach Object.prototype) */
+    run(scope) { const v = tree(scope instanceof Map ? scope : new Map(Object.entries(scope || {}))); return v; },
+  };
+}
+
+function combine(op, l, r) {
+  switch (op) {
+    case "+": return (s) => num(l(s)) + num(r(s));
+    case "-": return (s) => num(l(s)) - num(r(s));
+    case "*": return (s) => num(l(s)) * num(r(s));
+    case "/": return (s) => num(l(s)) / num(r(s));
+    case "%": return (s) => num(l(s)) % num(r(s));
+    case "^": return (s) => num(l(s)) ** num(r(s));
+    case "<": return (s) => num(l(s)) < num(r(s));
+    case "<=": return (s) => num(l(s)) <= num(r(s));
+    case ">": return (s) => num(l(s)) > num(r(s));
+    case ">=": return (s) => num(l(s)) >= num(r(s));
+    case "==": return (s) => { const a = l(s), b = r(s); return typeof a === "string" || typeof b === "string" ? String(a) === String(b) : num(a) === num(b); };
+    case "!=": return (s) => { const a = l(s), b = r(s); return typeof a === "string" || typeof b === "string" ? String(a) !== String(b) : num(a) !== num(b); };
+    case "&&": return (s) => Boolean(l(s)) && Boolean(r(s));
+    case "||": return (s) => Boolean(l(s)) || Boolean(r(s));
+  }
+  throw new Error(`unknown operator ${op}`);
+}
+
+/* ---------- formats ---------- */
+
+const FORMATS = ["int", "count", "money", "percent", "pct1", "duration", "dec0", "dec1", "dec2", "dec3", "plain"];
+
+const intl = (n) => Math.round(n).toLocaleString("en-US");
+
+function fmt(v, f) {
+  if (typeof v === "boolean") return v ? "yes" : "no";
+  if (typeof v === "string") return v;
+  if (!Number.isFinite(v)) return "n/a";
+  switch (f) {
+    case "int": return intl(v);
+    case "count":
+      if (Math.abs(v) >= 1e9) return (v / 1e9).toFixed(1).replace(/\.0$/, "") + " billion";
+      if (Math.abs(v) >= 1e6) return (v / 1e6).toFixed(Math.abs(v) >= 1e7 ? 0 : 1).replace(/\.0$/, "") + " million";
+      return intl(v);
+    case "money": return (v < 0 ? "−" : "") + "$" + (Math.abs(v) < 1 ? Math.abs(v).toFixed(2) : intl(Math.abs(v)));
+    case "percent": return Math.round(v * 100) + "%";
+    case "pct1": return (v * 100).toFixed(1) + "%";
+    case "duration": {
+      const s = v;
+      return s < 90 ? Math.max(1, Math.round(s)) + " sec" : s < 5400 ? Math.round(s / 60) + " min" : s < 172800 ? (s / 3600).toFixed(1) + " hours" : (s / 86400).toFixed(1) + " days";
+    }
+    case "dec0": case "dec1": case "dec2": case "dec3": return v.toFixed(+f[3]);
+    default:
+      if (Number.isInteger(v)) return intl(v);
+      return String(+v.toPrecision(Math.abs(v) >= 1 ? 4 : 3));
+  }
+}
+
+/* ---------- templates: text with {formula} or {formula | format} ---------- */
+
+/* Split a template into text and formula parts. A "{" right after "]" belongs to an inline
+ * span ([label]{.class}), not a formula. → [{ text } | { x: formula, f: format }] */
+function template(src) {
+  const parts = [];
+  let i = 0, text = "";
+  src = String(src ?? "");
+  while (i < src.length) {
+    const c = src[i];
+    if (c === "{" && src[i - 1] !== "]" && src[i - 1] !== "\\") {
+      const j = src.indexOf("}", i + 1);
+      if (j > i) {
+        const body = src.slice(i + 1, j);
+        const m = body.match(/^(.*?)(?:\s\|\s*([a-z0-9]+))?\s*$/);
+        if (text) parts.push({ text }), text = "";
+        parts.push({ x: m[1].trim(), f: m[2] && FORMATS.includes(m[2]) ? m[2] : "" });
+        i = j + 1;
+        continue;
+      }
+    }
+    text += c;
+    i++;
+  }
+  if (text) parts.push({ text });
+  return parts;
+}
+
+return {compile,FORMATS,fmt,template};
+})();
+__m["../lib/live.js"]=(function(){
+/* live.js — formulas inside widget text: rendered once with starting values (so the page
+ * reads without script), then kept current by the runtime. Used by calc and triage.
+ *
+ * Render side (Node or browser):  liveText(src, ctx, known, scope) → HTML
+ *   src is inline Markdown with {formula} or {formula | format}; each formula becomes
+ *   <span class="xv" data-x="formula" data-f="format">value</span>. A formula that does not
+ *   compile is reported with ctx.warn and shown as "?".
+ * Runtime side (browser):  live(root, known) → update(scope)
+ *   recomputes every [data-x] (text) and [data-if] (shown only when true) inside root.
+ * The formula text travels in a data attribute, escaped, and is only ever handed to
+ * expr.js's compile(), never to eval.
+ */
+const { compile, fmt, template } = __m["../lib/expr.js"];
+const { esc } = __m["../lib/md.js"];
+
+function evalSafe(src, known, scope) {
+  try { return compile(src, known).run(scope); } catch (e) { return NaN; }
+}
+
+function checkFormula(src, known, ctx, where) {
+  try { compile(src, known); return true; } catch (e) { ctx.warn(`${where}: "${src}" — ${e.message}`); return false; }
+}
+
+function liveText(src, ctx, known, scope, where = "formula") {
+  const parts = template(src);
+  const vals = [];
+  let text = "";
+  for (const p of parts) {
+    if (p.text !== undefined) { text += p.text; continue; }
+    const ok = checkFormula(p.x, known, ctx, where);
+    const v = ok ? evalSafe(p.x, known, scope) : NaN;
+    vals.push(ok ? `<span class="xv" data-x="${esc(p.x)}"${p.f ? ` data-f="${esc(p.f)}"` : ""}>${esc(fmt(v, p.f))}</span>` : "?");
+    text += `\u0001${vals.length - 1}\u0001`;
+  }
+  return ctx.inline(text).replace(/\u0001(\d+)\u0001/g, (_, i) => vals[+i]);
+}
+
+function live(root, known) {
+  const cache = new Map();
+  const get = (src) => {
+    if (!cache.has(src)) { try { cache.set(src, compile(src, known)); } catch (e) { cache.set(src, null); } }
+    return cache.get(src);
+  };
+  const outs = [...root.querySelectorAll("[data-x]")], conds = [...root.querySelectorAll("[data-if]")];
+  return function update(scope) {
+    for (const el of outs) {
+      const c = get(el.dataset.x);
+      el.textContent = c ? fmt(c.run(scope), el.dataset.f || "") : "?";
+    }
+    for (const el of conds) {
+      const c = get(el.dataset.if);
+      el.hidden = !(c && c.run(scope));
+    }
+  };
+}
+
+return {evalSafe,checkFormula,liveText,live};
+})();
+__m["../widgets/calc.js"]=(function(){
+/* calc — sliders and choices feeding formulas: a calculator (from jev-legal-research.html's
+ * cost demo). One instruction per line, shown in the order written:
+ *
+ *   ```calc {title="What a corpus-wide pass would cost" hint="Drag, or pick a preset"}
+ *   preset 5,000 cite-checks: n=5000, t=500, q=3
+ *   slider n: Requests | 1e6 | 100 to 1e8 | log | count
+ *   slider q: Questions per request | 4 | 1 to 10 | step 1
+ *   choice cal: Model calibration | Well calibrated = 1 | Overconfident = 3.29
+ *   let per = t + q*40
+ *   result Cost at list price, output free | n*per/1e6*0.042 | money
+ *   meter per/32000 | over per > 32000
+ *   say if per > 32000: **{per | int} tokens** exceeds the limit; split into {ceil(t/(32000-q*40))} chunks.
+ *   say Plain text with a live {n*q | count} in it.
+ *   ```
+ * slider NAME: Label | start | min to max [| log] [| step S] [| format]   (log: a log scale,
+ *   whole numbers when min ≥ 1). choice NAME: Label | Option = value | …  (a value is a number
+ *   or a "string"; the first option starts selected). preset Label: name=value, …
+ * let NAME = formula (may use inputs and earlier lets). result Label | formula [| format].
+ * meter formula (0–1 fills the bar) [| over formula (true turns it red)].
+ * say [if formula:] text, inline Markdown with {formula} or {formula | format}.
+ * Formulas: lib/expr.js. Formats: int count money percent pct1 duration dec0–dec3.
+ * Consecutive sliders/choices share one row of controls, consecutive results one row.
+ */
+const { shell, esc } = __m["../lib/wkit.js"];
+const { FORMATS, fmt } = __m["../lib/expr.js"];
+const { liveText, evalSafe, checkFormula } = __m["../lib/live.js"];
+
+const NAME = /^[A-Za-z_][A-Za-z0-9_]{0,30}$/;
+const parts = (s) => s.split(/\s\|\s/).map((x) => x.trim());
+const numOf = (s) => evalSafe(String(s), [], new Map());
+
+function sliderPos(v, it) { return it.log ? Math.log10(Math.max(v, 1e-12)) : v; }
+function sliderVal(pos, it) {
+  if (!it.log) return pos;
+  const v = 10 ** pos;
+  return it.min >= 1 ? Math.round(v) : +v.toPrecision(3);
+}
+
+function parseCalc(body, ctx) {
+  const items = [], names = [];
+  const name = (n, kind) => {
+    if (!NAME.test(n)) { ctx.warn(`calc: "${n}" is not a usable name for a ${kind} (letters, digits, _)`); return false; }
+    if (names.includes(n)) { ctx.warn(`calc: "${n}" is defined twice`); return false; }
+    names.push(n); return true;
+  };
+  for (const raw of String(body).split("\n")) {
+    const line = raw.trim();
+    if (!line || line.startsWith("//")) continue;
+    let m;
+    if ((m = line.match(/^slider\s+(\w+)\s*:\s*(.*)$/))) {
+      const p = parts(m[2]);
+      if (!name(m[1], "slider")) continue;
+      const r = (p[2] || "").match(/^(.+?)\s+to\s+(.+)$/);
+      const it = { k: "slider", name: m[1], label: p[0] || m[1], def: numOf(p[1]), min: r ? numOf(r[1]) : NaN, max: r ? numOf(r[2]) : NaN, log: false, step: NaN, f: "" };
+      for (const x of p.slice(3)) {
+        if (x === "log") it.log = true;
+        else if (/^step\s+/.test(x)) it.step = numOf(x.slice(5));
+        else if (FORMATS.includes(x)) it.f = x;
+        else ctx.warn(`calc: slider ${it.name}: "${x}" is not log, step N or a format`);
+      }
+      if (![it.def, it.min, it.max].every(Number.isFinite) || it.min >= it.max) { ctx.warn(`calc: slider ${it.name} needs "start | min to max" with min < max`); continue; }
+      if (it.log && it.min <= 0) { ctx.warn(`calc: slider ${it.name}: a log scale needs min > 0`); it.log = false; }
+      it.def = Math.min(Math.max(it.def, it.min), it.max);
+      items.push(it);
+    } else if ((m = line.match(/^choice\s+(\w+)\s*:\s*(.*)$/))) {
+      const p = parts(m[2]);
+      if (!name(m[1], "choice")) continue;
+      const opts = p.slice(1).map((o) => {
+        const q = o.match(/^(.*?)\s*=\s*(?:"([^"]*)"|(.+))$/);
+        if (!q) { ctx.warn(`calc: choice ${m[1]}: "${o}" should be Label = value`); return null; }
+        return q[2] !== undefined ? { label: q[1], v: q[2], s: true } : { label: q[1], v: numOf(q[3]), s: false };
+      }).filter(Boolean);
+      if (!opts.length) { ctx.warn(`calc: choice ${m[1]} has no options`); continue; }
+      items.push({ k: "choice", name: m[1], label: p[0], opts });
+    } else if ((m = line.match(/^preset\s+(.*?)\s*:\s*(.*)$/))) {
+      const sets = m[2].split(",").map((s) => s.trim().match(/^(\w+)\s*=\s*(.+)$/)).filter(Boolean).map((q) => [q[1], q[2].replace(/^"|"$/g, "")]);
+      items.push({ k: "preset", label: m[1], sets });
+    } else if ((m = line.match(/^let\s+(\w+)\s*=\s*(.+)$/))) {
+      if (!name(m[1], "let")) continue;
+      items.push({ k: "let", name: m[1], x: m[2] });
+    } else if ((m = line.match(/^result\s+(.*)$/))) {
+      const p = parts(m[1]);
+      if (p.length < 2) { ctx.warn(`calc: result needs "Label | formula"`); continue; }
+      items.push({ k: "result", label: p[0], x: p[1], f: FORMATS.includes(p[2]) ? p[2] : "" });
+    } else if ((m = line.match(/^meter\s+(.*)$/))) {
+      const p = parts(m[1]);
+      const over = (p[1] || "").match(/^over\s+(.+)$/);
+      items.push({ k: "meter", x: p[0], over: over ? over[1] : "" });
+    } else if ((m = line.match(/^say\s+(?:if\s+(.+?):\s+)?(.*)$/))) {
+      items.push({ k: "say", cond: m[1] || "", text: m[2] });
+    } else {
+      ctx.warn(`calc: cannot read "${line.slice(0, 50)}"`);
+    }
+  }
+  return { items, names };
+}
+
+const calc = {
+  render(b, ctx) {
+    const { items, names } = parseCalc(b.body, ctx);
+    if (!items.length) { ctx.warn("calc: no instructions"); return ""; }
+    // starting values, so the page reads correctly before (or without) script
+    const scope = new Map();
+    for (const it of items) {
+      if (it.k === "slider") scope.set(it.name, sliderVal(sliderPos(it.def, it), it));
+      if (it.k === "choice") scope.set(it.name, it.opts[0].v);
+    }
+    for (const it of items) if (it.k === "let") {
+      if (checkFormula(it.x, names, ctx, `calc: let ${it.name}`)) scope.set(it.name, evalSafe(it.x, names, scope));
+    }
+    for (const it of items) if (it.k === "preset") for (const [n] of it.sets) if (!names.includes(n)) ctx.warn(`calc: preset "${it.label}" sets unknown "${n}"`);
+
+    let h = "", group = "";
+    const close = () => { if (group) { h += "</div>"; group = ""; } };
+    const open = (g, cls) => { if (group !== g) { close(); h += `<div class="${cls}">`; group = g; } };
+    for (const it of items) {
+      if (it.k === "slider") {
+        open("ctrl", "cx-ctrls");
+        const id = ctx.uid("cx"), v = scope.get(it.name);
+        const step = Number.isFinite(it.step) ? it.step : it.log ? 0.001 : (it.max - it.min) / 1000;
+        const lo = it.log ? Math.log10(it.min) : it.min, hi = it.log ? Math.log10(it.max) : it.max;
+        h += `<div class="cx-ctrl"><label for="${id}">${ctx.inline(it.label)} <output class="cx-out">${esc(fmt(v, it.f))}</output></label>` +
+          `<input type="range" id="${id}" data-n="${esc(it.name)}" min="${lo}" max="${hi}" step="${step}" value="${sliderPos(v, it)}"` +
+          `${it.log ? ` data-log="1" data-min="${it.min}"` : ""}${it.f ? ` data-f="${esc(it.f)}"` : ""}></div>`;
+      } else if (it.k === "choice") {
+        open("ctrl", "cx-ctrls");
+        const lab = ctx.uid("cx");
+        h += `<div class="cx-ctrl"><div class="clab" id="${lab}">${ctx.inline(it.label)}</div><div class="seg" role="group" aria-labelledby="${lab}" data-n="${esc(it.name)}">` +
+          it.opts.map((o, i) => `<button type="button" data-v="${esc(String(o.v))}"${o.s ? ' data-s="1"' : ""} aria-pressed="${i === 0}">${ctx.inline(o.label)}</button>`).join("") + `</div></div>`;
+      } else if (it.k === "preset") {
+        open("preset", "cx-presets");
+        h += `<button type="button" class="btn btn-ghost" data-set="${esc(it.sets.map(([n, v]) => `${n}=${v}`).join(";"))}">${ctx.inline(it.label)}</button>`;
+      } else if (it.k === "let") {
+        h += `<span class="cx-let" hidden data-n="${esc(it.name)}" data-l="${esc(it.x)}"></span>`;
+      } else if (it.k === "result") {
+        open("result", "cx-results");
+        const ok = checkFormula(it.x, names, ctx, "calc: result");
+        h += `<div class="cx-res"><b${ok ? ` class="xv" data-x="${esc(it.x)}"${it.f ? ` data-f="${esc(it.f)}"` : ""}` : ""}>${esc(fmt(ok ? evalSafe(it.x, names, scope) : NaN, it.f))}</b><span>${ctx.inline(it.label)}</span></div>`;
+      } else if (it.k === "meter") {
+        close();
+        const ok = checkFormula(it.x, names, ctx, "calc: meter") && (!it.over || checkFormula(it.over, names, ctx, "calc: meter over"));
+        const v = ok ? evalSafe(it.x, names, scope) : 0, over = ok && it.over ? Boolean(evalSafe(it.over, names, scope)) : false;
+        h += `<div class="cx-meter"><div class="cx-track"><div class="cx-fill${over ? " over" : ""}"${ok ? ` data-m="${esc(it.x)}"${it.over ? ` data-o="${esc(it.over)}"` : ""}` : ""} style="width:${(Math.min(Math.max(+v || 0, 0), 1) * 100).toFixed(1)}%"></div></div></div>`;
+      } else if (it.k === "say") {
+        close();
+        const condOk = !it.cond || checkFormula(it.cond, names, ctx, "calc: say if");
+        const shown = !it.cond || (condOk && Boolean(evalSafe(it.cond, names, scope)));
+        h += `<p class="cx-say"${it.cond && condOk ? ` data-if="${esc(it.cond)}"` : ""}${shown ? "" : " hidden"}>${liveText(it.text, ctx, names, scope, "calc: say")}</p>`;
+      }
+    }
+    close();
+    return shell("calc", b, ctx, h);
+  },
+};
+
+return {sliderPos,sliderVal,parseCalc,calc};
+})();
+__m["../widgets/triage.js"]=(function(){
+/* triage — scored items on a 0–1 axis split by two thresholds into three zones, with counts,
+ * errors and a scenario switch (from the two-threshold demos in jev-legal-research.html and
+ * jev-beyond-classification.html).
+ *
+ *   ```triage {title="…" lo=0.30 hi=0.85 lo-label="Flag below" hi-label="Accept above" axis="Reported probability"}
+ *   class yes: Source really does support it | accent good
+ *   class no: Source does not support it | bad ring
+ *   yes: .97 .95 .91 …
+ *   no: .12 .40 …
+ *   scenario Well calibrated: round(p, 2)
+ *   scenario Overconfident: round(sigmoid(logit(p)*3.29), 2)
+ *   zone low: Flag | flagged as unsupported. **{lowGood}** of them were fine.
+ *   zone mid: Person reads | sent to a person, **{mid/total | percent}** of the pile.
+ *   zone high: Accept | accepted without review. **{highBad}** were bad ({highBad/high | pct1}).
+ *   say if highBad + lowGood > 0: Outlined dots are the errors.
+ *   ```
+ * class KEY: Label | colour [good] [ring] — colour is ok, bad, warn, accent, ink, muted or a
+ *   topic colour; "good" items are errors in the low zone, other items errors in the high zone;
+ *   "ring" draws a hollow dot. KEY: scores — that class's items, 0–1, separated by spaces.
+ * scenario Label: formula of p (the score) and class (its KEY, a string) — rescales every score;
+ *   the first is the starting one. Without scenarios the scores are used as written.
+ * zone low|mid|high: Band label | readout text (the zone's count is shown big beside it).
+ * say [if formula:] text. Formulas and texts may use: low mid high total, lowGood lowBad
+ *   midGood midBad highGood highBad, lo hi (lib/expr.js; formats as in calc).
+ * Attributes: lo, hi (starting thresholds), lo-range / hi-range ("min max", default "0 1"),
+ *   lo-label, hi-label, lo-incl=yes (the low zone includes lo itself; otherwise p < lo),
+ *   axis (the axis caption), .rows (one row per class instead of one jittered band).
+ * A score at or above hi is in the high zone.
+ */
+const { shell, esc, cleanClass } = __m["../lib/wkit.js"];
+const { compile } = __m["../lib/expr.js"];
+const { liveText, checkFormula, evalSafe } = __m["../lib/live.js"];
+const { jitter } = __m["../lib/rand.js"];
+
+const TG_VARS = ["low", "mid", "high", "total", "lowGood", "lowBad", "midGood", "midBad", "highGood", "highBad", "lo", "hi"];
+const COLOURS = { ok: "var(--ok)", bad: "var(--bad)", warn: "var(--warn)", accent: "var(--accent)", ink: "var(--ink-2)", muted: "var(--ink-3)" };
+const MAX_ITEMS = 2000;
+const pct = (v) => (Math.min(Math.max(v, 0), 1) * 100).toFixed(2) + "%";
+
+function zoneOf(p, lo, hi, incl) {
+  if (p >= hi) return "high";
+  return (incl ? p <= lo : p < lo) ? "low" : "mid";
+}
+
+function tally(items, lo, hi, incl, scale) {
+  const s = { low: 0, mid: 0, high: 0, lowGood: 0, lowBad: 0, midGood: 0, midBad: 0, highGood: 0, highBad: 0, total: items.length, lo, hi };
+  for (const it of items) {
+    const z = zoneOf(scale(it), lo, hi, incl);
+    s[z]++;
+    s[z + (it.good ? "Good" : "Bad")]++;
+  }
+  return s;
+}
+
+const range = (s, d) => { const r = String(s || "").split(/\s+/).map(Number); return r.length === 2 && r.every(Number.isFinite) && r[0] < r[1] ? r : d; };
+
+const triage = {
+  render(b, ctx) {
+    const kv = b.a.kv;
+    const classes = [], scenarios = [], zones = {}, says = [];
+    const items = [];
+    for (const raw of String(b.body).split("\n")) {
+      const line = raw.trim();
+      if (!line || line.startsWith("//")) continue;
+      let m;
+      if ((m = line.match(/^class\s+([\w-]+)\s*:\s*(.*?)\s*\|\s*(.*)$/))) {
+        const words = m[3].split(/\s+/).map((w) => w.toLowerCase());
+        const col = words.find((w) => COLOURS[w] || ctx.colors[cleanClass(w)]) || "";
+        classes.push({ key: m[1], label: m[2], good: words.includes("good"), ring: words.includes("ring"),
+          colour: COLOURS[col] ? COLOURS[col] : "", topic: !COLOURS[col] && col ? cleanClass(col) : "" });
+      } else if ((m = line.match(/^scenario\s+(.*?)\s*:\s+(.+)$/))) {
+        if (checkFormula(m[2], ["p", "class"], ctx, "triage: scenario")) scenarios.push({ label: m[1], x: m[2] });
+      } else if ((m = line.match(/^zone\s+(low|mid|high)\s*:\s*(.*?)(?:\s\|\s(.*))?$/))) {
+        zones[m[1]] = { label: m[2], text: m[3] || "" };
+      } else if ((m = line.match(/^say\s+(?:if\s+(.+?):\s+)?(.*)$/))) {
+        says.push({ cond: m[1] || "", text: m[2] });
+      } else if ((m = line.match(/^([\w-]+)\s*:\s*([-\d.\s]+)$/))) {
+        const ci = classes.findIndex((c) => c.key === m[1]);
+        if (ci < 0) { ctx.warn(`triage: scores for "${m[1]}", which has no class line before them`); continue; }
+        for (const v of m[2].trim().split(/\s+/)) {
+          const p = Number(v);
+          if (!Number.isFinite(p) || p < 0 || p > 1) { ctx.warn(`triage: "${v}" is not a score between 0 and 1`); continue; }
+          if (items.length < MAX_ITEMS) items.push({ p, c: ci, good: classes[ci].good });
+        }
+      } else {
+        ctx.warn(`triage: cannot read "${line.slice(0, 50)}"`);
+      }
+    }
+    if (!items.length) { ctx.warn("triage: no scores"); return ""; }
+    if (items.length >= MAX_ITEMS) ctx.warn(`triage: only the first ${MAX_ITEMS} scores are used`);
+    if (!classes.some((c) => c.good)) ctx.warn('triage: no class is marked "good", so errors cannot be counted');
+
+    const loR = range(kv["lo-range"], [0, 1]), hiR = range(kv["hi-range"], [0, 1]);
+    let lo = Number(kv.lo), hi = Number(kv.hi);
+    if (!Number.isFinite(lo)) lo = 0.3;
+    if (!Number.isFinite(hi)) hi = 0.85;
+    lo = Math.min(Math.max(lo, loR[0]), loR[1]); hi = Math.min(Math.max(hi, hiR[0]), hiR[1]);
+    if (lo > hi) { ctx.warn("triage: lo is above hi"); lo = hi; }
+    const incl = kv["lo-incl"] === "yes";
+    const rows = b.a.cls.includes("rows");
+    const scen0 = scenarios[0] ? compile(scenarios[0].x, ["p", "class"]) : null;
+    const scale = (it) => {
+      if (!scen0) return it.p;
+      const v = +scen0.run(new Map([["p", it.p], ["class", classes[it.c].key]]));
+      return Number.isFinite(v) ? Math.min(Math.max(v, 0), 1) : 0;
+    };
+    const s = tally(items, lo, hi, incl, scale);
+    const scope = new Map(Object.entries(s));
+    const zl = { low: "Below", mid: "Between", high: "Above", ...Object.fromEntries(Object.entries(zones).map(([k, z]) => [k, z.label])) };
+
+    // controls
+    const slider = (which, v, r, label) => {
+      const id = ctx.uid("tg");
+      return `<div class="cx-ctrl"><label for="${id}">${ctx.inline(label)} <output class="cx-out">${v.toFixed(2)}</output></label>` +
+        `<input type="range" id="${id}" data-t="${which}" min="${r[0]}" max="${r[1]}" step="0.01" value="${v}"></div>`;
+    };
+    let h = `<div class="cx-ctrls">` + slider("lo", lo, loR, kv["lo-label"] || "Low threshold") + slider("hi", hi, hiR, kv["hi-label"] || "High threshold");
+    if (scenarios.length > 1) {
+      const lab = ctx.uid("tg");
+      h += `<div class="cx-ctrl tg-scen"><div class="clab" id="${lab}">${ctx.inline(kv.scenario || "Scenario")}</div><div class="seg" role="group" aria-labelledby="${lab}">` +
+        scenarios.map((sc, i) => `<button type="button" data-s="${esc(sc.x)}" aria-pressed="${i === 0}">${ctx.inline(sc.label)}</button>`).join("") + `</div></div>`;
+    }
+    h += `</div>`;
+    if (scenarios.length === 1) h += `<span class="tg-scen-one" hidden data-s="${esc(scenarios[0].x)}"></span>`;
+
+    // the plot: zone bands, threshold lines, dots (HTML, positioned in %)
+    const nRows = rows ? classes.length : 1;
+    const dots = items.map((it, i) => {
+      const p = scale(it), z = zoneOf(p, lo, hi, incl), c = classes[it.c];
+      const err = (z === "high" && !it.good) || (z === "low" && it.good);
+      const y = rows ? ((it.c + 0.18 + 0.64 * jitter(i, 7)) / nRows) : 0.08 + 0.84 * jitter(i, 7);
+      return `<span class="tg-dot${c.ring ? " ring" : ""}${err ? " err" : ""}${c.topic ? " c-" + esc(c.topic) : ""}" data-p="${it.p}" data-c="${it.c}"${it.good ? ' data-g="1"' : ""}` +
+        ` style="${c.colour ? "--dc:" + c.colour + ";" : ""}left:${pct(p)};top:${(y * 100).toFixed(2)}%"></span>`;
+    }).join("");
+    const band = (z, a, w) => `<div class="tg-band ${z}" style="left:${pct(a)};width:${pct(w)}"><span${w < 0.13 ? " hidden" : ""}>${ctx.inline(zl[z])}</span></div>`;
+    const axisLabel = kv.axis ? `<div class="tg-axlab">${ctx.inline(kv.axis)}</div>` : "";
+    const rowLabels = rows ? `<div class="tg-rows" aria-hidden="true">${classes.map((c) => `<span>${ctx.inline(c.label)}</span>`).join("")}</div>` : "";
+    const summary = `${s.low} ${zl.low.toLowerCase()}, ${s.mid} ${zl.mid.toLowerCase()}, ${s.high} ${zl.high.toLowerCase()}`;
+    h += `<div class="tg-wrap${rows ? " has-rows" : ""}" style="--rows:${nRows}">${rowLabels}<div class="tg-main">` +
+      `<div class="tg-plot" style="--rows:${nRows}" role="img" aria-label="${esc(items.length + " items by score: " + summary)}">` +
+      band("low", 0, lo) + band("mid", lo, hi - lo) + band("high", hi, 1 - hi) +
+      `<div class="tg-line lo" style="left:${pct(lo)}"></div><div class="tg-line hi" style="left:${pct(hi)}"></div>` +
+      dots + `</div><div class="tg-axis" aria-hidden="true">${[0, 0.25, 0.5, 0.75, 1].map((v) => `<span style="left:${v * 100}%">${v.toFixed(2)}</span>`).join("")}</div>${axisLabel}</div></div>`;
+
+    // legend, stacked share of each zone, readouts, sentences
+    h += `<div class="tg-legend">${classes.map((c, i) => `<span><i class="tg-dot${c.ring ? " ring" : ""}${c.topic ? " c-" + esc(c.topic) : ""}" data-c="${i}"${c.colour ? ` style="--dc:${c.colour}"` : ""}></i>${ctx.inline(c.label)}</span>`).join("")}</div>`;
+    h += `<div class="tg-stack" aria-hidden="true">${["low", "mid", "high"].map((z) => `<span class="${z}" style="width:${pct(s[z] / s.total)}"></span>`).join("")}</div>`;
+    const known = TG_VARS;
+    h += `<div class="tg-read">${["low", "mid", "high"].map((z) => `<div class="tg-z ${z}"><b class="xv" data-x="${z}">${s[z]}</b><span>` +
+      (zones[z] && zones[z].text ? liveText(zones[z].text, ctx, known, scope, "triage: zone") : ctx.inline(zl[z])) + `</span></div>`).join("")}</div>`;
+    for (const sy of says) {
+      const ok = !sy.cond || checkFormula(sy.cond, known, ctx, "triage: say if");
+      const shown = !sy.cond || (ok && Boolean(evalSafe(sy.cond, known, scope)));
+      h += `<p class="cx-say tg-say"${sy.cond && ok ? ` data-if="${esc(sy.cond)}"` : ""}${shown ? "" : " hidden"}>${liveText(sy.text, ctx, known, scope, "triage: say")}</p>`;
+    }
+    // the low-zone rule travels as data the runtime reads
+    return shell("triage", b, ctx, h,
+      { data: `${incl ? ' data-incl="1"' : ""} data-classes="${esc(classes.map((c) => c.key).join(" "))}"` });
+  },
+};
+
+return {TG_VARS,zoneOf,tally,triage};
+})();
+__m["../widgets/catalog.js"]=(function(){
+/* catalog — a filterable, searchable list of items (from jev-legal-research.html's idea
+ * catalog and jev-beyond-classification.html's pattern atlas).
+ *
+ *   ```catalog {title="32 patterns" search=yes noun="patterns" empty="Nothing matches. Clear a filter."}
+ *   Pattern | What it does | Family:group | Lever:facet {.all .pips order="Nearly free; Fast"} | Evidence:facet {.multi} | Sketch:detail | Breaks when:detail {.warn}
+ *   Two-threshold funnel | Clear the confident yeses … | Cut a big set down | [Nearly free]{.cheap}, [Distributions]{.dist} | [Author-tested]{.ok} | One precise Noul … | A single 0.5 cutoff …
+ *   ```
+ * Columns: the first plain column is the item's title, the next plain one its summary.
+ *   Name:group   group headings, in order of first appearance.
+ *   Name:facet   a filter: one chip per value. A cell may hold several comma-separated values;
+ *                each value's plain text is its filter key and its Markdown is how it shows, so
+ *                [Nearly free]{.cheap} with a `colors: cheap=#…` topic gets that colour.
+ *                Header classes: (none) one at a time, with an "All" chip · .multi any of the
+ *                chosen values · .all every chosen value · .dot show the values as coloured dots
+ *                · .pips a dot for every value, faded when absent · .hide filter only.
+ *                order="A; B" puts those values first.
+ *   Name:detail  a labelled section of the item's detail ({.warn} marks it as a caution).
+ *   Name:code    a labelled code block; write line breaks as \n.
+ * Attributes: .split lays it out as a list beside a detail panel (default: rows that expand,
+ * grouped). search=yes adds a search box over every column. noun="ideas" names the count
+ * ("Showing 4 of 11 ideas"); empty="…" is the message when nothing matches.
+ * Without script the whole catalog reads as a list with every detail open; the runtime adds
+ * the filters, the search and the expanding.
+ */
+const { firstTable, shell, cells, esc, cleanClass } = __m["../lib/wkit.js"];
+const { plain, parseAttrs } = __m["../lib/md.js"];
+
+const ROLE = /^(.*?):(facet|group|detail|code)$/;
+
+/* "a, [b, c]{.x}, d" → ["a", "[b, c]{.x}", "d"]: commas inside [] () {} do not split */
+function splitValues(s) {
+  const out = [];
+  let cur = "", depth = 0;
+  for (const ch of String(s)) {
+    if ("[({".includes(ch)) depth++;
+    else if ("])}".includes(ch) && depth > 0) depth--;
+    if (ch === "," && depth === 0) { if (cur.trim()) out.push(cur.trim()); cur = ""; continue; }
+    cur += ch;
+  }
+  if (cur.trim()) out.push(cur.trim());
+  return out;
+}
+
+/* the topic colour a value names, if it is written [label]{.topic} */
+function topicOf(v, ctx) {
+  const m = String(v).match(/^\[([^\]]*)\]\{([^}]*)\}$/);
+  if (!m) return "";
+  return parseAttrs(m[2]).cls.map(cleanClass).find((c) => ctx.colors[c]) || "";
+}
+
+const catalog = {
+  render(b, ctx) {
+    const t = firstTable(b.body);
+    if (!t) { ctx.warn("catalog: needs a table (title, summary, then :facet, :group, :detail or :code columns)"); return ""; }
+    const kv = b.a.kv, split = b.a.cls.includes("split");
+    const n = t.cols.length;
+    const cols = t.cols.map((c) => {
+      const m = c.name.match(ROLE);
+      const cls = ((c.a && c.a.cls) || []).map(cleanClass);
+      return { name: m ? m[1].trim() : c.name, role: m ? m[2] : "text", cls, kv: (c.a && c.a.kv) || {} };
+    });
+    const textK = cols.map((c, k) => (c.role === "text" ? k : -1)).filter((k) => k >= 0);
+    const titleK = textK[0], sumK = textK[1];
+    if (titleK === undefined) { ctx.warn("catalog: needs a plain title column"); return ""; }
+    const groupK = cols.findIndex((c) => c.role === "group");
+    const facetK = cols.map((c, k) => (c.role === "facet" ? k : -1)).filter((k) => k >= 0);
+    // plain columns after the summary read as details
+    const detailK = cols.map((c, k) => ((c.role === "detail" || c.role === "code" || (c.role === "text" && k !== titleK && k !== sumK)) ? k : -1)).filter((k) => k >= 0);
+
+    const rows = t.rows.map((r) => cells(r, n)).filter((c) => c[titleK].text.trim());
+    if (!rows.length) { ctx.warn("catalog: the table has no rows"); return ""; }
+
+    // facets: values in `order`, then in order of first appearance
+    const facets = facetK.map((k) => {
+      const c = cols[k];
+      const mode = c.cls.includes("all") ? "all" : c.cls.includes("multi") ? "any" : "one";
+      const show = c.cls.includes("hide") ? "hide" : c.cls.includes("pips") ? "pips" : c.cls.includes("dot") ? "dot" : "tags";
+      const values = [], index = new Map();
+      const add = (raw) => {
+        const key = plain(raw).toLowerCase();
+        if (!key) return -1;
+        if (!index.has(key)) { index.set(key, values.length); values.push({ raw, label: plain(raw), topic: topicOf(raw, ctx) }); }
+        return index.get(key);
+      };
+      const order = String(c.kv.order || "").split(";").map((s) => s.trim()).filter(Boolean);
+      const rowVals = rows.map((r) => splitValues(r[k].text).map(add).filter((i) => i >= 0));
+      if (order.length) {
+        const rank = (v) => { const i = order.findIndex((o) => o.toLowerCase() === v.label.toLowerCase()); return i < 0 ? order.length : i; };
+        const sorted = values.map((v, i) => ({ v, i })).sort((x, y) => rank(x.v) - rank(y.v) || x.i - y.i);
+        const remap = new Map(sorted.map((s, ni) => [s.i, ni]));
+        values.splice(0, values.length, ...sorted.map((s) => s.v));
+        rowVals.forEach((rv, ri) => { rowVals[ri] = rv.map((i) => remap.get(i)); });
+        for (const o of order) if (!values.some((v) => v.label.toLowerCase() === o.toLowerCase())) ctx.warn(`catalog: order names "${o}", which no row uses`);
+      }
+      return { k, name: c.name, mode, show, values, rowVals };
+    });
+
+    for (const k of [titleK, sumK]) {
+      if (k !== undefined && rows.some((r) => /\]\(/.test(r[k].text))) ctx.warn(`catalog: a link in the "${cols[k].name}" column sits inside a button; put links in a :detail column`);
+    }
+
+    const dot = (v, extra = "") => `<i class="cat-pip${v.topic ? " c-" + esc(v.topic) : ""}${extra}" aria-hidden="true"></i>`;
+    const dataF = (ri) => facets.map((f, g) => ` data-f${g}="${f.rowVals[ri].join(" ")}"`).join("");
+    const markers = (ri, which) => facets.map((f) => {
+      if (f.show === "hide") return "";
+      const have = f.rowVals[ri];
+      if (which === "lead" && f.show !== "dot" && f.show !== "pips") return "";
+      if (which === "tail" && (f.show === "dot" || f.show === "pips") && split) return "";
+      if (f.show === "pips" || f.show === "dot") {
+        const shown = f.show === "pips" ? f.values.map((v, vi) => [v, have.includes(vi)]) : have.map((vi) => [f.values[vi], true]);
+        const label = have.map((vi) => f.values[vi].label).join(", ") || "none";
+        return `<span class="cat-pips" role="img" aria-label="${esc(f.name + ": " + label)}">` +
+          shown.map(([v, on]) => `<i class="cat-pip${v.topic ? " c-" + esc(v.topic) : ""}${on ? "" : " off"}" title="${esc(v.label)}"></i>`).join("") + `</span>`;
+      }
+      return have.map((vi) => {
+        const v = f.values[vi];
+        return /[[*`=_]/.test(v.raw) ? `<span class="cat-tag">${ctx.inline(v.raw)}</span>` : `<span class="cat-tag plain">${esc(v.label)}</span>`;
+      }).join("");
+    }).join("");
+    // every facet value in words, for the detail (dots get their label beside them)
+    const meta = (ri) => facets.map((f) => f.rowVals[ri].map((vi) => {
+      const v = f.values[vi];
+      if (v.topic) return `<span class="cat-tag plain">${dot(v)}${esc(v.label)}</span>`;
+      return /[[*`=_]/.test(v.raw) ? `<span class="cat-tag">${ctx.inline(v.raw)}</span>` : `<span class="cat-tag plain">${esc(v.label)}</span>`;
+    }).join("")).join("");
+    const sections = (r) => detailK.map((k) => {
+      const c = cols[k], text = r[k].text;
+      if (!text.trim()) return "";
+      const head = `<h5>${ctx.inline(c.name)}</h5>`;
+      if (c.role === "code") return `<div class="cat-sec">${head}<pre class="code"><code>${esc(text.replace(/\\n/g, "\n"))}</code></pre></div>`;
+      return `<div class="cat-sec${c.cls.includes("warn") ? " cat-warn" : ""}">${head}<p>${ctx.inline(text)}</p></div>`;
+    }).join("");
+
+    // groups, in order of first appearance
+    const groups = [];
+    rows.forEach((r, ri) => {
+      const g = groupK >= 0 ? r[groupK].text.trim() : "";
+      let grp = groups.find((x) => x.name === g);
+      if (!grp) { grp = { name: g, items: [] }; groups.push(grp); }
+      grp.items.push(ri);
+    });
+
+    const noun = kv.noun || "items";
+    let h = "";
+    if (facets.length || kv.search === "yes") {
+      h += `<div class="cat-filters" hidden>` + facets.map((f, g) => {
+        const lab = ctx.uid("catf");
+        return `<div class="cat-fg" role="group" aria-labelledby="${lab}"><span class="cat-fl" id="${lab}">${ctx.inline(f.name)}</span>` +
+          (f.mode === "one" ? `<button type="button" class="cat-chip" data-g="${g}" data-v="all" aria-pressed="true">All</button>` : "") +
+          f.values.map((v, vi) => `<button type="button" class="cat-chip" data-g="${g}" data-v="${vi}" aria-pressed="false">${v.topic ? dot(v) : ""}${esc(v.label)}</button>`).join("") +
+          `</div>`;
+      }).join("") +
+      (kv.search === "yes" ? `<input type="search" class="cat-q" placeholder="Search ${esc(noun)}" aria-label="Search ${esc(noun)}">` : "") +
+      `</div><p class="cat-count" aria-live="polite" hidden></p>`;
+    }
+    const empty = `<p class="cat-empty" hidden>${ctx.inline(kv.empty || "Nothing matches these filters. Clear one to see more.")}</p>`;
+
+    if (split) {
+      let idx = "", arts = "";
+      groups.forEach((grp, gi) => {
+        if (grp.name) idx += `<li class="cat-ih" data-grp="${gi}">${ctx.inline(grp.name)}</li>`;
+        for (const ri of grp.items) {
+          const r = rows[ri];
+          idx += `<li class="cat-li" data-i="${ri}" data-grp="${gi}"${dataF(ri)}><button type="button" class="cat-pick" data-i="${ri}" aria-current="false">` +
+            markers(ri, "lead") + `<span class="cat-nm">${ctx.inline(r[titleK].text)}</span>` +
+            `<span class="cat-tags">${markers(ri, "tail")}</span></button></li>`;
+          arts += `<article class="cat-art" data-i="${ri}"><h4 class="cat-at">${ctx.inline(r[titleK].text)}</h4>` +
+            `<div class="cat-meta">${meta(ri)}</div>` +
+            (sumK !== undefined && r[sumK].text ? `<p class="cat-lead">${ctx.inline(r[sumK].text)}</p>` : "") + sections(r) + `</article>`;
+        }
+      });
+      h += `<div class="cat-split"><div class="cat-side" hidden><ul class="cat-index">${idx}</ul></div>` +
+        `<div class="cat-panel" aria-live="polite">${arts}${empty}</div></div>`;
+    } else {
+      h += `<div class="cat-list">` + groups.map((grp, gi) => `<div class="cat-grp" data-grp="${gi}">` +
+        (grp.name ? `<h4 class="cat-gh">${ctx.inline(grp.name)}</h4>` : "") +
+        grp.items.map((ri) => {
+          const r = rows[ri], id = ctx.uid("catd"), det = sections(r);
+          const head = `<span class="cat-nm">${ctx.inline(r[titleK].text)}</span><span class="cat-tags">${markers(ri, "tail")}</span>` +
+            (sumK !== undefined && r[sumK].text ? `<span class="cat-sum">${ctx.inline(r[sumK].text)}</span>` : "");
+          return `<div class="cat-row"${dataF(ri)}>` + (det
+            ? `<button type="button" class="cat-rb" aria-expanded="true" aria-controls="${id}">${head}<span class="cat-chev" aria-hidden="true"></span></button><div class="cat-det" id="${id}">${det}</div>`
+            : `<div class="cat-rb">${head}</div>`) + `</div>`;
+        }).join("") + `</div>`).join("") + `</div>` + empty;
+    }
+
+    const data = ` data-fm="${facets.map((f) => f.mode).join(" ")}" data-noun="${esc(noun)}"`;
+    return shell("catalog", b, ctx, h, { cls: split ? "cat-is-split" : "cat-is-rows", data });
+  },
+};
+
+return {catalog};
+})();
+__m["../widgets/locator.js"]=(function(){
+/* locator — ask one question of every passage and see where the answer lives; click a
+ * sentence to remove it and watch what moves (from jev-beyond-classification.html's heat map).
+ *
+ *   ```locator {title="…" temp=2.5 relative="Choice across paragraphs" absolute="Noul per paragraph" note="…"}
+ *   question: Where does the court decide whether the exception requires a request? | we hold 3, clothing exception 1.5, argues -1 | bias 2.5 | none 2
+ *   question: Where does the court state the standard of review? | de novo 2.5, clear error 2.5, review 1.2
+ *   passage Facts: Officers arrested Dana Price on her porch. | She was barefoot, and it was 18 degrees outside.
+ *   passage Holding: We hold that the clothing exception does not require a request.
+ *   ```
+ * A question's weights are "phrase number" pairs: a phrase found in a sentence (case-insensitive,
+ * plain text, no patterns) adds its number to that passage's score, once per sentence. A
+ * passage's sentences are separated by " | ". The scorer is a stand-in, so say so on the page.
+ * Relative mode: a softmax over the passages plus a "none of these" option (score `none`,
+ * default 2) at temperature `temp` (default 2.5); the values sum to 1. Absolute mode: each
+ * passage alone, sigmoid(score − `bias`) (default 2.5). Name a mode with `relative=` or
+ * `absolute=`; give one to offer only that mode, both (or neither) for a toggle. Optional:
+ * `mode-label` (default "Ask as"), `restore` (button text), `note` (a note under the controls).
+ */
+const { shell, esc } = __m["../lib/wkit.js"];
+const { splitRow, plain } = __m["../lib/md.js"];
+
+const MAX_Q = 12, MAX_P = 200, MAX_S = 60, MAX_W = 60;
+
+function num(s, def, lo, hi) {
+  const v = Number(s);
+  return Number.isFinite(v) && v >= lo && v <= hi ? v : def;
+}
+
+function weights(spec, ctx) {
+  const out = [];
+  for (const part of String(spec || "").split(",")) {
+    const t = part.trim();
+    if (!t) continue;
+    const m = t.match(/^(.*\S)\s+([+-]?\d*\.?\d+)$/);
+    if (!m) { ctx.warn(`locator: weight "${t.slice(0, 40)}" needs a phrase and a number`); continue; }
+    const phrase = plain(m[1]).toLowerCase().slice(0, 200), w = Number(m[2]);
+    if (!phrase || !Number.isFinite(w) || Math.abs(w) > 100) { ctx.warn(`locator: weight "${t.slice(0, 40)}" is out of range`); continue; }
+    if (out.length >= MAX_W) { ctx.warn(`locator: more than ${MAX_W} weights in one question`); break; }
+    out.push([phrase, w]);
+  }
+  return out;
+}
+
+const locator = {
+  render(b, ctx) {
+    const kv = (b.a && b.a.kv) || {};
+    const qs = [], ps = [];
+    for (const raw of String(b.body).split("\n")) {
+      const line = raw.trim();
+      if (!line) continue;
+      let m = line.match(/^question\s*:\s*(.+)$/i);
+      if (m) {
+        if (qs.length >= MAX_Q) { ctx.warn(`locator: more than ${MAX_Q} questions`); continue; }
+        const parts = splitRow(m[1]);
+        const q = { text: parts[0], w: weights(parts[1], ctx), bias: 2.5, none: 2 };
+        for (const p of parts.slice(2)) {
+          const o = p.match(/^(bias|none)\s*[= ]\s*([+-]?\d*\.?\d+)$/i);
+          if (o) q[o[1].toLowerCase()] = num(o[2], q[o[1].toLowerCase()], -100, 100);
+          else if (p) ctx.warn(`locator: "${p.slice(0, 30)}" is not "bias N" or "none N"`);
+        }
+        if (!q.w.length) ctx.warn(`locator: question "${plain(q.text).slice(0, 40)}" has no weights`);
+        qs.push(q);
+        continue;
+      }
+      m = line.match(/^passage\b\s*([^:]*?)\s*:\s*(.+)$/i);
+      if (m) {
+        if (ps.length >= MAX_P) { ctx.warn(`locator: more than ${MAX_P} passages`); continue; }
+        const sents = splitRow(m[2]).filter(Boolean);
+        if (sents.length > MAX_S) ctx.warn(`locator: a passage has more than ${MAX_S} sentences`);
+        ps.push({ label: m[1], sents: sents.slice(0, MAX_S) });
+        continue;
+      }
+      ctx.warn(`locator: "${line.slice(0, 40)}" is not a question: or passage line`);
+    }
+    if (!qs.length || !ps.length) { ctx.warn("locator: needs at least one question: line and one passage line"); return ""; }
+
+    const both = !kv.relative === !kv.absolute;
+    const modes = [];
+    if (kv.relative || both) modes.push(["relative", kv.relative || "Compare across passages"]);
+    if (kv.absolute || both) modes.push(["absolute", kv.absolute || "Score each passage alone"]);
+    const temp = num(kv.temp, 2.5, 0.05, 100);
+
+    const qlab = ctx.uid("lcq");
+    let side = `<div class="lc-qs" role="group" aria-label="Question">` + qs.map((q, i) =>
+      `<button type="button" class="lc-q" aria-pressed="${i === 0}" data-wt="${esc(JSON.stringify(q.w))}" data-bias="${q.bias}" data-none="${q.none}">${ctx.inline(q.text)}</button>`).join("") + `</div>`;
+    if (modes.length > 1) {
+      side += `<div class="lc-ctrl"><div class="clab" id="${qlab}">${ctx.inline(kv["mode-label"] || "Ask as")}</div>` +
+        `<div class="seg lc-mode" role="group" aria-labelledby="${qlab}">` +
+        modes.map(([m, l], i) => `<button type="button" data-m="${m}" aria-pressed="${i === 0}">${ctx.inline(l)}</button>`).join("") + `</div></div>`;
+    }
+    side += `<button type="button" class="btn btn-ghost lc-restore">${ctx.inline(kv.restore || "Restore all sentences")}</button>`;
+    if (kv.note) side += `<p class="note lc-note">${ctx.inline(kv.note)}</p>`;
+
+    const main = `<div class="lc-op">` + ps.map((p, pi) =>
+      `<div class="lc-p"><div class="lc-m"></div><div class="lc-t"><span class="lc-tag">¶${pi + 1}${p.label ? " · " + ctx.inline(p.label) : ""}</span>` +
+      p.sents.map((s) => `<button type="button" class="lc-s" aria-pressed="false">${ctx.inline(s)}</button>`).join(" ") +
+      `</div></div>`).join("") + `</div><p class="lc-none" aria-live="polite"></p>`;
+
+    return shell("locator", b, ctx,
+      `<div class="lc" data-temp="${temp}" data-mode="${modes[0][0]}"><div class="lc-side">${side}</div><div class="lc-main">${main}</div></div>`);
+  },
+};
+
+return {locator};
+})();
+__m["../widgets/splits.js"]=(function(){
+/* splits — debug a label set from its own distributions: which categories keep splitting the
+ * top two places, and which never win (from jev-beyond-classification.html's taxonomy debugger).
+ *
+ *   ```splits {title="…" margin=0.2 margin-range="0.05 0.5" seed=7 escape=None note="…"}
+ *   categories: Follows, Applies, Distinguishes, Limits, Criticizes, None
+ *   28: Follows 0.3+0.3, Applies 0.25+0.3 / Applies 0.3+0.3, Follows 0.25+0.3
+ *   14: Distinguishes 0.5+0.3, Limits 0.1+0.25
+ *   fix Merge Follows + Applies: Follows, Applies -> Relies on
+ *   fix Fold Criticizes into Limits: Criticizes -> Limits
+ *   ```
+ * Each "N: …" line makes N synthetic items. Every category starts with noise of 0.01 to 0.04;
+ * "Cat a+b" then adds a plus up to b, and the item is normalised to sum to 1. Alternatives
+ * separated by " / " are picked at random per item. Generation is seeded (`seed`), so the
+ * numbers are the same on every load. A "fix" line is a button that merges its sources into
+ * the target: an existing category absorbs them; a new name replaces the first source.
+ * `margin`: an item counts as a split when its top two are within it (a slider over
+ * `margin-range`). `escape`: the catch-all category, never called dead. Optional:
+ * `margin-label`, `note`.
+ */
+const { shell, esc } = __m["../lib/wkit.js"];
+const { plain } = __m["../lib/md.js"];
+
+const MAX_CATS = 40, MAX_ITEMS = 2000, MAX_ALTS = 10, MAX_FIXES = 12;
+
+function num(s, def, lo, hi) {
+  const v = Number(s);
+  return Number.isFinite(v) && v >= lo && v <= hi ? v : def;
+}
+const name = (s) => plain(s).replace(/\s+/g, " ").trim().slice(0, 60);
+
+const splits = {
+  render(b, ctx) {
+    const kv = (b.a && b.a.kv) || {};
+    let cats = [];
+    const groups = [], fixes = [];
+    let total = 0;
+    for (const raw of String(b.body).split("\n")) {
+      const line = raw.trim();
+      if (!line) continue;
+      let m = line.match(/^categories\s*:\s*(.+)$/i);
+      if (m) {
+        cats = m[1].split(",").map(name).filter(Boolean);
+        if (new Set(cats).size !== cats.length) ctx.warn("splits: a category is listed twice");
+        if (cats.length > MAX_CATS) { ctx.warn(`splits: more than ${MAX_CATS} categories`); cats = cats.slice(0, MAX_CATS); }
+        continue;
+      }
+      m = line.match(/^fix\s+(.+?)\s*:\s*(.+?)\s*(?:->|→)\s*(.+)$/i);
+      if (m) {
+        if (fixes.length >= MAX_FIXES) { ctx.warn(`splits: more than ${MAX_FIXES} fixes`); continue; }
+        fixes.push({ label: m[1], from: m[2].split(",").map(name).filter(Boolean), to: name(m[3]) });
+        continue;
+      }
+      m = line.match(/^(\d+)\s*[:×x]\s*(.+)$/);
+      if (m) {
+        const n = Number(m[1]);
+        const alts = m[2].split(/\s+\/\s+/).slice(0, MAX_ALTS).map((alt) => alt.split(",").map((e) => {
+          const em = e.trim().match(/^(.+?)\s+(\d*\.?\d+)\s*(?:\+\s*(\d*\.?\d+))?$/);
+          if (!em) { ctx.warn(`splits: "${e.trim().slice(0, 30)}" should be "Category a+b"`); return null; }
+          return [name(em[1]), num(em[2], 0, 0, 10), num(em[3] ?? 0, 0, 0, 10)];
+        }).filter(Boolean));
+        if (total + n > MAX_ITEMS) { ctx.warn(`splits: more than ${MAX_ITEMS} items`); continue; }
+        total += n;
+        groups.push({ n, alts });
+        continue;
+      }
+      ctx.warn(`splits: "${line.slice(0, 40)}" is not a categories:, "N:" or fix line`);
+    }
+    if (cats.length < 2 || !groups.length) { ctx.warn("splits: needs a categories: line with two or more names and at least one \"N:\" line"); return ""; }
+    for (const g of groups) for (const alt of g.alts) for (const e of alt) {
+      if (!cats.includes(e[0])) ctx.warn(`splits: "${e[0]}" is not in categories:`);
+    }
+    const known = new Set(cats);
+    for (const f of fixes) {
+      for (const s of f.from) if (!known.has(s)) ctx.warn(`splits: fix "${plain(f.label)}" names "${s}", which is not a category`);
+      if (!f.to || !f.from.length) ctx.warn(`splits: fix "${plain(f.label)}" needs sources and a target`);
+      known.add(f.to);
+    }
+    const escape = kv.escape ? name(kv.escape) : "";
+    if (escape && !cats.includes(escape)) ctx.warn(`splits: escape "${escape}" is not a category`);
+
+    const range = String(kv["margin-range"] || "").split(/\s+/).map(Number);
+    const lo = range.length === 2 && range.every(Number.isFinite) && range[0] >= 0 && range[1] <= 1 && range[0] < range[1] ? range[0] : 0.05;
+    const hi = lo === range[0] ? range[1] : 0.5;
+    const margin = Math.min(hi, Math.max(lo, num(kv.margin, 0.2, 0, 1)));
+    const spec = {
+      cats, seed: Math.trunc(num(kv.seed, 1, -2147483648, 2147483647)), escape,
+      groups: groups.map((g) => ({ n: g.n, alts: g.alts.map((a) => a.filter((e) => cats.includes(e[0]))) })),
+      fixes: fixes.map((f) => ({ from: f.from, to: f.to })),
+    };
+
+    const sid = ctx.uid("sp");
+    let side = `<div class="sp-ctrl"><label for="${sid}"><span>${ctx.inline(kv["margin-label"] || "Count as a split when top two are within")}</span> <output>${margin.toFixed(2)}</output></label>` +
+      `<input type="range" id="${sid}" class="sp-margin" min="${lo}" max="${hi}" step="0.01" value="${margin}"></div>`;
+    if (fixes.length) {
+      side += `<div class="sp-fixes">` + fixes.map((f, i) => `<button type="button" class="btn btn-primary sp-fix" data-i="${i}">${ctx.inline(f.label)}</button>`).join("") +
+        `<button type="button" class="btn btn-ghost sp-reset">Reset</button></div>`;
+    }
+    side += `<ul class="sp-find" aria-live="polite"></ul>`;
+    if (kv.note) side += `<p class="note sp-note">${ctx.inline(kv.note)}</p>`;
+    const main = `<div class="sp-mxwrap"><div class="sp-mx" role="table" aria-label="Pairwise split counts between categories"></div></div>` +
+      `<div class="sp-wins"></div>` +
+      `<p class="sp-static">${esc(total)} synthetic items over ${cats.length} categories: ${cats.map((c) => esc(c)).join(", ")}.</p>`;
+    return shell("splits", b, ctx,
+      `<div class="sp" data-spec="${esc(JSON.stringify(spec))}"><div class="sp-side">${side}</div><div class="sp-main">${main}</div></div>`);
+  },
+};
+
+return {splits};
+})();
 __m["../lib/widgets.js"]=(function(){
 /* widgets.js — the registry. A widget is a fence language with a render(block, ctx) → HTML.
  * Its stylesheet is widgets/css/<name>.css (static ones share static.css) and, when it
@@ -1544,11 +2933,19 @@ const { router } = __m["../widgets/router.js"];
 const { tree } = __m["../widgets/tree.js"];
 const { quiz } = __m["../widgets/quiz.js"];
 const { checklist } = __m["../widgets/checklist.js"];
+const { bars } = __m["../widgets/bars.js"];
+const { waffle } = __m["../widgets/waffle.js"];
+const { calc } = __m["../widgets/calc.js"];
+const { triage } = __m["../widgets/triage.js"];
+const { catalog } = __m["../widgets/catalog.js"];
+const { locator } = __m["../widgets/locator.js"];
+const { splits } = __m["../widgets/splits.js"];
 
-const WIDGETS = { cards, stats, callout, deeper, myths, glossary, timeline, stepper, router, tree, quiz, checklist };
+const WIDGETS = { cards, stats, callout, deeper, myths, glossary, timeline, stepper, router, tree, quiz, checklist,
+  bars, waffle, calc, triage, catalog, locator, splits };
 
 /* widgets with a runtime script */
-const RUNTIME = ["timeline", "stepper", "router", "tree", "quiz", "checklist"];
+const RUNTIME = ["timeline", "stepper", "router", "tree", "quiz", "checklist", "calc", "triage", "catalog", "locator", "splits"];
 
 /* widgets whose CSS lives in static.css */
 const STATIC = ["cards", "stats", "callout", "deeper", "myths", "glossary"];
@@ -2104,6 +3501,464 @@ function checklist(root) {
 
 return {checklist};
 })();
+__m["../widgets/run/calc.js"]=(function(){
+/* calc runtime — read the controls, recompute the lets, refresh every formula. */
+const { compile, fmt } = __m["../lib/expr.js"];
+const { live } = __m["../lib/live.js"];
+
+function calc(root) {
+  const ranges = [...root.querySelectorAll('input[type="range"][data-n]')];
+  const segs = [...root.querySelectorAll(".seg[data-n]")];
+  const lets = [...root.querySelectorAll(".cx-let")];
+  const names = [...ranges.map((r) => r.dataset.n), ...segs.map((s) => s.dataset.n), ...lets.map((l) => l.dataset.n)];
+  const letFns = lets.map((l) => { try { return [l.dataset.n, compile(l.dataset.l, names)]; } catch (e) { return [l.dataset.n, null]; } });
+  const meters = [...root.querySelectorAll(".cx-fill[data-m]")].map((el) => {
+    const c = (s) => { try { return compile(s, names); } catch (e) { return null; } };
+    return { el, m: c(el.dataset.m), o: el.dataset.o ? c(el.dataset.o) : null };
+  });
+  const update = live(root, names);
+
+  const valueOf = (r) => {
+    const pos = +r.value;
+    if (!r.dataset.log) return pos;
+    const v = 10 ** pos;
+    return +r.dataset.min >= 1 ? Math.round(v) : +v.toPrecision(3);
+  };
+  const segValue = (b) => (b.dataset.s ? b.dataset.v : +b.dataset.v);
+
+  function render() {
+    const scope = new Map();
+    for (const r of ranges) {
+      const v = valueOf(r);
+      scope.set(r.dataset.n, v);
+      const out = r.parentElement.querySelector(".cx-out");
+      if (out) out.textContent = fmt(v, r.dataset.f || "");
+    }
+    for (const s of segs) {
+      const b = s.querySelector('button[aria-pressed="true"]') || s.querySelector("button");
+      scope.set(s.dataset.n, b ? segValue(b) : NaN);
+    }
+    for (const [n, f] of letFns) scope.set(n, f ? f.run(scope) : NaN);
+    update(scope);
+    for (const { el, m, o } of meters) {
+      const v = m ? +m.run(scope) : 0;
+      el.style.width = (Math.min(Math.max(Number.isFinite(v) ? v : 0, 0), 1) * 100).toFixed(1) + "%";
+      el.classList.toggle("over", Boolean(o && o.run(scope)));
+    }
+  }
+
+  for (const r of ranges) r.addEventListener("input", render);
+  for (const s of segs) s.addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    s.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    render();
+  });
+  for (const p of root.querySelectorAll(".cx-presets [data-set]")) p.addEventListener("click", () => {
+    for (const pair of p.dataset.set.split(";")) {
+      const [n, raw] = pair.split("=");
+      const r = ranges.find((x) => x.dataset.n === n);
+      if (r) {
+        let v;
+        try { v = +compile(raw, []).run(new Map()); } catch (e) { continue; }
+        r.value = r.dataset.log ? Math.log10(Math.max(v, 1e-12)) : v;
+        continue;
+      }
+      const s = segs.find((x) => x.dataset.n === n);
+      if (s) s.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.v === raw)));
+    }
+    render();
+  });
+  render();
+}
+
+return {calc};
+})();
+__m["../widgets/run/triage.js"]=(function(){
+/* triage runtime — move the thresholds or switch scenario; dots, bands, counts and every
+ * formula follow. */
+const { compile } = __m["../lib/expr.js"];
+const { live } = __m["../lib/live.js"];
+
+const VARS = ["low", "mid", "high", "total", "lowGood", "lowBad", "midGood", "midBad", "highGood", "highBad", "lo", "hi"]; // as widgets/triage.js
+
+function triage(root) {
+  const keys = (root.dataset.classes || "").split(" ");
+  const incl = root.dataset.incl === "1";
+  const plot = root.querySelector(".tg-plot");
+  const dots = [...plot.querySelectorAll(".tg-dot")].map((el) => ({ el, p: +el.dataset.p, c: +el.dataset.c, good: el.dataset.g === "1" }));
+  const lo = root.querySelector('input[data-t="lo"]'), hi = root.querySelector('input[data-t="hi"]');
+  const scenBtns = [...root.querySelectorAll(".tg-scen button")];
+  const compiled = new Map();
+  const scaleOf = (src) => {
+    if (!compiled.has(src)) { try { compiled.set(src, compile(src, ["p", "class"])); } catch (e) { compiled.set(src, null); } }
+    return compiled.get(src);
+  };
+  const one = root.querySelector(".tg-scen-one");
+  let scen = scenBtns.length ? scaleOf(scenBtns[0].dataset.s) : one ? scaleOf(one.dataset.s) : null;
+  const update = live(root, VARS);
+  const bands = { low: plot.querySelector(".tg-band.low"), mid: plot.querySelector(".tg-band.mid"), high: plot.querySelector(".tg-band.high") };
+  const lines = { lo: plot.querySelector(".tg-line.lo"), hi: plot.querySelector(".tg-line.hi") };
+  const stack = root.querySelector(".tg-stack");
+  const pct = (v) => (Math.min(Math.max(v, 0), 1) * 100).toFixed(2) + "%";
+
+  function render(src) {
+    let a = +lo.value, b = +hi.value;
+    if (a > b) { if (src === lo) { hi.value = a; b = +hi.value; } else { lo.value = b; a = +lo.value; } }
+    lo.parentElement.querySelector(".cx-out").textContent = a.toFixed(2);
+    hi.parentElement.querySelector(".cx-out").textContent = b.toFixed(2);
+    const s = { low: 0, mid: 0, high: 0, lowGood: 0, lowBad: 0, midGood: 0, midBad: 0, highGood: 0, highBad: 0, total: dots.length, lo: a, hi: b };
+    const scope = new Map();
+    for (const d of dots) {
+      let p = d.p;
+      if (scen) {
+        scope.set("p", d.p); scope.set("class", keys[d.c] || "");
+        const v = +scen.run(scope);
+        p = Number.isFinite(v) ? Math.min(Math.max(v, 0), 1) : 0;
+      }
+      const z = p >= b ? "high" : (incl ? p <= a : p < a) ? "low" : "mid";
+      s[z]++; s[z + (d.good ? "Good" : "Bad")]++;
+      d.el.style.left = pct(p);
+      d.el.classList.toggle("err", (z === "high" && !d.good) || (z === "low" && d.good));
+    }
+    const setBand = (el, x0, x1) => {
+      el.style.left = pct(x0); el.style.width = pct(x1 - x0);
+      const lab = el.querySelector("span");
+      if (lab) lab.hidden = (x1 - x0) < 0.13;
+    };
+    setBand(bands.low, 0, a); setBand(bands.mid, a, b); setBand(bands.high, b, 1);
+    lines.lo.style.left = pct(a); lines.hi.style.left = pct(b);
+    if (stack) ["low", "mid", "high"].forEach((z) => { stack.querySelector("." + z).style.width = pct(s[z] / s.total); });
+    plot.setAttribute("aria-label", `${s.total} items by score: ${s.low} in the low zone, ${s.mid} between, ${s.high} in the high zone`);
+    update(new Map(Object.entries(s)));
+  }
+
+  lo.addEventListener("input", () => render(lo));
+  hi.addEventListener("input", () => render(hi));
+  for (const btn of scenBtns) btn.addEventListener("click", () => {
+    scenBtns.forEach((x) => x.setAttribute("aria-pressed", String(x === btn)));
+    scen = scaleOf(btn.dataset.s);
+    render();
+  });
+  render();
+}
+
+return {triage};
+})();
+__m["../widgets/run/catalog.js"]=(function(){
+/* catalog runtime — filter chips, search, a count, and either expanding rows or a list that
+ * picks what the detail panel shows. Without it, the static list shows every detail. */
+function catalog(root) {
+  const split = root.classList.contains("cat-is-split");
+  const modes = (root.dataset.fm || "").split(" ").filter(Boolean);
+  const noun = root.dataset.noun || "items";
+  const filters = root.querySelector(".cat-filters");
+  const countEl = root.querySelector(".cat-count");
+  const q = root.querySelector(".cat-q");
+  const empty = root.querySelector(".cat-empty");
+  const sel = modes.map(() => new Set());
+  if (filters) filters.hidden = false;
+  if (countEl) countEl.hidden = false;
+
+  const items = [...root.querySelectorAll(split ? ".cat-li" : ".cat-row")];
+  const arts = split ? new Map([...root.querySelectorAll(".cat-art")].map((a) => [a.dataset.i, a])) : null;
+  const has = items.map((el) => modes.map((_, g) => new Set((el.dataset["f" + g] || "").split(" ").filter(Boolean))));
+  const text = items.map((el) => ((split ? arts.get(el.dataset.i) : el) || el).textContent.toLowerCase());
+  let current = split && items.length ? items[0].dataset.i : null;
+
+  root.classList.add("cat-live");
+  if (split) {
+    root.querySelector(".cat-side").hidden = false;
+  } else {
+    for (const b of root.querySelectorAll("button.cat-rb")) {
+      const det = document.getElementById(b.getAttribute("aria-controls"));
+      b.setAttribute("aria-expanded", "false");
+      if (det) det.hidden = true;
+      b.addEventListener("click", () => {
+        const open = b.getAttribute("aria-expanded") !== "true";
+        b.setAttribute("aria-expanded", String(open));
+        if (det) det.hidden = !open;
+      });
+    }
+  }
+
+  function matches(i) {
+    for (let g = 0; g < modes.length; g++) {
+      if (!sel[g].size) continue;
+      const want = [...sel[g]];
+      if (modes[g] === "all" ? !want.every((v) => has[i][g].has(v)) : !want.some((v) => has[i][g].has(v))) return false;
+    }
+    const terms = q ? q.value.toLowerCase().trim().split(/\s+/).filter(Boolean) : [];
+    return terms.every((t) => text[i].includes(t));
+  }
+
+  function render() {
+    let shown = 0;
+    const vis = items.map((el, i) => { const ok = matches(i); el.hidden = !ok; if (ok) shown++; return ok; });
+    // group headings follow their items
+    for (const gEl of root.querySelectorAll(split ? ".cat-ih" : ".cat-grp")) {
+      const g = gEl.dataset.grp;
+      gEl.hidden = !items.some((el, i) => vis[i] && (split ? el.dataset.grp === g : gEl.contains(el)));
+    }
+    if (countEl) {
+      const all = modes.some((m, g) => m === "all" && sel[g].size > 1);
+      countEl.textContent = `Showing ${shown} of ${items.length} ${noun}${all ? " that have every value chosen" : ""}`;
+    }
+    if (empty) empty.hidden = shown > 0;
+    if (split) {
+      if (!items.some((el, i) => vis[i] && el.dataset.i === current)) {
+        const first = items.find((el, i) => vis[i]);
+        current = first ? first.dataset.i : null;
+      }
+      items.forEach((el) => el.querySelector(".cat-pick").setAttribute("aria-current", String(el.dataset.i === current)));
+      arts.forEach((a, i) => { a.hidden = i !== current; });
+    }
+  }
+
+  if (filters) filters.addEventListener("click", (e) => {
+    const b = e.target.closest(".cat-chip");
+    if (!b) return;
+    const g = +b.dataset.g, v = b.dataset.v;
+    if (modes[g] === "one") {
+      sel[g].clear();
+      if (v !== "all") sel[g].add(v);
+      filters.querySelectorAll(`.cat-chip[data-g="${g}"]`).forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    } else {
+      if (sel[g].has(v)) sel[g].delete(v); else sel[g].add(v);
+      b.setAttribute("aria-pressed", String(sel[g].has(v)));
+    }
+    render();
+  });
+  if (q) q.addEventListener("input", render);
+
+  if (split) root.querySelector(".cat-index").addEventListener("click", (e) => {
+    const b = e.target.closest(".cat-pick");
+    if (!b) return;
+    current = b.dataset.i;
+    render();
+    if (window.matchMedia("(max-width:900px)").matches) {
+      const a = arts.get(current);
+      if (a) a.scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion:reduce)").matches ? "auto" : "smooth" });
+    }
+  });
+
+  render();
+}
+
+return {catalog};
+})();
+__m["../widgets/run/locator.js"]=(function(){
+/* locator runtime — scores every passage for the chosen question, draws the meters, and
+ * re-scores as sentences are removed. Data comes from the rendered HTML (escaped attributes
+ * and the sentences' own text); the weights are matched as plain substrings. */
+function locator(root) {
+  const box = root.querySelector(".lc");
+  if (!box) return;
+  const temp = Number(box.dataset.temp) > 0 ? Number(box.dataset.temp) : 2.5;
+  let mode = box.dataset.mode === "absolute" ? "absolute" : "relative";
+  const qBtns = [...root.querySelectorAll(".lc-q")];
+  const qs = qBtns.map((b) => {
+    let w = [];
+    try { w = JSON.parse(b.dataset.wt || "[]"); } catch (e) { w = []; }
+    w = Array.isArray(w) ? w.filter((x) => Array.isArray(x) && typeof x[0] === "string" && x[0] && Number.isFinite(x[1])) : [];
+    const n = (v, d) => (Number.isFinite(Number(v)) ? Number(v) : d);
+    return { w, bias: n(b.dataset.bias, 2.5), none: n(b.dataset.none, 2) };
+  });
+  const paras = [...root.querySelectorAll(".lc-p")].map((p) => ({
+    el: p, meter: p.querySelector(".lc-m"),
+    sents: [...p.querySelectorAll(".lc-s")].map((s) => ({ el: s, text: s.textContent.toLowerCase(), gone: false })),
+  }));
+  const noneLine = root.querySelector(".lc-none");
+  let qi = 0;
+
+  function raw(p, all) {
+    const w = qs[qi].w;
+    let t = 0;
+    for (const s of p.sents) {
+      if (!all && s.gone) continue;
+      for (const [ph, v] of w) if (s.text.includes(ph)) t += v;
+    }
+    return t;
+  }
+  function probs(all) {
+    const r = paras.map((p) => raw(p, all)), Q = qs[qi];
+    if (mode === "absolute") return { p: r.map((x) => 1 / (1 + Math.exp(-(x - Q.bias)))), none: null };
+    const e = r.map((x) => Math.exp(x / temp)), en = Math.exp(Q.none / temp);
+    const z = en + e.reduce((a, b) => a + b, 0);
+    return { p: e.map((x) => x / z), none: en / z };
+  }
+  function draw() {
+    const now = probs(false), base = probs(true);
+    const top = now.p.indexOf(Math.max(...now.p));
+    paras.forEach((para, i) => {
+      const p = now.p[i], d = p - base.p[i];
+      para.el.classList.toggle("top", i === top && (now.none === null || p > now.none));
+      const delta = Math.abs(d) >= 0.01 ? ` <span class="lc-d${d > 0 ? " up" : ""}">${d > 0 ? "+" : "−"}${Math.abs(d).toFixed(2)}</span>` : "";
+      para.meter.innerHTML = `<div class="lc-track"><div class="lc-fill" style="width:${(p * 100).toFixed(1)}%"></div></div>${p.toFixed(2)}${delta}`;
+      for (const s of para.sents) {
+        s.el.classList.toggle("gone", s.gone);
+        s.el.setAttribute("aria-pressed", String(s.gone));
+        s.el.setAttribute("aria-label", (s.gone ? "Restore: " : "Remove: ") + s.el.textContent);
+      }
+    });
+    noneLine.textContent = now.none === null
+      ? "Each passage is scored on its own, so the values do not sum to 1."
+      : "The values sum to 1 across the passages plus a “none of these” option, now at " + now.none.toFixed(2) + ".";
+  }
+
+  qBtns.forEach((b, i) => b.addEventListener("click", () => {
+    qi = i;
+    qBtns.forEach((x, j) => x.setAttribute("aria-pressed", String(j === i)));
+    draw();
+  }));
+  root.querySelectorAll(".lc-mode button").forEach((b) => b.addEventListener("click", () => {
+    mode = b.dataset.m === "absolute" ? "absolute" : "relative";
+    root.querySelectorAll(".lc-mode button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    draw();
+  }));
+  paras.forEach((p) => p.sents.forEach((s) => s.el.addEventListener("click", () => { s.gone = !s.gone; draw(); })));
+  const restore = root.querySelector(".lc-restore");
+  if (restore) restore.addEventListener("click", () => { paras.forEach((p) => p.sents.forEach((s) => { s.gone = false; })); draw(); });
+  draw();
+}
+
+return {locator};
+})();
+__m["../widgets/run/splits.js"]=(function(){
+/* splits runtime — generates the seeded items from the spec, applies the chosen fixes, and
+ * redraws the split matrix, the win counts and the findings. Names reach the page only as
+ * textContent. */
+const { rng } = __m["../lib/rand.js"];
+
+function splits(root) {
+  const box = root.querySelector(".sp");
+  if (!box) return;
+  let spec;
+  try { spec = JSON.parse(box.dataset.spec || "{}"); } catch (e) { return; }
+  const cats = Array.isArray(spec.cats) ? spec.cats.filter((c) => typeof c === "string").slice(0, 40) : [];
+  if (cats.length < 2) return;
+  const escape = typeof spec.escape === "string" ? spec.escape : "";
+
+  // the items, exactly as the original demo made them: pick an alternative (one draw, only
+  // when there is a choice), noise for every category, then each entry's a + r·b; normalise
+  const r = rng(spec.seed | 0), items = [];
+  for (const g of Array.isArray(spec.groups) ? spec.groups : []) {
+    const alts = Array.isArray(g.alts) && g.alts.length ? g.alts : [[]];
+    const n = Math.min(2000, Math.max(0, g.n | 0));
+    for (let i = 0; i < n && items.length < 2000; i++) {
+      const alt = alts.length > 1 ? alts[Math.min(alts.length - 1, Math.floor(r() * alts.length))] : alts[0];
+      const v = cats.map(() => 0.01 + r() * 0.03);
+      for (const e of alt) {
+        const k = cats.indexOf(e[0]);
+        const add = Number(e[1]) + r() * Number(e[2]);
+        if (k >= 0 && Number.isFinite(add)) v[k] += add;
+      }
+      const z = v.reduce((a, b) => a + b, 0);
+      items.push(v.map((x) => x / z));
+    }
+  }
+  const fixes = Array.isArray(spec.fixes) ? spec.fixes : [];
+  const applied = fixes.map(() => false);
+
+  const slider = root.querySelector(".sp-margin"), out = root.querySelector(".sp-ctrl output");
+  const mx = root.querySelector(".sp-mx"), winsBox = root.querySelector(".sp-wins"), find = root.querySelector(".sp-find");
+  const fixBtns = [...root.querySelectorAll(".sp-fix")];
+  const stat = root.querySelector(".sp-static");
+  if (stat) stat.hidden = true;
+
+  function current() {
+    let C = cats.slice();
+    const map = {};
+    cats.forEach((c) => { map[c] = c; });
+    fixes.forEach((f, i) => {
+      if (!applied[i] || !Array.isArray(f.from)) return;
+      const src = f.from.filter((s) => C.includes(s));
+      if (!src.length || typeof f.to !== "string" || !f.to) return;
+      if (C.includes(f.to)) C = C.filter((c) => c === f.to || !src.includes(c));
+      else { const at = C.indexOf(src[0]); C = C.map((c, k) => (k === at ? f.to : c)).filter((c) => !src.includes(c) || c === f.to); }
+      for (const k of cats) if (src.includes(map[k])) map[k] = f.to;
+    });
+    return { C, map };
+  }
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+
+  function draw() {
+    const mg = Number(slider.value);
+    out.textContent = mg.toFixed(2);
+    const { C, map } = current();
+    const n = C.length, pair = {}, wins = {};
+    C.forEach((c) => { wins[c] = 0; });
+    for (const v of items) {
+      const o = {};
+      cats.forEach((c, i) => { o[map[c]] = (o[map[c]] || 0) + v[i]; });
+      const srt = C.slice().sort((a, b) => o[b] - o[a]);
+      wins[srt[0]]++;
+      if (o[srt[0]] - o[srt[1]] < mg) {
+        const k = [srt[0], srt[1]].sort((a, b) => C.indexOf(a) - C.indexOf(b)).join("|");
+        pair[k] = (pair[k] || 0) + 1;
+      }
+    }
+
+    mx.textContent = "";
+    mx.style.setProperty("--n", n);
+    const row = () => { const r2 = el("div", "sp-row"); r2.setAttribute("role", "row"); mx.appendChild(r2); return r2; };
+    const hr = row();
+    hr.appendChild(el("div", "sp-cell sp-h"));
+    C.forEach((c) => { const h = el("div", "sp-cell sp-hc", c); h.setAttribute("role", "columnheader"); hr.appendChild(h); });
+    const maxv = Math.max(1, ...Object.values(pair));
+    C.forEach((a, i) => {
+      const tr = row();
+      const rh = el("div", "sp-cell sp-h", a);
+      rh.setAttribute("role", "rowheader");
+      tr.appendChild(rh);
+      C.forEach((b2, j) => {
+        if (j <= i) { const e = el("div", "sp-cell sp-x"); e.setAttribute("role", "cell"); tr.appendChild(e); return; }
+        const v = pair[a + "|" + b2] || 0, t = v / maxv;
+        const cell = el("div", "sp-cell sp-c" + (v ? " on" : "") + (t > 0.45 ? " hot" : ""), v ? String(v) : "");
+        cell.setAttribute("role", "cell");
+        cell.setAttribute("aria-label", a + " and " + b2 + ": " + v + " split" + (v === 1 ? "" : "s"));
+        if (v) cell.style.background = "color-mix(in srgb, var(--accent) " + Math.round((0.12 + 0.88 * t) * 100) + "%, var(--surface-2))";
+        tr.appendChild(cell);
+      });
+    });
+
+    winsBox.textContent = "";
+    winsBox.appendChild(el("div", "sp-lab", "Times each category won (of " + items.length + ")"));
+    const mw = Math.max(1, ...C.map((c) => wins[c]));
+    C.forEach((c) => {
+      const dead = wins[c] <= 1 && c !== escape;
+      const row = el("div", "sp-win" + (dead ? " dead" : ""));
+      row.appendChild(el("span", "sp-wn", c));
+      const bar = el("span", "sp-bar");
+      bar.style.width = Math.max(2, (wins[c] / mw) * 100) + "%";
+      const track = el("span", "sp-track");
+      track.appendChild(bar);
+      row.appendChild(track);
+      row.appendChild(el("span", "sp-wc", String(wins[c])));
+      winsBox.appendChild(row);
+    });
+
+    find.textContent = "";
+    const li = (bold, rest) => { const l = el("li"); l.appendChild(el("b", null, bold)); l.appendChild(document.createTextNode(rest)); find.appendChild(l); };
+    Object.keys(pair).sort((a, b) => pair[b] - pair[a]).slice(0, 2).forEach((k) => {
+      if (pair[k] >= 4) li(k.replace("|", " / "), " split on " + pair[k] + " of " + items.length + " items. Sharpen the definitions or merge them.");
+    });
+    C.forEach((c) => {
+      if (wins[c] <= 1 && c !== escape) li(c, " won " + wins[c] + " time" + (wins[c] === 1 ? "" : "s") + ". It is either rare in this sample or absorbed by a neighbour.");
+    });
+    if (escape && C.includes(escape)) li(escape, " won " + wins[escape] + " of " + items.length + ". A high rate would point to a missing category.");
+    fixBtns.forEach((b2) => { b2.disabled = !!applied[+b2.dataset.i]; });
+  }
+
+  slider.addEventListener("input", draw);
+  fixBtns.forEach((b2) => b2.addEventListener("click", () => { applied[+b2.dataset.i] = true; draw(); }));
+  const reset = root.querySelector(".sp-reset");
+  if (reset) reset.addEventListener("click", () => { applied.fill(false); draw(); });
+  draw();
+}
+
+return {splits};
+})();
 __m["hydrate.js"]=(function(){
 /* hydrate.js — every widget runtime, for the viewer (the file target includes only those used). */
 const { timeline } = __m["../widgets/run/timeline.js"];
@@ -2112,8 +3967,13 @@ const { router } = __m["../widgets/run/router.js"];
 const { tree } = __m["../widgets/run/tree.js"];
 const { quiz } = __m["../widgets/run/quiz.js"];
 const { checklist } = __m["../widgets/run/checklist.js"];
+const { calc } = __m["../widgets/run/calc.js"];
+const { triage } = __m["../widgets/run/triage.js"];
+const { catalog } = __m["../widgets/run/catalog.js"];
+const { locator } = __m["../widgets/run/locator.js"];
+const { splits } = __m["../widgets/run/splits.js"];
 
-const HYDRATE = { timeline, stepper, router, tree, quiz, checklist };
+const HYDRATE = { timeline, stepper, router, tree, quiz, checklist, calc, triage, catalog, locator, splits };
 
 return {HYDRATE};
 })();

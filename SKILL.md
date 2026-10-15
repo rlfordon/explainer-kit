@@ -34,6 +34,10 @@ headline that states the point, not the topic. Pick widgets for what the reader 
 | compare options side by side | a `{.compare}` table |
 | unlearn something | `myths` |
 | act | `checklist` |
+| work out a number from their own inputs (fees, costs, deadlines) | `calc` |
+| see a share or a comparison of amounts | `bars`, `waffle` |
+| see how thresholds trade errors against workload | `triage` |
+| browse or filter a set of options, cases or ideas | `catalog` |
 | check understanding | `quiz` (public explainers; rarely client pages) |
 
 At least two interactive widgets on a public explainer; on a client page, only what earns

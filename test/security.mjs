@@ -38,6 +38,8 @@ const r = await page.evaluate(() => ({
   handlers: [...document.querySelectorAll("#x-root *")].filter((e) => [...e.attributes].some((a) => /^on/i.test(a.name))).length,
   badLinks: [...document.querySelectorAll("#x-root a")].map((a) => a.getAttribute("href")).filter((h) => !/^(https?:\/\/|mailto:|tel:|#)/.test(h)),
   bodyHidden: getComputedStyle(document.body).display === "none",
+  // the hostile fences for the data-driven widgets must still render (inertly), not vanish
+  missing: [".w-calc", ".w-triage", ".w-catalog", ".bars", ".waffle", ".w-locator", ".w-splits"].filter((s) => !document.querySelector("#x-root " + s)),
   rendered: !!document.querySelector("#x-root main:not(.x-msg)") && !!document.querySelector(".x-origin .x-signed"),
 }));
 await browser.close();
@@ -50,6 +52,7 @@ if (r.media) fails.push(`${r.media} img/svg/iframe/object element(s) in the page
 if (r.handlers) fails.push(`${r.handlers} element(s) carry on* handlers`);
 if (r.badLinks.length) fails.push("unsafe hrefs: " + r.badLinks.join(", "));
 if (r.bodyHidden) fails.push("CSS injection hid the page");
+if (r.missing.length) fails.push("these widgets did not render: " + r.missing.join(", "));
 if (dialogs) fails.push(`${dialogs} dialog(s) opened`);
 if (requests.length) fails.push("network requests: " + requests.join(", "));
 console.log(fails.length ? "FAIL\n  • " + fails.join("\n  • ") : "ok — hostile link rendered inert (no script, handlers, media, unsafe links, CSS escape, dialogs or requests)");

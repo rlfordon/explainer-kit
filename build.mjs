@@ -23,7 +23,7 @@ import { createHash } from "node:crypto";
 import { deflateRawSync } from "node:zlib";
 import { renderPage } from "./lib/page.js";
 import { themeCss, fontLink } from "./lib/theme.js";
-import { RUNTIME, STATIC } from "./lib/widgets.js";
+import { RUNTIME, STATIC, WIDGETS } from "./lib/widgets.js";
 import { bundle, modRef } from "./lib/bundle.mjs";
 import { encodeFragment } from "./lib/codec.js";
 import { esc } from "./lib/md.js";
@@ -99,7 +99,7 @@ export function buildViewer(out = join(HERE, "viewer/index.html"), { keys = load
   const script = bundle([join(HERE, "viewer/boot.js")]);
   const hash = createHash("sha256").update(script, "utf8").digest("base64");
   // the themes' fonts are served from the viewer's own folder (fonts/), so font-src 'self'
-  const css = minCss(read("fonts/fonts.css") + widgetCss(RUNTIME) + read("viewer/viewer.css"));
+  const css = minCss(read("fonts/fonts.css") + widgetCss(Object.keys(WIDGETS)) + read("viewer/viewer.css"));
   const csp = `default-src 'none'; script-src 'sha256-${hash}'; style-src 'unsafe-inline'; img-src data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'`;
   const html = `<!DOCTYPE html>
 <html lang="en">

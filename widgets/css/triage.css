@@ -1,0 +1,44 @@
+/* triage (from the two-threshold demos in the Jev pages); controls reuse calc's .cx-ctrls */
+.w-triage .tg-scen{grid-column:1/-1}
+.tg-wrap{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s3);margin:var(--s2) 0 var(--s5)}
+.tg-wrap.has-rows{grid-template-columns:auto minmax(0,1fr)}
+.tg-rows{display:grid;grid-template-rows:repeat(var(--rows,1),1fr);height:calc(var(--rows,1)*64px);margin-top:26px}
+.tg-rows span{display:flex;align-items:center;justify-content:flex-end;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--ink-2);text-align:right;line-height:1.3;max-width:13ch}
+.tg-main{min-width:0;padding:0 8px}
+.tg-plot{position:relative;height:220px;border-bottom:1.5px solid var(--ink)}
+.has-rows .tg-plot{height:calc(var(--rows,1)*64px)}
+.tg-band{position:absolute;top:0;bottom:0;transition:left .1s,width .1s}
+.tg-band.low{background:var(--bad-dim)}
+.tg-band.mid{background:var(--warn-dim)}
+.tg-band.high{background:var(--ok-dim)}
+.tg-band span{position:absolute;top:-22px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tg-band.low span{color:var(--bad)} .tg-band.mid span{color:var(--warn)} .tg-band.high span{color:var(--ok)}
+.tg-plot{margin-top:26px}
+.tg-line{position:absolute;top:-4px;bottom:0;width:2px;margin-left:-1px;background:var(--ink);transition:left .1s}
+.tg-dot{position:absolute;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--dc,var(--c,var(--accent)));border:2px solid var(--dc,var(--c,var(--accent)));opacity:.85;transition:left .15s}
+.tg-dot.ring{background:var(--surface-2);opacity:1}
+.tg-dot.err{width:13px;height:13px;margin:-6.5px 0 0 -6.5px;border-color:var(--ink);border-width:2.5px;opacity:1;z-index:2}
+.tg-axis{position:relative;height:24px;margin-top:4px}
+.tg-axis span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--ink-3)}
+.tg-axlab{text-align:center;font-size:13.5px;color:var(--ink-3);margin-top:2px}
+.tg-legend{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s5);font-size:14px;color:var(--ink-2);margin-bottom:var(--s4)}
+.tg-legend span{display:inline-flex;align-items:center;gap:8px}
+.tg-legend .tg-dot{position:static;margin:0;flex:none}
+.tg-stack{display:flex;height:10px;border-radius:5px;overflow:hidden;margin-bottom:var(--s5);background:var(--raise)}
+.tg-stack span{display:block;height:100%;transition:width .15s}
+.tg-stack .low{background:var(--bad)} .tg-stack .mid{background:var(--warn)} .tg-stack .high{background:var(--ok)}
+.tg-read{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s5)}
+.tg-z{display:flex;gap:var(--s3);align-items:baseline;border-top:3px solid var(--zc);padding-top:var(--s3);min-width:0}
+.tg-z.low{--zc:var(--bad)} .tg-z.mid{--zc:var(--warn)} .tg-z.high{--zc:var(--ok)}
+.tg-z b{font-family:var(--disp);font-size:32px;font-weight:600;line-height:1;color:var(--zc);font-variant-numeric:tabular-nums}
+.tg-z span{font-size:14.5px;color:var(--ink-2);line-height:1.45}
+.tg-say{margin-top:var(--s5)}
+@media (max-width:760px){
+  .tg-read{grid-template-columns:1fr}
+  .tg-plot{height:200px}
+  .tg-dot{width:8px;height:8px;margin:-4px 0 0 -4px}
+  .tg-dot.err{width:11px;height:11px;margin:-5.5px 0 0 -5.5px}
+  .tg-wrap.has-rows{grid-template-columns:minmax(0,1fr)}
+  .tg-rows{display:none}
+}
+@media (prefers-reduced-motion:reduce){.tg-band,.tg-line,.tg-dot,.tg-stack span{transition:none}}

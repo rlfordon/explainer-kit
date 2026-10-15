@@ -24,6 +24,8 @@ node build.mjs examples/client-options.md --check  # warnings and link size; wri
 node test/check.mjs examples/client-options.html --shots shots/   # click everything, screenshot
 node test/security.mjs                         # a hostile link must render inert
 node test/signing.mjs                          # unsigned or altered links must be refused
+node test/expr.mjs                             # formulas: right answers, hostile ones rejected
+node test/live.mjs                             # the hosted viewer opens signed links only
 ```
 
 Build flags: `-o out.html`, `--no-review` (skip the overlay), `--chat` (add the chat dock),
@@ -116,8 +118,22 @@ A fence whose language names a widget renders that widget. Tables inside fences 
 | `callout` | `kind=note\|key\|warn\|flag title="…"` | Markdown |
 | `deeper` | folded "go deeper" text, `title="…"` | Markdown |
 | `glossary` | terms, or `{.grid}` for a definitions grid | `Term \| Meaning` |
+| `bars` | bar charts; `.stack` for one part-to-whole bar, `.peak` to highlight the largest | `Label \| Value` (shown as written; `max=` sets the scale) |
+| `waffle` | one square per item, coloured by category | `Category \| Count \| Colour`; a count of `rest` fills up to `total=` |
+| `calc` | calculators: sliders, choices and presets feeding formulas | one instruction per line: `slider`, `choice`, `preset`, `let`, `result`, `meter`, `say` |
+| `triage` | scored items split by two thresholds, with errors and a scenario switch | `class` lines, scores per class, `scenario`, `zone` and `say` lines |
+| `catalog` | filter, search and browse a set of items: grouped rows, or a `.split` list and detail | a table with `:facet`, `:group`, `:detail` and `:code` columns |
+| `locator` | where in a document the answer lives; remove a sentence to see what drove it | `question:` and `passage Label:` lines |
+| `splits` | debugging a set of categories from how items split between them | `categories:`, seeded item groups, `fix` merges |
 
 Interactive widgets take `title="…" hint="…"` and sit in the shared demo card.
+
+**Formulas.** `calc` and `triage` compute with formulas written in a small language of their
+own (`lib/expr.js`): numbers, `+ - * / % ^`, comparisons, `&& || !`, `a ? b : c`, and the
+functions `min max abs round floor ceil sqrt exp ln log10 pow clamp sigmoid logit sign`.
+Text can show a live value with `{formula}` or `{formula | format}`, where the format is one
+of `int count money percent pct1 duration dec0`–`dec3`. The kit parses a formula itself and
+never hands it to the browser to run, so a link can carry a calculator safely.
 
 ### Custom pieces (file target only)
 
@@ -194,13 +210,17 @@ lib/widgets.js       the widget registry
 lib/codec.js         source ↔ fragment; signature check (runs in Node and the browser)
 lib/keys.mjs         signing keys: make, load, sign (Node only)
 lib/bundle.mjs       a tiny bundler, so the viewer and pages ship one inline script
+lib/expr.js          the formula language and number formats (calc, triage)
+lib/live.js          live {formula} values inside widget text
+lib/rand.js          seeded randomness, so generated demos look the same on every load
 widgets/*.js         renderers (static HTML, readable without script, printable)
 widgets/run/*.js     runtimes (hydrate [data-w] elements)
 widgets/css/*.css    one stylesheet per widget; css/base.css is the shared shell
 viewer/              boot.js + hydrate.js + viewer.css → index.html (generated)
 vendor/html-explainer/  review-mode.js, chat-dock.js, assemble.mjs (MIT, Derek Schwede)
 test/                check.mjs (exercise + screenshot), security.mjs + evil.md, signing.mjs,
-                     keyed.mjs (a throwaway key and viewer, so tests never touch yours)
+                     keyed.mjs (a throwaway key and viewer, so tests never touch yours),
+                     expr.mjs, live.mjs; widgets/*.md, one test page per new widget
 ```
 
 ## Next

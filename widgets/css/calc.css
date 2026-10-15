@@ -1,0 +1,12 @@
+/* calc (from jev-legal-research.html's cost demo) */
+.cx-presets{display:flex;flex-wrap:wrap;gap:var(--s2);margin-bottom:var(--s5)}
+.cx-presets .btn{font-size:14px;padding:9px 14px}
+.cx-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--s5);margin-bottom:var(--s5)}
+.cx-res{border-top:3px solid var(--accent);padding-top:var(--s3);min-width:0}
+.cx-res b{display:block;font-family:var(--disp);font-size:clamp(26px,3.4vw,36px);font-weight:600;line-height:1.1;color:var(--ink);margin-bottom:6px;overflow-wrap:anywhere}
+.cx-res span{display:block;font-size:14.5px;color:var(--ink-2);line-height:1.45}
+.cx-meter{margin:var(--s4) 0 var(--s3)}
+.cx-track{height:12px;background:var(--raise);border-radius:6px;overflow:hidden}
+.cx-fill{height:100%;background:var(--accent);border-radius:6px;transition:width .15s}
+.cx-fill.over{background:var(--bad)}
+@media (prefers-reduced-motion:reduce){.cx-fill{transition:none}}

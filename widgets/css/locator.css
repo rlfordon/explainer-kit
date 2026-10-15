@@ -1,0 +1,30 @@
+/* locator (from jev-beyond-classification.html's heat map) */
+.lc{display:grid;grid-template-columns:minmax(240px,1fr) minmax(0,2fr);gap:var(--s6);align-items:start}
+.lc>*{min-width:0}
+.lc-qs{display:flex;flex-direction:column;gap:var(--s2);margin-bottom:var(--s5)}
+.lc-q{appearance:none;text-align:left;font-family:var(--sans);font-size:14.5px;line-height:1.45;color:var(--ink);padding:10px 12px;min-height:40px;border:1.5px solid var(--line-2);border-radius:var(--r);background:var(--surface);cursor:pointer}
+.lc-q:hover{background:var(--raise)}
+.lc-q[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-dim);font-weight:600}
+.lc-ctrl{margin-bottom:var(--s5)}
+.lc-ctrl .clab{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:var(--s2)}
+.lc-note{margin:var(--s4) 0 0}
+.lc-op{display:flex;flex-direction:column}
+.lc-p{display:grid;grid-template-columns:140px minmax(0,1fr);gap:var(--s4);align-items:start;padding:var(--s3) 0;border-bottom:1px solid var(--line)}
+.lc-p:first-child{padding-top:0}
+.lc-m{font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.lc-track{height:12px;background:var(--raise);border-radius:3px;overflow:hidden;margin-bottom:4px}
+.lc-fill{height:100%;background:var(--accent);transition:width .25s}
+@media (prefers-reduced-motion:reduce){.lc-fill{transition:none}}
+.lc-d{color:var(--bad)}
+.lc-d.up{color:var(--ok)}
+.lc-t{font-size:15px;line-height:1.6;padding-left:var(--s3)}
+.lc-p.top .lc-t{box-shadow:inset 4px 0 0 var(--accent)}
+.lc-tag{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:2px}
+.lc-s{appearance:none;display:inline;font:inherit;color:inherit;text-align:left;background:none;border:0;padding:0 2px;margin:0;border-radius:3px;cursor:pointer}
+.lc-s:hover{background:var(--warn-dim)}
+.lc-s.gone{text-decoration:line-through;color:var(--ink-3)}
+.lc-s:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.lc-none{margin:var(--s3) 0 0;font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+@media (max-width:900px){.lc{grid-template-columns:1fr}}
+@media (max-width:600px){.lc-p{grid-template-columns:1fr;gap:var(--s2)}.lc-t{padding-left:var(--s3)}}
+@media print{.lc-restore{display:none}}

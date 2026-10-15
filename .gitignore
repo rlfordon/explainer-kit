@@ -2,3 +2,4 @@ node_modules/
 shots/
 viewer/fonts/
 *.local.json
+test/widgets/*.html

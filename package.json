@@ -9,7 +9,9 @@
     "check": "node test/check.mjs",
     "security": "node test/security.mjs",
     "signing": "node test/signing.mjs",
-    "keygen": "node build.mjs --keygen"
+    "keygen": "node build.mjs --keygen",
+    "expr": "node test/expr.mjs",
+    "live": "node test/live.mjs"
   },
   "devDependencies": {
     "playwright": "1.62.1"

@@ -1,0 +1,38 @@
+/* splits (from jev-beyond-classification.html's taxonomy debugger) */
+.sp{display:grid;grid-template-columns:minmax(240px,1fr) minmax(0,2fr);gap:var(--s6);align-items:start}
+.sp>*{min-width:0}
+.sp-ctrl{margin-bottom:var(--s5)}
+.sp-ctrl label{display:flex;justify-content:space-between;gap:var(--s3);align-items:baseline;font-family:var(--sans);font-size:14px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.sp-ctrl output{font-family:var(--mono);flex:none}
+.sp-ctrl input[type=range]{width:100%;height:28px;accent-color:var(--ink);margin:0}
+.sp-fixes{display:flex;flex-wrap:wrap;gap:var(--s2)}
+.sp-fixes .btn{font-size:14px;padding:9px 16px;min-height:40px}
+.sp-find{margin:var(--s4) 0 0;padding-left:18px;font-size:14.5px;color:var(--ink-2)}
+.sp-find li{margin-bottom:6px}
+.sp-find b{color:var(--ink)}
+.sp-note{margin:var(--s4) 0 0}
+.sp-mxwrap{overflow-x:auto}
+.sp-mx{display:grid;grid-template-columns:110px repeat(var(--n,8),minmax(34px,1fr));gap:3px;font-family:var(--mono);font-size:12px;font-weight:500}
+.sp-row{display:contents}
+.sp-mx .sp-cell{min-height:38px;display:flex;align-items:center;justify-content:center;border-radius:4px}
+.sp-mx .sp-h{color:var(--ink-2);font-weight:700;justify-content:flex-start;padding-right:6px;overflow-wrap:break-word;line-height:1.2}
+.sp-mx .sp-hc{writing-mode:vertical-rl;transform:rotate(180deg);justify-content:flex-end;min-height:88px;padding:4px 0;color:var(--ink-2);font-weight:700}
+.sp-c{background:var(--raise);color:var(--ink)}
+.sp-c.on{font-weight:700}
+.sp-c.hot{color:var(--bg)}
+.sp-wins{margin-top:var(--s5);display:flex;flex-direction:column;gap:6px}
+.sp-lab{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
+.sp-win{display:grid;grid-template-columns:120px minmax(0,1fr) 40px;gap:var(--s3);align-items:center;font-size:13px;color:var(--ink-2)}
+.sp-track{display:block}
+.sp-bar{display:block;height:12px;background:var(--accent);border-radius:3px}
+.sp-win.dead .sp-bar{background:var(--bad)}
+.sp-win.dead .sp-wn{color:color-mix(in srgb,var(--bad) 70%,var(--ink))}
+.sp-wc{font-family:var(--mono);text-align:right}
+.sp-static{font-size:14.5px;color:var(--ink-2);margin:0}
+@media (max-width:900px){.sp{grid-template-columns:1fr}}
+@media (max-width:600px){
+  .sp-mx{grid-template-columns:96px repeat(var(--n,8),minmax(24px,1fr))}
+  .sp-mx .sp-h{font-size:10.5px}
+  .sp-win{grid-template-columns:96px minmax(0,1fr) 32px}
+}
+@media print{.sp-fixes,.sp-ctrl input{display:none}}
