@@ -36,6 +36,8 @@ Build flags: `-o out.html`, `--no-review` (skip the overlay), `--chat` (add the 
 |---|---|---|---|
 | `examples/client-options.md` — a client page: timeline, options, decision tree, next steps | 6 KB | 70 KB | 3,285 chars, signed (chat-friendly) |
 | `examples/fbi-cia-nsa.md` — a full port of `html-explainer/fbi-cia-nsa.html` | 32 KB | 110 KB | 14,882 chars, signed (email) |
+| `examples/jev-legal-research.md` — the Jev legal-research guide: catalog, triage, calc, bars | 32 KB | 178 KB | 18,415 chars, signed (very long) |
+| `examples/jev-beyond-classification.md` — the Jev pattern atlas: waffle, catalog, triage, locator, splits | 31 KB | 204 KB | 16,325 chars, signed (email) |
 
 ## The source format
 
