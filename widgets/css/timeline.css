@@ -1,0 +1,49 @@
+/* timeline (from fbi-cia-nsa.html) */
+.tl{position:relative;margin:var(--s5) 0 0}
+.tl-list{list-style:none;padding:0;margin:0;border-left:2px solid var(--line-2)}
+.tl-list li{padding:0 0 var(--s4) var(--s4);position:relative}
+.tl-list .tl-y{display:block;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent)}
+.tl-list .tl-t{display:block;font-family:var(--disp);font-size:18px}
+.tl-list .tl-b{display:block;font-size:15px;color:var(--ink-2)}
+.tl-live{padding-top:var(--s6)}
+.tl-track{position:relative;height:230px;border-bottom:2px solid var(--line-2)}
+.tl-node{position:absolute;transform:translateX(-50%)}
+.tl-stem{position:absolute;left:50%;width:1px;background:var(--line-2);transform:translateX(-50%)}
+.tl-dot{position:relative;width:13px;height:13px;border-radius:50%;background:var(--surface-2);border:2px solid var(--ink);margin:0 auto;cursor:pointer;padding:0;display:block}
+.tl-dot.k1{border-radius:2px;background:var(--ink)}
+.tl-dot.k2{background:var(--accent);border-color:var(--accent)}
+.tl-dot.k3{background:var(--ok);border-color:var(--ok)}
+.tl-dot.kt{background:var(--c);border-color:var(--c)}
+.tl-dot.future{background:var(--surface-2);border-style:dashed}
+.tl-dot.kt.future{border-color:var(--c)}
+.tl-dot:hover{box-shadow:0 0 0 3px var(--raise)}
+.tl-dot.on{outline:2.5px solid var(--ink);outline-offset:3px}
+.tl-dot:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.tl-today{position:absolute;top:-8px;bottom:0;width:0;border-left:2px dashed var(--accent);z-index:0}
+.tl-today span{position:absolute;top:-18px;left:0;transform:translateX(-50%);font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.tl-key{display:flex;flex-wrap:wrap;gap:var(--s5);margin-top:var(--s4);font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--ink-3);align-items:center}
+.tl-key span{display:inline-flex;align-items:center;gap:7px}
+.tl-key i{width:11px;height:11px;border:2px solid var(--ink);border-radius:50%;background:var(--surface-2);flex:none}
+.tl-key i.k1{border-radius:2px;background:var(--ink)}
+.tl-key i.k2{background:var(--accent);border-color:var(--accent)}
+.tl-key i.k3{background:var(--ok);border-color:var(--ok)}
+.tl-key i.kt{background:var(--c);border-color:var(--c)}
+.tl-key i.fut{border-style:dashed}
+.tl-yr{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--ink-3);text-align:center;margin-top:5px;white-space:nowrap}
+.tl-node.on .tl-yr{color:var(--ink)}
+.tl-axis{position:relative;height:20px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-3);margin-top:var(--s2)}
+.tl-tick{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+.tl-tick.first{transform:none;left:0!important}
+.tl-tick.last{transform:none;left:auto!important;right:0}
+.tl-track.vert{height:auto;border-bottom:0;border-left:2px solid var(--line-2);margin-left:6px}
+.tl-track.vert .tl-node{transform:none;left:0;display:flex;align-items:flex-start;gap:12px;width:100%}
+.tl-track.vert .tl-stem{display:none}
+.tl-track.vert .tl-dot{margin:2px 0 0 -8px;flex:none}
+.tl-vlab{font-size:14px;line-height:1.4;color:var(--ink-2);padding-right:var(--s3)}
+.tl-vlab .vy{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--ink-3);margin-right:7px}
+.tl-node.on .tl-vlab{color:var(--ink)}
+.tl-node.on .tl-vlab .vy{color:var(--accent)}
+.tl-panel{margin-top:var(--s5);border:1px solid var(--line-2);background:var(--surface-2);border-radius:var(--r);padding:var(--s5);min-height:120px}
+.tl-panel .py{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.09em;color:var(--accent);margin-bottom:var(--s2)}
+.tl-panel h4{font-size:22px;margin:0 0 var(--s3)}
+.tl-panel p{font-size:16px;color:var(--ink-2);max-width:70ch;margin:0}

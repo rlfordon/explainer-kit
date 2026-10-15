@@ -1,0 +1,17 @@
+{
+  "name": "explainer-kit",
+  "private": true,
+  "type": "module",
+  "description": "Modular explainers: a Markdown source format, a widget library, a standalone-file build and a private link viewer. A meld of html-explainer and Tiny Little Office.",
+  "scripts": {
+    "build": "node build.mjs",
+    "viewer": "node build.mjs --viewer-only",
+    "check": "node test/check.mjs",
+    "security": "node test/security.mjs",
+    "signing": "node test/signing.mjs",
+    "keygen": "node build.mjs --keygen"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

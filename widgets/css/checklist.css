@@ -1,0 +1,12 @@
+/* checklist */
+.checklist{max-width:var(--measure);border:1px solid var(--line-2);background:var(--surface-2);border-radius:5px;margin:var(--s5) 0;overflow:hidden}
+.ck-head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s3);padding:var(--s4) var(--s5);border-bottom:1px solid var(--line);background:var(--surface)}
+.ck-head h3{font-size:20px;margin:0}
+.ck-count{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-left:auto}
+.checklist ul{list-style:none;margin:0;padding:var(--s2) var(--s5)}
+.checklist li{margin:0;border-bottom:1px solid var(--line)}
+.checklist li:last-child{border-bottom:0}
+.checklist label{display:flex;gap:var(--s3);align-items:flex-start;padding:var(--s3) 0;cursor:pointer;font-size:16px}
+.checklist input{width:18px;height:18px;margin:3px 0 0;flex:none;accent-color:var(--ok)}
+.checklist li.done span{color:var(--ink-3);text-decoration:line-through;text-decoration-color:var(--line-2)}
+.checklist span p{margin:4px 0 0;font-size:14.5px;color:var(--ink-2)}

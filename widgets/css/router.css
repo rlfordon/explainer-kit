@@ -1,0 +1,16 @@
+/* router (from fbi-cia-nsa.html's jurisdiction router) */
+.ctrls{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:var(--s5);margin-bottom:var(--s6)}
+.ctrl .clab{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:var(--s2)}
+.verdict{display:grid;grid-template-columns:1.4fr .95fr;gap:var(--s6);align-items:start}
+.verdict.solo{grid-template-columns:1fr}
+.verdict>*{min-width:0}
+.vmain{border-left:3px solid var(--ink);padding-left:var(--s5)}
+.vmain .authlab{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:var(--s2)}
+.vmain .auth{font-family:var(--disp);font-size:clamp(22px,3vw,30px);line-height:1.15;margin-bottom:var(--s3)}
+.vmain .badge{margin-bottom:var(--s3)}
+.vwhy{font-size:15.5px;color:var(--ink-2);max-width:56ch;margin:0}
+.roles{display:flex;flex-direction:column;gap:var(--s3);border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:var(--s4)}
+.role-row{display:flex;align-items:center;gap:var(--s3);font-size:14.5px;color:var(--ink-2);flex-wrap:wrap}
+.role-row .rlab{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);width:92px;flex:none}
+@media (max-width:900px){.ctrls{grid-template-columns:1fr}.verdict{grid-template-columns:1fr}}
+@media (max-width:640px){.vmain{padding-left:var(--s4)}}

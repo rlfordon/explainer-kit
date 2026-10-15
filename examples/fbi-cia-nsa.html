@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FBI, CIA, NSA: who does what, and under what law</title>
+<meta name="description" content="How the FBI, CIA, and NSA actually divide the work: purpose and target rather than subject matter. Jurisdiction, Title 18 vs Title 50, EO 12333, FISA Section 702, oversight, and where the three agencies overlap.">
+<meta name="generator" content="html-explainer/explainer build.mjs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;600;700;800&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{--s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--s8:64px;--s9:96px;--maxw:1180px;--measure:66ch;--r:4px}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--text);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+h1,h2,h3,h4{font-family:var(--disp);font-weight:600;line-height:1.14;margin:0;letter-spacing:-.012em;text-wrap:balance}
+p{margin:0 0 var(--s4)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-dim)}
+a:hover{border-bottom-color:var(--accent)}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+strong{font-weight:600;color:var(--ink)}
+mark{background:var(--accent-dim);color:inherit;padding:0 .15em;border-radius:2px}
+code{font-family:var(--mono);font-size:.88em;background:var(--raise);padding:.08em .35em;border-radius:3px}
+ul,ol{margin:0 0 var(--s4);padding-left:1.2em}
+li{margin-bottom:var(--s2)}
+blockquote{margin:0 0 var(--s4);padding-left:var(--s4);border-left:3px solid var(--line-2);color:var(--ink-2)}
+h3{font-size:21px;margin:var(--s6) 0 var(--s3)}
+h4{font-size:18px;margin:var(--s5) 0 var(--s2)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--s5)}
+.skip{position:absolute;left:-999px;top:0;background:var(--ink);color:var(--bg);padding:8px 12px;z-index:100}
+.skip:focus{left:8px;top:8px}
+.nav{position:sticky;top:0;z-index:60;background:var(--nav-bg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:var(--s5);height:54px}
+.brand{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;color:var(--ink)}
+.nav .links{display:flex;gap:var(--s4);margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.nav .links::-webkit-scrollbar{display:none}
+.nav .links a{font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap;padding:6px 0;border:0}
+.nav .links a:hover,.nav .links a.on{color:var(--accent)}
+.hero{border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--surface-2),var(--bg))}
+.hero .wrap{padding:var(--s9) var(--s5) var(--s8)}
+.hero h1{font-size:clamp(38px,6.2vw,68px);max-width:17ch;margin-bottom:var(--s5)}
+.hero .dek{font-size:20px;color:var(--ink-2);max-width:60ch;margin-bottom:var(--s7)}
+.hero p:not(.dek){max-width:var(--measure);color:var(--ink-2)}
+.hero-anim{animation:rise .6s ease-out both}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.hero-anim{animation:none}}
+.meta{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s5);font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);border-top:1px solid var(--line);padding-top:var(--s4);margin-top:var(--s6)}
+.section{padding:var(--s9) 0;border-top:1px solid var(--line)}
+section[id]{scroll-margin-top:72px}
+.band{background:var(--surface)}
+.eyebrow{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 var(--s3)}
+.eyebrow span{color:var(--ink-3)}
+.sechead{margin-bottom:var(--s6)}
+.sechead h2{font-size:clamp(28px,3.8vw,40px);max-width:17ch}
+.sechead .lede{font-size:18.5px;color:var(--ink-2);max-width:62ch;margin:var(--s3) 0 0}
+.split-head .sechead{max-width:none;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:var(--s7);align-items:end}
+.split-head .sechead .eyebrow{grid-column:1/-1}
+.split-head .sechead h2{max-width:18ch}
+.split-head .sechead .lede{margin:0;padding-bottom:6px}
+.secbody>p,.secbody>ul,.secbody>ol,.secbody>blockquote,.secbody>h3,.secbody>h4,.col>p,.col>ul,.col>ol{max-width:var(--measure)}
+.lede{font-size:18.5px;color:var(--ink-2);max-width:62ch}
+.note{font-family:var(--mono);font-size:12.5px;line-height:1.6;color:var(--ink-3);letter-spacing:.01em}
+.kicker{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 var(--s2)}
+.foot{margin-top:var(--s7);padding-top:var(--s5);border-top:1px solid var(--line);font-size:14.5px;color:var(--ink-3);max-width:var(--measure)}
+.pagefoot{border-top:1px solid var(--line);padding:var(--s6) 0 var(--s8);font-size:14.5px;color:var(--ink-3)}
+.pagefoot p{max-width:var(--measure)}
+.secbody>*:last-child,.col>*:last-child{margin-bottom:0}
+.tick{display:inline-block;width:13px;height:13px;border:1.5px solid var(--ink-3);border-radius:2px;margin-right:8px;vertical-align:-1px}
+.tick.on{background:var(--ink-3)}
+.cols{display:grid;gap:var(--s7);align-items:start}
+.cols-rule .col{border-top:2px solid var(--ink);padding-top:var(--s4)}
+.cols-rule .col h3{margin-top:0;font-size:19px}
+.cols-rule .col ul{list-style:none;padding:0;margin:0}
+.cols-rule .col li{font-size:15px;color:var(--ink-2);padding:var(--s3) 0;border-bottom:1px solid var(--line);line-height:1.5;margin:0}
+.cols-rule .col li strong{color:var(--ink)}
+.chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:3px;color:#fff;background:var(--c,var(--ink-2));white-space:nowrap;line-height:1.5;vertical-align:1px}
+.chip+.chip{margin-left:4px}
+.yes,.no{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.yes{color:var(--ok)} .no{color:var(--bad)}
+.ok,.bad,.warn,.flag{display:inline-flex;align-items:flex-start;gap:7px;font-family:var(--mono);font-size:12px;font-weight:600;line-height:1.45;letter-spacing:.05em;text-transform:uppercase;padding:5px 10px;border-radius:3px}
+.ok{background:var(--ok-dim);color:var(--ok)}
+.bad{background:var(--bad-dim);color:var(--bad)}
+.warn{background:var(--warn-dim);color:var(--warn)}
+.flag{color:var(--warn);border:1px solid currentColor;background:transparent}
+.muted{color:var(--ink-3);font-weight:400}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);background:var(--surface-2);border-radius:var(--r);margin:0 0 var(--s5)}
+table{border-collapse:collapse;width:100%;font-size:15.5px}
+table th,table td{text-align:left;vertical-align:top;padding:var(--s4);border-bottom:1px solid var(--line)}
+table thead th{position:sticky;top:0;background:var(--surface-2);border-bottom:2px solid var(--line-2);font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;z-index:2}
+table thead th.h-c{color:var(--c);box-shadow:inset 0 -3px 0 var(--c)}
+table.cmp tbody th{font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);width:180px;background:var(--surface)}
+table tr:last-child th,table tr:last-child td{border-bottom:0}
+table.data td{font-size:15px}
+.demo{border:1px solid var(--line-2);background:var(--surface-2);border-radius:5px;overflow:hidden;margin:var(--s7) 0 0}
+.secbody>.demo:first-child{margin-top:0}
+.demo-head{padding:var(--s4) var(--s5);border-bottom:1px solid var(--line);background:var(--surface);display:flex;flex-wrap:wrap;gap:var(--s3);align-items:baseline;justify-content:space-between}
+.demo-head h3{font-size:20px;margin:0}
+.demo-head .hint{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.demo-body{padding:var(--s6) var(--s5)}
+.omitted{border:1px dashed var(--line-2);border-radius:5px;padding:var(--s5);margin:var(--s6) 0;color:var(--ink-3);font-size:15px;max-width:var(--measure)}
+.omitted b{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.seg{display:flex;border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden}
+.seg button{flex:1;appearance:none;border:0;background:var(--surface);color:var(--ink-2);font-family:var(--sans);font-size:14px;font-weight:500;padding:11px 8px;cursor:pointer;line-height:1.3;border-right:1px solid var(--line-2)}
+.seg button:last-child{border-right:0}
+.seg button:hover{background:var(--raise)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.btnrow{display:flex;gap:var(--s3);align-items:center;margin-top:var(--s5);flex-wrap:wrap}
+.btn{appearance:none;font-family:var(--sans);font-size:15px;font-weight:600;padding:11px 22px;border-radius:var(--r);cursor:pointer;border:1px solid transparent;line-height:1.3}
+.btn-primary{background:var(--ink);color:var(--bg)}
+.btn-primary:hover{opacity:.88}
+.btn-primary[disabled]{background:var(--line-2);color:var(--surface-2);cursor:default}
+.btn-ghost{background:transparent;color:var(--ink-2);border-color:var(--line-2)}
+.btn-ghost:hover{background:var(--raise)}
+.btn-ghost[disabled]{opacity:.45;cursor:default}
+pre.code{font-family:var(--mono);font-size:13.5px;line-height:1.6;background:var(--dk-bg);color:var(--dk-ink);padding:var(--s4) var(--s5);border-radius:5px;overflow-x:auto;margin:0 0 var(--s5)}
+pre.code code{background:none;padding:0;font-size:inherit;color:inherit}
+.dark{--bg:var(--dk-bg);--surface:var(--dk-surface);--surface-2:var(--dk-surface);--raise:var(--dk-line);--line:var(--dk-line);--line-2:var(--dk-line);--ink:var(--dk-ink);--ink-2:var(--dk-ink-2);--ink-3:var(--dk-ink-2);--accent:var(--accent-lt);--accent-dim:rgba(255,255,255,.14);background:var(--bg);color:var(--ink);border-top:0}
+.dark .chip{background:var(--c-lt,var(--ink-2));color:var(--dk-bg)}
+.dark .flag{color:#e8bd5e}
+@media (max-width:900px){
+.cols{grid-template-columns:1fr!important;gap:var(--s6)}
+.split-head .sechead{grid-template-columns:1fr;row-gap:var(--s3)}
+.split-head .sechead .lede{padding-bottom:0}
+}
+@media (max-width:640px){
+body{font-size:16px}
+.section{padding:var(--s8) 0}
+.hero .wrap{padding:var(--s8) var(--s5) var(--s7)}
+.demo-body{padding:var(--s5) var(--s4)}
+.btn{padding:12px 18px}
+.wrap{padding:0 var(--s4)}
+}
+@media print{
+.nav,.skip,.btnrow,.ck-count{display:none!important}
+.hero{background:none}
+.section{padding:var(--s6) 0;break-inside:avoid-page}
+.demo{break-inside:avoid}
+a{border:0;color:inherit}
+a[href^="http"]::after{content:" (" attr(href) ")";font-size:.8em;color:var(--ink-3);word-break:break-all}
+[hidden].stage,[hidden].rt-v,[hidden].qz,.tree-static[hidden],.tl-list[hidden]{display:block!important}
+.tree-live,.tl-live{display:none!important}
+}
+.cards{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:var(--s5);margin:0 0 var(--s5)}
+.cards .card{min-width:0}
+.cards .kicker{margin-bottom:var(--s2)}
+.cards .ct{font-family:var(--disp);font-size:19px;font-weight:600;line-height:1.25;margin-bottom:var(--s2);color:var(--c,var(--ink))}
+.cards .cb{font-size:15px;color:var(--ink-2);line-height:1.55}
+.cards.mono{max-width:940px;margin-bottom:var(--s5)}
+.cards.mono .card{border-top:3px solid var(--c,var(--line-2));padding-top:var(--s4)}
+.cards.mono .ct{font-family:var(--mono);font-size:22px;font-weight:700;letter-spacing:.06em;line-height:1}
+.cards.rule{gap:var(--s6);margin-top:var(--s2)}
+.cards.rule .card{border-left:2px solid var(--c,var(--line-2));padding-left:var(--s4)}
+.cards.boxed .card{border:1px solid var(--line);background:var(--surface-2);border-radius:5px;padding:var(--s4) var(--s5);border-top:3px solid var(--c,var(--line-2))}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s5);margin:var(--s6) 0}
+.stat{border-top:1px solid var(--line-2);padding-top:var(--s4)}
+.stat .sl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:var(--s2)}
+.stat .sv{font-family:var(--disp);font-size:23px;color:var(--ink);line-height:1.25}
+.callout{border-left:3px solid var(--accent);background:var(--surface-2);padding:var(--s4) var(--s5);margin:var(--s5) 0;max-width:var(--measure);border-radius:0 5px 5px 0}
+.callout.k-key{border-left-color:var(--ok)}
+.callout.k-warn{border-left-color:var(--bad);background:var(--bad-dim)}
+.callout.k-flag{border-left-color:var(--warn)}
+.callout-t{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:var(--s2)!important}
+.callout.k-key .callout-t{color:var(--ok)} .callout.k-warn .callout-t{color:var(--bad)} .callout.k-flag .callout-t{color:var(--warn)}
+.callout p{font-size:16px;color:var(--ink-2)}
+.callout>*:last-child{margin-bottom:0}
+details.deeper{margin-top:var(--s5);border-top:1px solid var(--line-2);padding-top:var(--s4);max-width:var(--measure)}
+details.deeper summary{cursor:pointer;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);list-style:none}
+details.deeper summary::-webkit-details-marker{display:none}
+details.deeper summary::before{content:"+ ";font-weight:700}
+details.deeper[open] summary::before{content:"– "}
+details.deeper .dbody{padding-top:var(--s4);font-size:15.5px;color:var(--ink-2)}
+details.deeper .dbody>*:last-child{margin-bottom:0}
+.miscon{display:flex;flex-direction:column;gap:var(--s6);max-width:960px}
+.mis{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:var(--s6);align-items:start;padding-top:var(--s5);border-top:1px solid var(--line)}
+.mis .claim{font-family:var(--disp);font-size:20px;line-height:1.3;color:var(--ink-3)}
+.mis .fix{font-size:16px;color:var(--ink)}
+.mis .lab{display:block;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;margin-bottom:var(--s2)}
+.mis .lab.bad{color:var(--bad)} .mis .lab.good{color:var(--ok)}
+.mis .lab.bad,.mis .lab.good{background:none;padding:0}
+.mis .fix p:last-child{margin-bottom:0}
+.gloss{margin:0 0 var(--s5);max-width:var(--measure)}
+.gloss .gi{display:grid;grid-template-columns:minmax(120px,.38fr) 1fr;gap:var(--s4);padding:var(--s3) 0;border-bottom:1px solid var(--line)}
+.gloss dt{font-weight:600}
+.gloss dd{margin:0;color:var(--ink-2);font-size:15.5px}
+.gloss.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));max-width:none;border-top:1px solid var(--line-2)}
+.gloss.grid .gi{display:block;padding:var(--s5) var(--s5) var(--s5) 0}
+.gloss.grid dt{font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:.04em;margin-bottom:var(--s2)}
+.gloss.grid dd{font-size:15px}
+.srcs{columns:2;column-gap:var(--s8);max-width:960px}
+.srcs li{break-inside:avoid;font-size:15px;color:var(--ink-2);margin-bottom:var(--s3)}
+@media (max-width:900px){
+.cards{grid-template-columns:1fr}
+.mis{grid-template-columns:1fr;gap:var(--s4)}
+.srcs{columns:1}
+}
+.ctrls{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:var(--s5);margin-bottom:var(--s6)}
+.ctrl .clab{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:var(--s2)}
+.verdict{display:grid;grid-template-columns:1.4fr .95fr;gap:var(--s6);align-items:start}
+.verdict.solo{grid-template-columns:1fr}
+.verdict>*{min-width:0}
+.vmain{border-left:3px solid var(--ink);padding-left:var(--s5)}
+.vmain .authlab{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:var(--s2)}
+.vmain .auth{font-family:var(--disp);font-size:clamp(22px,3vw,30px);line-height:1.15;margin-bottom:var(--s3)}
+.vmain .badge{margin-bottom:var(--s3)}
+.vwhy{font-size:15.5px;color:var(--ink-2);max-width:56ch;margin:0}
+.roles{display:flex;flex-direction:column;gap:var(--s3);border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:var(--s4)}
+.role-row{display:flex;align-items:center;gap:var(--s3);font-size:14.5px;color:var(--ink-2);flex-wrap:wrap}
+.role-row .rlab{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);width:92px;flex:none}
+@media (max-width:900px){.ctrls{grid-template-columns:1fr}.verdict{grid-template-columns:1fr}}
+@media (max-width:640px){.vmain{padding-left:var(--s4)}}
+.wires{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:var(--s3);margin-bottom:var(--s6)}
+.wire{text-align:left;border:1px solid var(--line-2);background:var(--surface);border-radius:var(--r);padding:var(--s4);cursor:pointer;font-family:var(--sans);font-size:14.5px;line-height:1.45;color:var(--ink-2)}
+.wire:hover{background:var(--raise)}
+.wire[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.wire b{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
+.wire[aria-pressed="true"] b{color:inherit;opacity:.7}
+.rail{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:var(--s3);margin-bottom:var(--s5)}
+.rail .rl{border-top:4px solid var(--line-2);padding-top:7px;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);line-height:1.35}
+.rail .rl.on{border-top-color:var(--ink);color:var(--ink)}
+.stage{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:var(--s5);margin-bottom:var(--s3)}
+.live .stage{min-height:190px;margin-bottom:0}
+.stage .sn{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:var(--s2)}
+.stage h4{font-size:21px;margin:0 0 var(--s3)}
+.stage p{font-size:15.5px;color:var(--ink-2);max-width:62ch;margin-bottom:var(--s3)}
+.stage .sb>*:last-child{margin-bottom:0}
+.stage .ok,.stage .bad,.stage .warn{margin:2px 0}
+.stepcount{font-family:var(--mono);font-size:12px;color:var(--ink-3);letter-spacing:.05em}
+@media (max-width:700px){.rail{grid-template-columns:repeat(2,1fr);gap:var(--s3) var(--s4)}}
+@media (max-width:640px){.wires{grid-template-columns:1fr}}
+.tl{position:relative;margin:var(--s5) 0 0}
+.tl-list{list-style:none;padding:0;margin:0;border-left:2px solid var(--line-2)}
+.tl-list li{padding:0 0 var(--s4) var(--s4);position:relative}
+.tl-list .tl-y{display:block;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent)}
+.tl-list .tl-t{display:block;font-family:var(--disp);font-size:18px}
+.tl-list .tl-b{display:block;font-size:15px;color:var(--ink-2)}
+.tl-live{padding-top:var(--s6)}
+.tl-track{position:relative;height:230px;border-bottom:2px solid var(--line-2)}
+.tl-node{position:absolute;transform:translateX(-50%)}
+.tl-stem{position:absolute;left:50%;width:1px;background:var(--line-2);transform:translateX(-50%)}
+.tl-dot{position:relative;width:13px;height:13px;border-radius:50%;background:var(--surface-2);border:2px solid var(--ink);margin:0 auto;cursor:pointer;padding:0;display:block}
+.tl-dot.k1{border-radius:2px;background:var(--ink)}
+.tl-dot.k2{background:var(--accent);border-color:var(--accent)}
+.tl-dot.k3{background:var(--ok);border-color:var(--ok)}
+.tl-dot.kt{background:var(--c);border-color:var(--c)}
+.tl-dot.future{background:var(--surface-2);border-style:dashed}
+.tl-dot.kt.future{border-color:var(--c)}
+.tl-dot:hover{box-shadow:0 0 0 3px var(--raise)}
+.tl-dot.on{outline:2.5px solid var(--ink);outline-offset:3px}
+.tl-dot:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.tl-today{position:absolute;top:-8px;bottom:0;width:0;border-left:2px dashed var(--accent);z-index:0}
+.tl-today span{position:absolute;top:-18px;left:0;transform:translateX(-50%);font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.tl-key{display:flex;flex-wrap:wrap;gap:var(--s5);margin-top:var(--s4);font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--ink-3);align-items:center}
+.tl-key span{display:inline-flex;align-items:center;gap:7px}
+.tl-key i{width:11px;height:11px;border:2px solid var(--ink);border-radius:50%;background:var(--surface-2);flex:none}
+.tl-key i.k1{border-radius:2px;background:var(--ink)}
+.tl-key i.k2{background:var(--accent);border-color:var(--accent)}
+.tl-key i.k3{background:var(--ok);border-color:var(--ok)}
+.tl-key i.kt{background:var(--c);border-color:var(--c)}
+.tl-key i.fut{border-style:dashed}
+.tl-yr{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--ink-3);text-align:center;margin-top:5px;white-space:nowrap}
+.tl-node.on .tl-yr{color:var(--ink)}
+.tl-axis{position:relative;height:20px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-3);margin-top:var(--s2)}
+.tl-tick{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+.tl-tick.first{transform:none;left:0!important}
+.tl-tick.last{transform:none;left:auto!important;right:0}
+.tl-track.vert{height:auto;border-bottom:0;border-left:2px solid var(--line-2);margin-left:6px}
+.tl-track.vert .tl-node{transform:none;left:0;display:flex;align-items:flex-start;gap:12px;width:100%}
+.tl-track.vert .tl-stem{display:none}
+.tl-track.vert .tl-dot{margin:2px 0 0 -8px;flex:none}
+.tl-vlab{font-size:14px;line-height:1.4;color:var(--ink-2);padding-right:var(--s3)}
+.tl-vlab .vy{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--ink-3);margin-right:7px}
+.tl-node.on .tl-vlab{color:var(--ink)}
+.tl-node.on .tl-vlab .vy{color:var(--accent)}
+.tl-panel{margin-top:var(--s5);border:1px solid var(--line-2);background:var(--surface-2);border-radius:var(--r);padding:var(--s5);min-height:120px}
+.tl-panel .py{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.09em;color:var(--accent);margin-bottom:var(--s2)}
+.tl-panel h4{font-size:22px;margin:0 0 var(--s3)}
+.tl-panel p{font-size:16px;color:var(--ink-2);max-width:70ch;margin:0}
+.quiz{max-width:760px;border:1px solid var(--line-2);background:var(--surface-2);border-radius:5px;overflow:hidden}
+.quiz-head{padding:var(--s4) var(--s5);border-bottom:1px solid var(--line);background:var(--surface);display:flex;justify-content:space-between;align-items:baseline;gap:var(--s3);flex-wrap:wrap}
+.quiz-head .qn{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.quiz-body{padding:var(--s6) var(--s5)}
+.qz-list{list-style:none;padding:0;margin:0}
+.qz{margin:0}
+.quiz.stacked .qz+.qz{margin-top:var(--s7);padding-top:var(--s6);border-top:1px solid var(--line)}
+.qz .q{font-family:var(--disp);font-size:22px;line-height:1.3;margin-bottom:var(--s5)}
+.opts{display:flex;flex-direction:column;gap:var(--s3)}
+.opt{text-align:left;font-family:var(--sans);font-size:15.5px;line-height:1.45;padding:13px var(--s4);border:1px solid var(--line-2);background:var(--surface);border-radius:var(--r);cursor:pointer;color:var(--ink);display:flex;gap:var(--s3);align-items:flex-start}
+.opt:hover:not([disabled]){background:var(--raise)}
+.opt[disabled]{cursor:default}
+.opt .mk{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--ink-3);flex:none;padding-top:2px;width:44px;letter-spacing:.05em}
+.opt.correct{border-color:var(--ok);background:var(--ok-dim)}
+.opt.correct .mk{color:var(--ok)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-dim)}
+.opt.wrong .mk{color:var(--bad)}
+.why{margin-top:var(--s5);padding:var(--s4);background:var(--surface);border-left:3px solid var(--accent);font-size:15.5px;color:var(--ink-2)}
+.why .why-h{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:6px}
+.why p:last-child{margin-bottom:0}
+.score{font-family:var(--disp);font-size:26px;margin-bottom:var(--s3)}
+.qz-msg{color:var(--ink-2);max-width:52ch}
+@media (max-width:640px){.opt .mk{width:36px}}
+:root{--bg:#eef1f5;--surface:#f7f9fb;--surface-2:#ffffff;--raise:#e4e9ef;--line:#d5dce4;--line-2:#b9c4cf;--ink:#14181f;--ink-2:#4a5460;--ink-3:#626d7b;--accent:#5b3a5e;--ok:#1a6b5e;--bad:#8c2f2f;--warn:#8a5a00;--dk-bg:#131a24;--dk-surface:#1c2531;--dk-line:#2f3c4c;--dk-ink:#e8edf3;--dk-ink-2:#9fb0c2;--accent-dim:rgba(91,58,94,0.1);--accent-lt:#a593a6;--ok-dim:rgba(26,107,94,0.11);--bad-dim:rgba(140,47,47,0.11);--warn-dim:rgba(138,90,0,0.11);--nav-bg:rgba(238,241,245,0.92);--disp:"Newsreader",Georgia,"Times New Roman",serif;--text:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--sans:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+.c-fbi{--c:#1d4e89;--c-dim:rgba(29,78,137,0.11);--c-lt:#8ea7c4}
+.c-cia{--c:#7d5f18;--c-dim:rgba(125,95,24,0.11);--c-lt:#beaf8c}
+.c-nsa{--c:#1a6b5e;--c-dim:rgba(26,107,94,0.11);--c-lt:#8db5af}
+
+/* page styles */
+.quad{display:grid;grid-template-columns:64px 1fr 1fr;grid-template-rows:auto 1fr 1fr;gap:var(--s2);min-height:340px}
+.quad .axl{grid-row:2 / span 2;display:flex;align-items:center;justify-content:center}
+.quad .axl span{transform:rotate(180deg);writing-mode:vertical-rl;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.quad .colh{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding-bottom:var(--s2);text-align:center}
+.quad .cell{border:1px solid var(--line-2);background:var(--surface-2);padding:var(--s4);display:flex;flex-direction:column;gap:var(--s2);border-radius:3px}
+.quad .rowl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.quad .occ{display:flex;flex-wrap:wrap;gap:5px}
+.quad .cell p{font-size:14px;color:var(--ink-2);margin:0;line-height:1.5}
+.quad .cell.hot{background:rgba(29,78,137,.10);border-color:#1d4e89}
+.quad .cell.cold{background:rgba(125,95,24,.12);border-color:#7d5f18}
+@media (max-width:640px){.quad{grid-template-columns:34px 1fr 1fr;min-height:0}.quad .cell{padding:var(--s3)}}
+</style>
+</head>
+<body data-review-toggle>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Sections"><div class="wrap"><span class="brand">FBI · CIA · NSA</span><div class="links"><a href="#glance">At a glance</a><a href="#model">The model</a><a href="#wrong">What people get wrong</a><a href="#law">The law</a><a href="#oversight">Oversight</a><a href="#seams">Overlap</a><a href="#history">History</a><a href="#live">Section 702</a><a href="#quiz">Quiz</a><a href="#where-this-comes-from">Sources</a></div></div></nav>
+<header class="hero"><div class="wrap hero-anim"><h1>FBI, CIA, NSA: who does what, and under what law</h1><p class="dek">Three agencies work the same subjects — terrorism, foreign spies, cyber intrusions — under three different legal regimes. This page maps the boundaries: who each one may target, where, on whose approval, and who is watching.</p><div class="cards mono" style="--n:3"><div class="card c-fbi"><div class="ct">FBI</div><div class="cb">Federal law enforcement and the country’s domestic intelligence service, inside the Justice Department.</div></div><div class="card c-cia"><div class="ct">CIA</div><div class="cb">Foreign human intelligence, all-source analysis, and covert action. No arrest powers.</div></div><div class="card c-nsa"><div class="ct">NSA</div><div class="cb">Signals intelligence and cybersecurity, run as a Defense Department combat support agency.</div></div></div><div class="meta"><span>Reading time ~10 min</span><span>2 interactive demos</span><span>Updated August 2026</span><span>US law · primary sources linked</span></div></div></header>
+<main id="main" tabindex="-1">
+<section class="section" id="glance"><div class="wrap"><div class="sechead"><p class="eyebrow"><span>§01</span> &nbsp;At a glance</p><h2>The three agencies side by side</h2></div><div class="secbody"><div class="tablewrap"><table class="cmp" style="min-width:680px"><thead><tr><th scope="col"><span class="note">Attribute</span></th><th scope="col" class="h-c c-fbi">FBI</th><th scope="col" class="h-c c-cia">CIA</th><th scope="col" class="h-c c-nsa">NSA</th></tr></thead><tbody><tr><th scope="row">Created</th><td>1908, as the Bureau of Investigation</td><td>1947, by the National Security Act</td><td>1952, by a classified presidential memorandum</td></tr><tr><th scope="row">Sits inside</th><td>Department of Justice</td><td>Independent agency; reports through the Director of National Intelligence to the President</td><td>Department of Defense, and part of the Intelligence Community under the DNI</td></tr><tr><th scope="row">Core mission</th><td>Investigate federal crimes; run domestic counterintelligence and counterterrorism</td><td>Recruit and run human sources abroad; produce all-source analysis; conduct covert action</td><td>Intercept and analyze foreign communications and electronic signals; defend national security systems</td></tr><tr><th scope="row">Primary legal home</th><td>Title 18 (crimes) and Title 50 (foreign intelligence)</td><td>Title 50</td><td>Title 50 and Title 10 (armed forces)</td></tr><tr><th scope="row">Arrest powers</th><td><span class="yes">Yes</span> — sworn agents make arrests and execute criminal search warrants</td><td><span class="no">No</span> — statute denies it police, subpoena, and law-enforcement powers</td><td><span class="no">No</span></td></tr><tr><th scope="row">May target a US person</th><td><span class="yes">Yes</span> — with a criminal warrant or an individual FISA order</td><td>Only under narrow Attorney General–approved procedures; no domestic security role</td><td>Only with an individual FISA Court order</td></tr><tr><th scope="row">Covert action</th><td><span class="no">No</span></td><td><span class="yes">Yes</span> — on a written presidential finding reported to Congress</td><td><span class="no">No</span></td></tr><tr><th scope="row">Answers to</th><td>FISA Court, House and Senate Intelligence and Judiciary committees, DOJ Inspector General</td><td>House and Senate Intelligence committees, CIA Inspector General, ODNI</td><td>FISA Court, House and Senate Intelligence committees, NSA and DoD Inspectors General</td></tr></tbody></table></div><p class="note">Budgets and headcounts for all three are classified in whole or in part. Aggregate intelligence spending is published annually; agency-level detail is not.</p></div></div></section>
+<section class="section band" id="model"><div class="wrap"><div class="sechead"><p class="eyebrow"><span>§02</span> &nbsp;The model</p><h2>Two questions divide the work</h2></div><div class="secbody"><div class="cols" style="grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr)"><div class="col"><p>All three agencies work terrorism. All three work counterintelligence. All three work cyber. Subject matter does not divide them, which is why the popular shorthand of “FBI handles crime, CIA handles spies, NSA handles hacking” falls apart on contact with any real case.</p><p>Two questions do the dividing. The first is <strong>purpose</strong>: is this activity building evidence or producing intelligence? Evidence has to survive an American courtroom, so it is gathered under rules a judge will later test, and it must eventually be shown to the defense. Intelligence informs the President and policymakers. It never faces cross-examination, and it is often collected under authorities no court reviews.</p><p>The second is <strong>target</strong>: is the subject a US person? The term is statutory and covers citizens, lawful permanent residents, and US-incorporated entities, wherever in the world they happen to be. Nearly every restriction in American intelligence law attaches to that status rather than to geography.</p><p>Plot the two questions against each other and the division of labor becomes visible. The FBI occupies most of the space because it is the only one of the three that does both jobs. The CIA and NSA hold a single quadrant, and hold it with very few constraints.</p></div><div class="col"><div class="quad" role="img" aria-label="A two-by-two grid. Rows are target: US person on top, non-US person below. Columns are purpose: evidence on the left, intelligence on the right. FBI occupies the US-person evidence cell alone, the US-person intelligence cell alone, and the non-US-person evidence cell alone. The non-US-person intelligence cell is held by the CIA and NSA.">
+  <div></div><div class="colh">Purpose: evidence</div><div class="colh">Purpose: intelligence</div>
+  <div class="axl"><span>Target</span></div>
+  <div class="cell hot"><div class="rowl">US person</div><div class="occ"><span class="chip c-fbi">FBI</span></div><p>Criminal warrants, grand juries, Title III wiretaps. A judge signs first.</p></div>
+  <div class="cell hot"><div class="rowl">US person</div><div class="occ"><span class="chip c-fbi">FBI</span></div><p>Individual FISA orders. A judge still signs, on a different standard.</p></div>
+  <div class="cell"><div class="rowl">Non-US person</div><div class="occ"><span class="chip c-fbi">FBI</span></div><p>Extraterritorial statutes and host-country cooperation. Slow and consent-dependent.</p></div>
+  <div class="cell cold"><div class="rowl">Non-US person</div><div class="occ"><span class="chip c-cia">CIA</span><span class="chip c-nsa">NSA</span></div><p>EO 12333 and FISA §702. Largely no individual court approval.</p></div>
+</div></div></div><div class="demo w-router" id="router" data-w="router"><div class="demo-head"><h3>Who has the lead?</h3><span class="hint">Set all three · verdict updates live</span></div><div class="demo-body"><div class="ctrls" style="--n:3"><div class="ctrl"><div class="clab" id="ax-1">Who is the subject</div><div class="seg" role="group" aria-labelledby="ax-1" data-axis="0"><button type="button" data-v="0" aria-pressed="true">A US person</button><button type="button" data-v="1" aria-pressed="false">A foreign national</button></div></div><div class="ctrl"><div class="clab" id="ax-2">Where they are</div><div class="seg" role="group" aria-labelledby="ax-2" data-axis="1"><button type="button" data-v="0" aria-pressed="true">Inside the US</button><button type="button" data-v="1" aria-pressed="false">Abroad</button></div></div><div class="ctrl"><div class="clab" id="ax-3">What it is for</div><div class="seg" role="group" aria-labelledby="ax-3" data-axis="2"><button type="button" data-v="0" aria-pressed="true">A prosecution</button><button type="button" data-v="1" aria-pressed="false">Foreign intelligence</button></div></div></div><div class="rt-vs"><div class="verdict rt-v" data-key="0|0|0"><div class="vmain"><div class="authlab">Governing authority</div><div class="auth">Title 18 criminal process</div><div class="badge"><span class="ok">Federal judge, probable cause of a crime</span></div><p class="vwhy">An ordinary criminal case against someone on US soil. The FBI works it under the criminal code, and everything it gathers has to hold up in court and be turned over to the defense.</p></div><div class="roles"><div class="role-row"><span class="rlab">Lead</span><span><span class="chip c-fbi">FBI</span></span></div><div class="role-row"><span class="rlab">Supporting</span><span><span class="muted">none</span></span></div><div class="role-row"><span class="rlab">No role</span><span><span class="chip c-cia">CIA</span> <span class="chip c-nsa">NSA</span></span></div></div></div><div class="verdict rt-v" data-key="0|0|1" hidden><div class="vmain"><div class="authlab">Governing authority</div><div class="auth">FISA Title I order</div><div class="badge"><span class="ok">FISA Court, probable cause the target is an agent of a foreign power</span></div><p class="vwhy">Domestic counterintelligence. The standard is not probable cause of a crime but probable cause that the person is acting for a foreign power. The NSA may provide technical collection under the same order.</p></div><div class="roles"><div class="role-row"><span class="rlab">Lead</span><span><span class="chip c-fbi">FBI</span></span></div><div class="role-row"><span class="rlab">Supporting</span><span><span class="chip c-nsa">NSA</span></span></div><div class="role-row"><span class="rlab">No role</span><span><span class="chip c-cia">CIA</span></span></div></div></div><div class="verdict rt-v" data-key="0|1|0" hidden><div class="vmain"><div class="authlab">Governing authority</div><div class="auth">Title 18, extraterritorial</div><div class="badge"><span class="ok">Federal judge, plus host-country consent to act</span></div><p class="vwhy">American law reaches some crimes committed abroad, but the FBI cannot arrest or search on foreign soil without the host government. Legal attachés in US embassies exist to negotiate exactly this.</p></div><div class="roles"><div class="role-row"><span class="rlab">Lead</span><span><span class="chip c-fbi">FBI</span></span></div><div class="role-row"><span class="rlab">Supporting</span><span><span class="chip c-cia">CIA</span></span></div><div class="role-row"><span class="rlab">No role</span><span><span class="chip c-nsa">NSA</span></span></div></div></div><div class="verdict rt-v" data-key="0|1|1" hidden><div class="vmain"><div class="authlab">Governing authority</div><div class="auth">FISA §704 individual order</div><div class="badge"><span class="ok">FISA Court order, plus an Attorney General finding</span></div><p class="vwhy">US-person status follows the person overseas. Targeting an American abroad for foreign intelligence needs individualized court approval, even though collection against the foreigners around them does not.</p></div><div class="roles"><div class="role-row"><span class="rlab">Lead</span><span><span class="chip c-fbi">FBI</span></span></div><div class="role-row"><span class="rlab">Supporting</span><span><span class="chip c-cia">CIA</span> <span class="chip c-nsa">NSA</span></span></div><div class="role-row"><span class="rlab">No role</span><span><span class="muted">none</span></span></div></div></div><div class="verdict rt-v" data-key="1|0|0" hidden><div class="vmain"><div class="authlab">Governing authority</div><div class="auth">Title 18 criminal process</div><div class="badge"><span class="ok">Federal judge, probable cause of a crime</span></div><p class="vwhy">Citizenship does not change criminal procedure. A foreign national charged with a federal crime inside the United States gets the same Fourth Amendment protections as anyone else.</p></div><div class="roles"><div class="role-row"><span class="rlab">Lead</span><span><span class="chip c-fbi">FBI</span></span></div><div class="role-row"><span class="rlab">Supporting</span><span><span class="muted">none</span></span></div><div class="role-row"><span class="rlab">No role</span><span><span class="chip c-cia">CIA</span> <span class="chip c-nsa">NSA</span></span></div></div></div><div class="verdict rt-v" data-key="1|0|1" hidden><div class="vmain"><div class="authlab">Governing authority</div><div class="auth">FISA Title I order</div><div class="badge"><span class="ok">FISA Court, probable cause the target is an agent of a foreign power</span></div><p class="vwhy">A foreign intelligence officer operating inside the United States is a domestic counterintelligence problem. The FBI runs it; the CIA may hold the foreign-side picture and share it.</p></div><div class="roles"><div class="role-row"><span class="rlab">Lead</span><span><span class="chip c-fbi">FBI</span></span></div><div class="role-row"><span class="rlab">Supporting</span><span><span class="chip c-cia">CIA</span> <span class="chip c-nsa">NSA</span></span></div><div class="role-row"><span class="rlab">No role</span><span><span class="muted">none</span></span></div></div></div><div class="verdict rt-v" data-key="1|1|0" hidden><div class="vmain"><div class="authlab">Governing authority</div><div class="auth">Title 18, extraterritorial</div><div class="badge"><span class="ok">Federal judge, plus an extradition or an arrest in transit</span></div><p class="vwhy">Indicting a foreign hacker or arms dealer is routine. Getting custody is not, and intelligence that identified them often cannot be used as evidence without exposing how it was collected.</p></div><div class="roles"><div class="role-row"><span class="rlab">Lead</span><span><span class="chip c-fbi">FBI</span></span></div><div class="role-row"><span class="rlab">Supporting</span><span><span class="chip c-cia">CIA</span> <span class="chip c-nsa">NSA</span></span></div><div class="role-row"><span class="rlab">No role</span><span><span class="muted">none</span></span></div></div></div><div class="verdict rt-v" data-key="1|1|1" hidden><div class="vmain"><div class="authlab">Governing authority</div><div class="auth">EO 12333 and FISA §702</div><div class="badge"><span class="bad">No individual court approval</span></div><p class="vwhy">The core intelligence mission. Collection abroad runs on Executive Order 12333 with no judicial review. Collection routed through US providers runs on §702, where the FISA Court approves annual procedures rather than individual targets.</p></div><div class="roles"><div class="role-row"><span class="rlab">Lead</span><span><span class="chip c-cia">CIA</span> <span class="chip c-nsa">NSA</span></span></div><div class="role-row"><span class="rlab">Supporting</span><span><span class="chip c-fbi">FBI</span></span></div><div class="role-row"><span class="rlab">No role</span><span><span class="muted">none</span></span></div></div></div><div class="verdict rt-none" hidden><div class="vmain"><p class="vwhy">No answer is written for this combination.</p></div></div></div></div></div></div></div></section>
+<section class="section" id="wrong"><div class="wrap"><div class="sechead"><p class="eyebrow"><span>§03</span> &nbsp;What people get wrong</p><h2>Three claims worth correcting</h2></div><div class="secbody"><div class="miscon "><div class="mis"><div class="claim"><span class="lab bad">Commonly said</span>The CIA is banned from operating inside the United States.</div><div class="fix"><span class="lab good">Actually</span><p>The National Security Act denies the CIA police powers, subpoena power, law-enforcement powers, and internal security functions. It does not confine the agency to foreign soil. The CIA maintains domestic facilities, debriefs willing Americans, recruits foreign nationals who happen to be in the country, and works counterintelligence cases jointly with the FBI. The prohibition is on <em>function</em>, not on <em>location</em>.</p></div></div><div class="mis"><div class="claim"><span class="lab bad">Commonly said</span>The NSA is forbidden from collecting Americans’ communications.</div><div class="fix"><span class="lab good">Actually</span><p>The NSA may not <em>target</em> a US person without an individual order from the FISA Court. It acquires Americans’ communications constantly by another route: when an American corresponds with a targeted foreigner, that message is collected too. This is called incidental collection, it is lawful, and the resulting communications are retained under minimization procedures.</p><p>Who may later search that retained pool, and on what showing, is the most contested question in US surveillance law.</p></div></div><div class="mis"><div class="claim"><span class="lab bad">Commonly said</span>The FBI is a police force.</div><div class="fix"><span class="lab good">Actually</span><p>A large share of the FBI’s work has no prosecution in view. Its National Security Branch collects foreign intelligence and runs counterintelligence under FISA and Executive Order 12333, and those cases can run for years without a charge because a charge was never the point.</p><p>The United States has no separate domestic intelligence service in the mold of Britain’s MI5. The FBI does that job as well, which is why its authorities and its oversight are more tangled than either of the other two.</p></div></div></div></div></div></section>
+<section class="section band" id="law"><div class="wrap"><div class="sechead"><p class="eyebrow"><span>§04</span> &nbsp;The law</p><h2>Five authorities do most of the work</h2><p class="lede">Which one applies decides whether a judge is involved, what standard the government must meet, and whether anything collected can ever be used in court.</p></div><div class="secbody"><dl class="gloss grid"><div class="gi"><dt>Title 18</dt><dd>The federal criminal code. Grand jury subpoenas, Rule 41 search warrants, Title III wiretaps. The government must show probable cause of a crime to an ordinary federal judge, and what it collects is eventually disclosed to the defense.</dd></div><div class="gi"><dt>Title 50</dt><dd>War and national defense. The National Security Act of 1947 and FISA both live here. Authorizes collection for intelligence purposes with no prosecution required and, in places, no court involved.</dd></div><div class="gi"><dt>Title 10</dt><dd>The armed forces. The NSA is a Defense Department combat support agency, so part of its work runs on military authority alongside US Cyber Command, whose commander has historically also directed the NSA.</dd></div><div class="gi"><dt>Executive Order 12333 <span class="muted">(1981)</span></dt><dd>The charter for intelligence collected outside the FISA framework, which in practice means most collection that happens overseas. It is a presidential order, so the President can amend it. No statute sets its limits and no court reviews collection under it.</dd></div><div class="gi"><dt>FISA <span class="muted">(1978)</span></dt><dd>Created the Foreign Intelligence Surveillance Court. Title I orders require probable cause that the target is a foreign power or its agent. Section 702, added in 2008, permits warrantless targeting of non-US persons reasonably believed to be abroad using compelled help from US providers. Sections 704 and 705 cover US persons overseas.</dd></div></dl><div class="demo w-stepper" id="tracer" data-w="stepper"><div class="demo-head"><h3>Follow one message</h3><span class="hint">Pick a message · step through the four gates</span></div><div class="demo-body"><div class="wires" role="group" aria-label="Choose a communication to trace"><button type="button" class="wire" data-t="0" aria-pressed="true"><b>Message A</b>Two foreign officials abroad, talking on a foreign network.</button><button type="button" class="wire" data-t="1" aria-pressed="false"><b>Message B</b>A foreign target abroad emails another foreigner, using a US email provider.</button><button type="button" class="wire" data-t="2" aria-pressed="false"><b>Message C</b>A foreign target abroad emails an American in Ohio.</button><button type="button" class="wire" data-t="3" aria-pressed="false"><b>Message D</b>An American in Ohio, suspected of working for a foreign government.</button></div><div class="rail" aria-hidden="true" style="--n:4" hidden><div class="rl">The target</div><div class="rl">Collection point</div><div class="rl">The authority</div><div class="rl">US persons</div></div><div class="st-track" data-t="0"><div class="stage" data-s="0"><div class="sn">Gate 1 of 4</div><h4>Who is the target?</h4><div class="sb"><p>A foreign government official located outside the United States. No US person is a party to the conversation and none is the object of the collection.</p></div></div><div class="stage" data-s="1"><div class="sn">Gate 2 of 4</div><h4>Where does the government get it?</h4><div class="sb"><p>From collection infrastructure abroad — a foreign cable, a satellite link, a compromised network. Nothing is compelled from an American company, so no US provider is involved.</p></div></div><div class="stage" data-s="2"><div class="sn">Gate 3 of 4</div><h4>What law authorizes it?</h4><div class="sb"><p>Executive Order 12333, a presidential order rather than a statute. The Attorney General approves the collection and minimization procedures. No judge reviews any of it.</p><p><span class="bad">No court, no warrant, no statute</span></p></div></div><div class="stage" data-s="3"><div class="sn">Gate 4 of 4</div><h4>What happens to Americans in the data?</h4><div class="sb"><p>If an American turns up incidentally, minimization procedures require the identity to be masked in reporting unless a specific need justifies unmasking. Those procedures are written and enforced inside the executive branch.</p></div></div></div><div class="st-track" data-t="1"><div class="stage" data-s="0"><div class="sn">Gate 1 of 4</div><h4>Who is the target?</h4><div class="sb"><p>A non-US person reasonably believed to be located outside the United States, selected because they are expected to produce foreign intelligence. The other party is also a foreigner.</p></div></div><div class="stage" data-s="1"><div class="sn">Gate 2 of 4</div><h4>Where does the government get it?</h4><div class="sb"><p>From a US email or messaging provider, which is served with a directive and legally compelled to assist. The data sits on American infrastructure, which is precisely why a statute is needed.</p></div></div><div class="stage" data-s="2"><div class="sn">Gate 3 of 4</div><h4>What law authorizes it?</h4><div class="sb"><p>FISA Section 702. The FISA Court reviews the targeting, minimization, and querying procedures once a year and certifies the program. Analysts then select individual targets on their own, applying those procedures without returning to the court.</p><p><span class="ok">FISA Court approves the procedures, not the target</span></p></div></div><div class="stage" data-s="3"><div class="sn">Gate 4 of 4</div><h4>What happens to Americans in the data?</h4><div class="sb"><p>No American is a party here, so nothing of theirs is acquired. This is the clean case that Section 702 was written for and the one its defenders point to.</p></div></div></div><div class="st-track" data-t="2"><div class="stage" data-s="0"><div class="sn">Gate 1 of 4</div><h4>Who is the target?</h4><div class="sb"><p>Still the foreigner abroad. The American in Ohio is not targeted and cannot lawfully be. Targeting them would be what the statute calls reverse targeting, and it is prohibited.</p></div></div><div class="stage" data-s="1"><div class="sn">Gate 2 of 4</div><h4>Where does the government get it?</h4><div class="sb"><p>The same US provider, under the same directive. Because the American is the correspondent, their message comes in with the target’s.</p></div></div><div class="stage" data-s="2"><div class="sn">Gate 3 of 4</div><h4>What law authorizes it?</h4><div class="sb"><p>FISA Section 702. The American’s communication is acquired incidentally, which is lawful, and it is retained in the §702 repository under minimization rules rather than deleted.</p><p><span class="ok">Still §702 — still no warrant for the American</span></p></div></div><div class="stage" data-s="3"><div class="sn">Gate 4 of 4</div><h4>What happens to Americans in the data?</h4><div class="sb"><p>This is the contested ground. The FBI can search the repository using the American’s identifiers. Under the rules Congress wrote in 2024, a query run solely to find evidence of a crime unrelated to national security requires a court order first. Queries for foreign intelligence purposes do not.</p><p><span class="ok">Court order required for FBI evidence-of-a-crime queries</span></p></div></div></div><div class="st-track" data-t="3"><div class="stage" data-s="0"><div class="sn">Gate 1 of 4</div><h4>Who is the target?</h4><div class="sb"><p>A US person inside the United States, suspected of acting as an agent of a foreign power. US-person status is the trigger for every protection that follows.</p></div></div><div class="stage" data-s="1"><div class="sn">Gate 2 of 4</div><h4>Where does the government get it?</h4><div class="sb"><p>From communications providers inside the United States, or from a physical search, or from a device. All of it is domestic collection against a protected person.</p></div></div><div class="stage" data-s="2"><div class="sn">Gate 3 of 4</div><h4>What law authorizes it?</h4><div class="sb"><p>FISA Title I. The government must persuade the FISA Court that there is probable cause the target is an agent of a foreign power. If the case is criminal instead, the route is a Title III wiretap before an ordinary federal judge on probable cause of a crime.</p><p><span class="ok">FISA Court order, probable cause, individualized</span></p></div></div><div class="stage" data-s="3"><div class="sn">Gate 4 of 4</div><h4>What happens to Americans in the data?</h4><div class="sb"><p>Minimization applies throughout, and the order has a fixed duration that must be renewed. If the case turns criminal and the government intends to use the material, the defendant must be notified that FISA-derived evidence is in play.</p></div></div></div><div class="btnrow" hidden><button type="button" class="btn btn-primary" data-act="next">Next gate</button><button type="button" class="btn btn-ghost" data-act="back">Back</button><span class="stepcount"></span></div></div></div></div></div></section>
+<section class="section" id="oversight"><div class="wrap"><div class="sechead"><p class="eyebrow"><span>§05</span> &nbsp;Oversight</p><h2>Who watches, and what they cannot see</h2></div><div class="secbody"><div class="cols cols-rule" style="grid-template-columns:repeat(3,minmax(0,1fr))"><div class="col"><p class="kicker">Judicial</p><h3>The FISA Court</h3><ul><li><strong>FISC</strong> — eleven sitting federal district judges designated by the Chief Justice, hearing applications in a closed courtroom with only the government present. <span class="chip c-fbi">FBI</span> <span class="chip c-nsa">NSA</span></li><li><strong>FISCR</strong> — the appellate court above it. It has issued a handful of public opinions in five decades.</li><li><strong>Amici curiae</strong> — outside lawyers the court may appoint to argue against the government in novel cases, added by statute in 2015.</li></ul></div><div class="col"><p class="kicker">Legislative</p><h3>Four committees</h3><ul><li><strong>Senate and House Intelligence committees</strong> — receive covert action findings, hold classified briefings, and write the annual intelligence authorization. <span class="chip c-fbi">FBI</span> <span class="chip c-cia">CIA</span> <span class="chip c-nsa">NSA</span></li><li><strong>Judiciary committees</strong> — own the criminal-side statutes and FISA itself, which is why surveillance reauthorization fights run through them.</li><li><strong>Appropriations</strong> — the budget is the leverage that actually bites.</li></ul></div><div class="col"><p class="kicker">Executive</p><h3>Internal review</h3><ul><li><strong>Inspectors General</strong> — each agency has one, plus a DoD IG over the NSA and an Intelligence Community IG across all of them. <span class="chip c-fbi">FBI</span> <span class="chip c-cia">CIA</span> <span class="chip c-nsa">NSA</span></li><li><strong>DOJ National Security Division</strong> — reviews and signs off on FISA applications before they reach the court.</li><li><strong>PCLOB</strong> — an independent privacy board that has repeatedly lost its quorum, and cannot issue reports without one.</li></ul></div></div></div></div></section>
+<section class="section band" id="seams"><div class="wrap"><div class="sechead"><p class="eyebrow"><span>§06</span> &nbsp;Overlap</p><h2>The seams where the three meet</h2><p class="lede">A foreign plot aimed at a US city crosses all three jurisdictions in a single afternoon. Three institutions exist to manage that handoff.</p></div><div class="secbody"><div class="cards rule" style="--n:3"><div class="card"><div class="kicker">Since 1980</div><div class="ct">Joint Terrorism Task Forces</div><div class="cb">FBI-led teams operating in field offices across the country, staffed by state and local police alongside federal agents. They are the mechanism by which a local traffic stop can reach the national counterterrorism system within hours.</div></div><div class="card"><div class="kicker">2004</div><div class="ct">National Counterterrorism Center</div><div class="cb">Created by the Intelligence Reform and Terrorism Prevention Act and placed under the DNI. It holds the government’s consolidated terrorism identities data and staffs analysts detailed from every agency, which is what makes cross-agency matching possible at all.</div></div><div class="card"><div class="kicker">Removed 2001–02</div><div class="ct">“The wall”</div><div class="cb">A set of Justice Department practices that kept intelligence investigators and criminal prosecutors apart, so that FISA collection could not be used to build criminal cases. Section 218 of the PATRIOT Act and the FISA Court of Review’s 2002 decision in <em>In re Sealed Case</em> dismantled it.</div></div></div><details class="deeper "><summary>Go deeper: why the wall still matters</summary><div class="dbody"><p>With the wall gone, information gathered under intelligence authorities can inform criminal investigations. That is the point of the change, and the 9/11 Commission cited the separation as a failure that cost lives. It also produced the query fight: if the government holds Americans’ communications acquired without a criminal warrant, on what showing may an FBI agent search that pool for evidence of a crime? Every Section 702 reauthorization since 2018 has turned on that question.</p></div></details></div></div></section>
+<section class="section split-head" id="history"><div class="wrap"><div class="sechead"><p class="eyebrow"><span>§07</span> &nbsp;History</p><h2>A century of law, mostly written after 1975</h2><p class="lede">Spacing is proportional to elapsed time. The CIA and NSA had existed for decades before any statute governed what they could collect. Select a marker for detail.</p></div><div class="secbody"><div class="tl" data-w="timeline"><ol class="tl-list"><li class="tl-ev k1" data-p="0.0000"><span class="tl-y">1908</span><span class="tl-s" hidden>1908</span><b class="tl-t">The Bureau of Investigation is founded</b><span class="tl-b">Attorney General Charles Bonaparte creates a small force of investigators inside the Justice Department, without congressional authorization. It is renamed the Federal Bureau of Investigation in 1935.</span></li><li class="tl-ev k1" data-p="0.3305"><span class="tl-y">1947</span><span class="tl-s" hidden>1947</span><b class="tl-t">The National Security Act creates the CIA</b><span class="tl-b">The same statute establishes the National Security Council and the Air Force. It gives the CIA its analytic and clandestine mandate and, in the same breath, denies it police, subpoena, and law-enforcement powers and internal security functions.</span></li><li class="tl-ev k1" data-p="0.3729"><span class="tl-y">1952</span><span class="tl-s" hidden>1952</span><b class="tl-t">The NSA is created in secret</b><span class="tl-b">President Truman signs a classified memorandum consolidating military cryptologic work into a single agency. Its existence is not officially acknowledged for years, and it operates for a quarter century with no statutory charter.</span></li><li class="tl-ev k2" data-p="0.5678"><span class="tl-y">1975</span><span class="tl-s" hidden>1975</span><b class="tl-t">The Church Committee</b><span class="tl-b">Senate investigators document decades of domestic spying, mail opening, and assassination plotting across all three agencies. The hearings produce the political conditions for every restraint that follows.</span></li><li class="tl-ev k0" data-p="0.5932"><span class="tl-y">1978</span><span class="tl-s" hidden>1978</span><b class="tl-t">FISA and the FISA Court</b><span class="tl-b">Congress requires a court order for electronic surveillance conducted inside the United States for foreign intelligence purposes, and creates a special court to issue them. It is the first statute to govern what the NSA may collect.</span></li><li class="tl-ev k0" data-p="0.6186"><span class="tl-y">1981</span><span class="tl-s" hidden>1981</span><b class="tl-t">Executive Order 12333</b><span class="tl-b">President Reagan issues the charter for intelligence activities outside the FISA framework. Because it is an executive order rather than a statute, its limits are set and can be revised by the President.</span></li><li class="tl-ev k0" data-p="0.7881"><span class="tl-y">2001</span><span class="tl-s" hidden>2001</span><b class="tl-t">The PATRIOT Act</b><span class="tl-b">Passed six weeks after 11 September. Section 218 lets the government use FISA when foreign intelligence is a significant purpose rather than the primary purpose, which is the change that brings down the wall between intelligence and criminal work.</span></li><li class="tl-ev k0" data-p="0.8136"><span class="tl-y">2004</span><span class="tl-s" hidden>2004</span><b class="tl-t">Intelligence reform creates the DNI</b><span class="tl-b">The Intelligence Reform and Terrorism Prevention Act, following the 9/11 Commission, establishes a Director of National Intelligence over the whole community and creates the National Counterterrorism Center.</span></li><li class="tl-ev k0" data-p="0.8475"><span class="tl-y">2008</span><span class="tl-s" hidden>2008</span><b class="tl-t">Section 702 is added to FISA</b><span class="tl-b">The FISA Amendments Act authorizes warrantless targeting of non-US persons abroad using compelled assistance from US providers, replacing the warrantless program run outside the statute after 2001.</span></li><li class="tl-ev k2" data-p="0.8898"><span class="tl-y">2013</span><span class="tl-s" hidden>2013</span><b class="tl-t">The Snowden disclosures</b><span class="tl-b">Leaked documents describe bulk telephone metadata collection and the scale of §702, triggering the first serious public debate about surveillance authorities since 1978.</span></li><li class="tl-ev k0" data-p="0.9068"><span class="tl-y">2015</span><span class="tl-s" hidden>2015</span><b class="tl-t">The USA FREEDOM Act</b><span class="tl-b">Ends bulk collection of domestic telephone metadata under Section 215, requires the FISA Court to appoint outside amici in novel cases, and mandates declassification of significant opinions.</span></li><li class="tl-ev k0" data-p="0.9831"><span class="tl-y">2024</span><span class="tl-s" hidden>2024</span><b class="tl-t">RISAA reauthorizes §702</b><span class="tl-b">The Reforming Intelligence and Securing America Act extends Section 702 for two years, adds query training and accountability requirements for FBI personnel, and declines to impose a general warrant requirement.</span></li><li class="tl-ev k0" data-p="1.0000"><span class="tl-y">2026</span><span class="tl-s" hidden>2026</span><b class="tl-t">Section 702 lapses</b><span class="tl-b">After a series of short extensions, the statutory authority expires on 12 June 2026 with no reauthorization in place. Collection continues under FISA Court certifications approved in March 2026 and valid into March 2027.</span></li></ol><div class="tl-ticks" hidden><span data-p="0.0000">1908</span><span data-p="0.1864">1930</span><span data-p="0.3559">1950</span><span data-p="0.5254">1970</span><span data-p="0.6949">1990</span><span data-p="0.8644">2010</span><span data-p="1.0000">2026</span></div><div class="tl-key"><span><i class="k0"></i>Statute or executive order</span><span><i class="k1"></i>Agency created</span><span><i class="k2"></i>Public reckoning</span></div></div></div></div></section>
+<section class="section dark" id="live"><div class="wrap"><div class="sechead"><p class="eyebrow"><span>§08</span> &nbsp;Section 702</p><h2>Section 702 lapsed in June 2026, and collection continued</h2></div><div class="secbody"><p><span class="flag">Fast-moving · verify before relying on this</span></p><p>Section 702 is the authority that lets the NSA compel American communications providers to hand over the messages of foreign targets abroad. It is also where Americans’ communications enter the system incidentally, which is why every reauthorization becomes a fight about the FBI’s ability to query what has already been collected.</p><p>Congress reauthorized it in April 2024 through the Reforming Intelligence and Securing America Act, with a two-year sunset. That sunset arrived in April 2026 and was pushed back by a series of short extensions while negotiations continued. The statutory authority expired at midnight on 12 June 2026 without a new reauthorization.</p><p>Collection did not stop. Section 702 runs on annual certifications approved by the FISA Court, and the certifications approved in March 2026 remain valid into March 2027. The lapse ended the government’s ability to issue new certifications; it did not switch off the programs operating under existing ones.</p><p>That gap between the statute and the certifications is what makes the current moment unusual. It also means the practical deadline for Congress is the certification expiry, not the sunset date that already passed.</p><div class="stats "><div class="stat"><div class="sl">Statutory authority</div><div class="sv">Lapsed 12 June 2026</div></div><div class="stat"><div class="sl">FISC certifications</div><div class="sv">Valid into March 2027</div></div><div class="stat"><div class="sl">Reauthorization</div><div class="sv">Under debate, none enacted</div></div></div><p class="note">Status as of late August 2026, drawn from the Brennan Center’s Section 702 resource page and contemporaneous reporting. Check a current source before citing this.</p></div></div></section>
+<section class="section" id="quiz"><div class="wrap"><div class="sechead"><p class="eyebrow"><span>§09</span> &nbsp;Quiz</p><h2>Five questions on the distinctions that matter</h2></div><div class="secbody"><div class="quiz" data-w="quiz"><div class="quiz-head"><span class="qn qn-num">5 questions</span><span class="qn qn-score"></span></div><div class="quiz-body"><ol class="qz-list"><li class="qz" data-answer="0"><div class="q">Which of the three can arrest someone inside the United States?</div><div class="opts"><button type="button" class="opt" data-i="0"><span class="mk">A</span><span>The FBI only</span></button><button type="button" class="opt" data-i="1"><span class="mk">B</span><span>The FBI and the CIA</span></button><button type="button" class="opt" data-i="2"><span class="mk">C</span><span>All three, in a national security case</span></button><button type="button" class="opt" data-i="3"><span class="mk">D</span><span>Whichever agency opened the investigation</span></button></div><div class="why" hidden><b class="why-h">Why</b><p>Arrest authority sits with the FBI alone. The National Security Act expressly denies the CIA police and law-enforcement powers, and the NSA has never had them. A CIA or NSA lead that needs an arrest has to hand the case to the FBI.</p></div></li><li class="qz" data-answer="1"><div class="q">The NSA targets a foreign official abroad and collects an email they sent to an American in Ohio. What is the status of that email?</div><div class="opts"><button type="button" class="opt" data-i="0"><span class="mk">A</span><span>Unlawfully collected and required to be destroyed</span></button><button type="button" class="opt" data-i="1"><span class="mk">B</span><span>Lawfully collected incidentally, and retained under minimization rules</span></button><button type="button" class="opt" data-i="2"><span class="mk">C</span><span>Lawful only if the FBI obtained a warrant for the American first</span></button><button type="button" class="opt" data-i="3"><span class="mk">D</span><span>Not collected at all, because a filter removes US-person traffic</span></button></div><div class="why" hidden><b class="why-h">Why</b><p>This is incidental collection, and it is lawful under Section 702 because the target was the foreigner, not the American. The email is retained rather than destroyed. The contested question is who may later search that repository for the American, and on what showing.</p></div></li><li class="qz" data-answer="1"><div class="q">What authority covers most CIA and NSA collection conducted overseas?</div><div class="opts"><button type="button" class="opt" data-i="0"><span class="mk">A</span><span>FISA Title I orders</span></button><button type="button" class="opt" data-i="1"><span class="mk">B</span><span>Executive Order 12333</span></button><button type="button" class="opt" data-i="2"><span class="mk">C</span><span>Title 18 search warrants</span></button><button type="button" class="opt" data-i="3"><span class="mk">D</span><span>The USA FREEDOM Act</span></button></div><div class="why" hidden><b class="why-h">Why</b><p>Executive Order 12333 governs intelligence activity outside the FISA framework, which is most overseas collection. It is a presidential order, not a statute, so no court reviews collection under it and the President can amend its terms.</p></div></li><li class="qz" data-answer="1"><div class="q">Under Section 702, what does the FISA Court actually approve?</div><div class="opts"><button type="button" class="opt" data-i="0"><span class="mk">A</span><span>Each individual foreign target, before collection begins</span></button><button type="button" class="opt" data-i="1"><span class="mk">B</span><span>Annual certifications and the targeting, minimization, and querying procedures</span></button><button type="button" class="opt" data-i="2"><span class="mk">C</span><span>Nothing — Section 702 operates outside the court</span></button><button type="button" class="opt" data-i="3"><span class="mk">D</span><span>Only queries run by FBI agents</span></button></div><div class="why" hidden><b class="why-h">Why</b><p>The court reviews the program once a year and certifies the procedures. Analysts then select individual targets themselves by applying those procedures. That programmatic rather than individualized approval is the structural feature critics object to.</p></div></li><li class="qz" data-answer="2"><div class="q">The government wants to target an American living in Berlin for foreign intelligence. What does it need?</div><div class="opts"><button type="button" class="opt" data-i="0"><span class="mk">A</span><span>Nothing, because collection abroad is unrestricted</span></button><button type="button" class="opt" data-i="1"><span class="mk">B</span><span>An Attorney General finding, with no court involved</span></button><button type="button" class="opt" data-i="2"><span class="mk">C</span><span>An individual FISA Court order under Section 704</span></button><button type="button" class="opt" data-i="3"><span class="mk">D</span><span>A Title III criminal wiretap order</span></button></div><div class="why" hidden><b class="why-h">Why</b><p>US-person status travels with the person. Section 704 requires an individualized FISA Court order to target an American abroad, even though collection against the foreign nationals around them needs no court approval at all.</p></div></li></ol><div class="qz-done" hidden><div class="score"></div><p class="qz-msg" data-all="Every one. The distinctions here are the ones that carry the most weight in practice." data-most="A solid grasp of the structure. The cells worth rereading are the ones about who approves what." data-few="Worth another pass through the two demos above, which cover every question here."></p><div class="btnrow"><button type="button" class="btn btn-primary" data-act="again">Try again</button></div></div></div></div></div></div></section>
+<section class="section band sources" id="where-this-comes-from"><div class="wrap"><div class="sechead"><p class="eyebrow">Sources</p><h2>Where this comes from</h2></div><div class="secbody"><ul class="srcs"><li><a href="https://www.law.cornell.edu/uscode/text/50/3036" target="_blank" rel="noopener noreferrer">50 U.S.C. §3036</a> — duties of the CIA Director, including the bar on police, subpoena, and law-enforcement powers and internal security functions.</li><li><a href="https://www.archives.gov/federal-register/codification/executive-order/12333.html" target="_blank" rel="noopener noreferrer">Executive Order 12333</a> — United States Intelligence Activities, as codified by the National Archives.</li><li><a href="https://www.law.cornell.edu/uscode/text/50/1881a" target="_blank" rel="noopener noreferrer">50 U.S.C. §1881a</a> — FISA Section 702, procedures for targeting non-US persons reasonably believed to be located outside the United States.</li><li><a href="https://www.congress.gov/crs-product/R48592" target="_blank" rel="noopener noreferrer">CRS Report R48592</a> — FISA Section 702 and the 2024 Reforming Intelligence and Securing America Act.</li><li><a href="https://www.brennancenter.org/our-work/research-reports/section-702-foreign-intelligence-surveillance-act-fisa-2026-resource-page" target="_blank" rel="noopener noreferrer">Brennan Center</a> — Section 702 of FISA: 2026 resource page, tracking the sunset and reauthorization debate.</li><li><a href="https://www.brennancenter.org/our-work/research-reports/section-702-foreign-intelligence-surveillance-act" target="_blank" rel="noopener noreferrer">Brennan Center</a> — Section 702 of FISA, explained.</li><li><a href="https://www.eff.org/deeplinks/2026/06/victory-702-has-expired" target="_blank" rel="noopener noreferrer">Electronic Frontier Foundation</a> — contemporaneous account of the 12 June 2026 expiration.</li><li><a href="https://www.fisc.uscourts.gov/" target="_blank" rel="noopener noreferrer">Foreign Intelligence Surveillance Court</a> — composition, rules of procedure, and released opinions.</li><li><a href="https://www.fbi.gov/investigate" target="_blank" rel="noopener noreferrer">FBI</a> — published investigative priorities and programs.</li><li><a href="https://www.cia.gov/about/" target="_blank" rel="noopener noreferrer">CIA</a> — published mission and organization.</li><li><a href="https://www.nsa.gov/about/" target="_blank" rel="noopener noreferrer">NSA</a> — published mission and authorities.</li><li><a href="https://www.9-11commission.gov/report/" target="_blank" rel="noopener noreferrer">9/11 Commission Report</a> — on the intelligence-criminal separation known as the wall.</li></ul><p class="foot">This page describes public US law and published agency roles. It is general information, not legal advice, and it simplifies in places where the underlying rules are contested. Where a claim is time-sensitive it is dated on the page.</p></div></div></section>
+</main>
+<script>
+(function(){"use strict";
+const __m={};
+__m["router.js"]=(function(){
+/* router runtime — segmented controls pick which verdict is shown. */
+function router(root) {
+  const segs = [...root.querySelectorAll(".seg")];
+  const state = segs.map(() => 0);
+  const vs = [...root.querySelectorAll(".rt-v")];
+  const none = root.querySelector(".rt-none");
+  function render() {
+    const key = state.join("|");
+    let hit = false;
+    vs.forEach((v) => { const on = !hit && v.dataset.key === key; if (on) hit = true; v.hidden = !on; });
+    none.hidden = hit;
+  }
+  segs.forEach((seg, ai) => seg.addEventListener("click", (e) => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+    seg.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x === btn)));
+    state[ai] = +btn.dataset.v;
+    render();
+  }));
+  render();
+}
+
+return {router};
+})();
+__m["stepper.js"]=(function(){
+/* stepper runtime — one stage at a time, Next/Back, a progress rail, track buttons. */
+function stepper(root) {
+  const tracks = [...root.querySelectorAll(".st-track")];
+  const wires = [...root.querySelectorAll(".wire")];
+  const rail = root.querySelector(".rail");
+  const row = root.querySelector(".btnrow");
+  const next = row.querySelector('[data-act="next"]'), back = row.querySelector('[data-act="back"]');
+  const count = row.querySelector(".stepcount");
+  const nextLabel = next.textContent;
+  let T = 0, S = 0;
+  rail.hidden = false;
+  row.hidden = false;
+  root.classList.add("live");
+
+  function render() {
+    const stages = tracks[T].querySelectorAll(".stage");
+    const n = stages.length;
+    tracks.forEach((t, i) => { t.hidden = i !== T; });
+    stages.forEach((s, i) => { s.hidden = i !== S; });
+    rail.querySelectorAll(".rl").forEach((r, i) => r.classList.toggle("on", i <= S));
+    wires.forEach((w, i) => w.setAttribute("aria-pressed", String(i === T)));
+    count.textContent = S + 1 + " / " + n;
+    back.disabled = S === 0;
+    next.textContent = S === n - 1 ? "Start over" : nextLabel;
+  }
+  next.addEventListener("click", () => {
+    const n = tracks[T].querySelectorAll(".stage").length;
+    S = S === n - 1 ? 0 : S + 1;
+    render();
+  });
+  back.addEventListener("click", () => { if (S > 0) { S--; render(); } });
+  wires.forEach((w) => w.addEventListener("click", () => { T = +w.dataset.t; S = 0; render(); }));
+  render();
+}
+
+return {stepper};
+})();
+__m["timeline.js"]=(function(){
+/* timeline runtime — draws the proportional track over the static list (from fbi-cia-nsa.html).
+ * Wide screens: a horizontal track with staggered markers and a tick axis.
+ * Narrow screens (≤760px): a vertical list, spaced by time, pushed apart where events crowd. */
+function timeline(root) {
+  const evs = [...root.querySelectorAll(".tl-ev")].map((li) => ({
+    p: parseFloat(li.dataset.p), cls: li.className,
+    y: li.querySelector(".tl-y").textContent, s: li.querySelector(".tl-s").textContent,
+    t: li.querySelector(".tl-t").innerHTML, b: li.querySelector(".tl-b").innerHTML,
+  }));
+  if (!evs.length) return;
+  const ticks = [...root.querySelectorAll(".tl-ticks span")].map((s) => ({ p: parseFloat(s.dataset.p), label: s.textContent }));
+  const today = root.dataset.today ? parseFloat(root.dataset.today) : null;
+
+  const list = root.querySelector(".tl-list");
+  const live = document.createElement("div");
+  live.className = "tl-live";
+  live.innerHTML = '<div class="tl-track"></div><div class="tl-axis"></div>';
+  list.after(live);
+  list.hidden = true;
+  // track, axis, key, then the shared panel
+  const panel = document.createElement("div");
+  panel.className = "tl-panel";
+  panel.setAttribute("role", "region");
+  panel.setAttribute("aria-live", "polite");
+  panel.innerHTML = '<div class="py"></div><h4></h4><p></p>';
+  root.appendChild(panel);
+  const track = live.querySelector(".tl-track"), axis = live.querySelector(".tl-axis");
+  const first = evs.findIndex((e) => !/\bfuture\b/.test(e.cls));
+  let current = Math.max(0, root.querySelector(".tl-ev.next") ? evs.findIndex((e) => /\bnext\b/.test(e.cls)) : first);
+  let narrow = null;
+  const pct = (p) => (p * 100).toFixed(2) + "%";
+  const kindCls = (e) => e.cls.split(/\s+/).filter((c) => /^(k\d|kt|c-[\w-]+|future|next)$/.test(c)).join(" ");
+
+  function dot(e, i) {
+    return '<button type="button" class="tl-dot ' + kindCls(e) + '" data-i="' + i + '" aria-label="' + e.y.replace(/"/g, "&quot;") + ": " +
+      e.t.replace(/<[^>]*>/g, "").replace(/"/g, "&quot;") + '"></button>';
+  }
+
+  function horizontal() {
+    track.classList.remove("vert");
+    const rows = [0, 78, 156];
+    let h = "";
+    evs.forEach((e, i) => {
+      const left = Math.max(1.5, Math.min(98.5, e.p * 100));
+      const top = rows[i % 3];
+      h += '<div class="tl-node" data-i="' + i + '" style="left:' + left.toFixed(2) + "%;top:" + top + 'px">' +
+        '<div class="tl-stem" style="top:40px;height:' + Math.max(0, 208 - top - 40) + 'px"></div>' + dot(e, i) +
+        '<div class="tl-yr">' + e.s + "</div></div>";
+    });
+    if (today !== null) h += '<div class="tl-today" style="left:' + pct(today) + '"><span>Today</span></div>';
+    track.style.height = "230px";
+    track.innerHTML = h;
+    axis.innerHTML = ticks.map((t, k) => '<span class="tl-tick' + (k === 0 ? " first" : k === ticks.length - 1 ? " last" : "") +
+      '" style="left:' + pct(t.p) + '">' + t.label + "</span>").join("");
+    axis.style.display = "";
+  }
+
+  function vertical() {
+    track.classList.add("vert");
+    const H = Math.max(420, evs.length * 56), MIN = 62, tops = [];
+    evs.forEach((e, i) => {
+      let raw = e.p * H;
+      if (i > 0 && raw < tops[i - 1] + MIN) raw = tops[i - 1] + MIN;
+      tops.push(raw);
+    });
+    track.innerHTML = evs.map((e, i) => '<div class="tl-node" data-i="' + i + '" style="top:' + tops[i].toFixed(1) + 'px">' + dot(e, i) +
+      '<div class="tl-vlab"><span class="vy">' + e.s + "</span>" + e.t + "</div></div>").join("");
+    track.style.height = tops[tops.length - 1] + 64 + "px";
+    axis.innerHTML = "";
+    axis.style.display = "none";
+  }
+
+  function show(i) {
+    current = i;
+    const e = evs[i];
+    panel.querySelector(".py").textContent = e.y;
+    panel.querySelector("h4").innerHTML = e.t;
+    panel.querySelector("p").innerHTML = e.b;
+    track.querySelectorAll(".tl-dot").forEach((d, j) => d.classList.toggle("on", j === i));
+    track.querySelectorAll(".tl-node").forEach((n, j) => n.classList.toggle("on", j === i));
+  }
+
+  function layout() {
+    const isNarrow = window.matchMedia("(max-width:760px)").matches;
+    if (isNarrow === narrow) return;
+    narrow = isNarrow;
+    if (isNarrow) vertical(); else horizontal();
+    show(current);
+  }
+
+  track.addEventListener("click", (ev) => { const d = ev.target.closest(".tl-dot"); if (d) show(+d.dataset.i); });
+  track.addEventListener("focusin", (ev) => { const d = ev.target.closest(".tl-dot"); if (d) show(+d.dataset.i); });
+  track.addEventListener("keydown", (ev) => {
+    if (ev.key !== "ArrowRight" && ev.key !== "ArrowLeft") return;
+    const k = Math.max(0, Math.min(evs.length - 1, current + (ev.key === "ArrowRight" ? 1 : -1)));
+    const d = track.querySelector('.tl-dot[data-i="' + k + '"]');
+    if (d) { ev.preventDefault(); d.focus(); }
+  });
+  layout();
+  window.addEventListener("resize", layout);
+}
+
+return {timeline};
+})();
+__m["quiz.js"]=(function(){
+/* quiz runtime — paged (default) or stacked. Answers lock on the first pick; the verdict is
+ * spoken in words ("Correct" / "Not quite"), never colour alone. */
+function quiz(root) {
+  const items = [...root.querySelectorAll(".qz")];
+  const paged = !root.classList.contains("stacked");
+  const num = root.querySelector(".qn-num"), score = root.querySelector(".qn-score");
+  const done = root.querySelector(".qz-done");
+  let qi = 0, right = 0, answered = 0;
+
+  function head() {
+    if (paged) num.textContent = qi < items.length ? "Question " + (qi + 1) + " of " + items.length : items.length + " questions";
+    score.textContent = "Score " + right + " / " + answered;
+  }
+  function reset() {
+    qi = 0; right = 0; answered = 0;
+    items.forEach((it) => {
+      it.querySelectorAll(".opt").forEach((o) => { o.disabled = false; o.classList.remove("correct", "wrong"); o.querySelector(".mk").textContent = o.dataset.mk; });
+      it.querySelector(".why").hidden = true;
+      const nx = it.querySelector(".qz-next"); if (nx) nx.remove();
+    });
+    show();
+  }
+  function show() {
+    if (paged) items.forEach((it, i) => { it.hidden = i !== qi; });
+    done.hidden = !(paged ? qi >= items.length : answered === items.length);
+    if (!done.hidden) {
+      done.querySelector(".score").textContent = right + " out of " + items.length;
+      const msg = done.querySelector(".qz-msg");
+      msg.textContent = right === items.length ? msg.dataset.all : right >= items.length * 0.6 ? msg.dataset.most : msg.dataset.few;
+    }
+    head();
+  }
+  items.forEach((it, i) => {
+    const ans = +it.dataset.answer;
+    const opts = [...it.querySelectorAll(".opt")];
+    opts.forEach((o) => { o.dataset.mk = o.querySelector(".mk").textContent; });
+    opts.forEach((o) => o.addEventListener("click", () => {
+      const picked = +o.dataset.i, ok = picked === ans;
+      answered++; if (ok) right++;
+      opts.forEach((x, j) => {
+        x.disabled = true;
+        if (j === ans) { x.classList.add("correct"); x.querySelector(".mk").textContent = "✓ " + x.dataset.mk; }
+        else if (j === picked) { x.classList.add("wrong"); x.querySelector(".mk").textContent = "✗ " + x.dataset.mk; }
+      });
+      const why = it.querySelector(".why");
+      why.querySelector(".why-h").textContent = ok ? "Correct — here is why" : "Not quite — here is why";
+      why.hidden = false;
+      if (paged) {
+        const row = document.createElement("div");
+        row.className = "btnrow qz-next";
+        row.innerHTML = '<button type="button" class="btn btn-primary">' + (i === items.length - 1 ? "See results" : "Next question") + "</button>";
+        it.appendChild(row);
+        row.firstChild.addEventListener("click", () => { qi++; show(); const f = root.querySelector(".qz:not([hidden]) .opt, .qz-done .btn"); if (f) f.focus({ preventScroll: true }); });
+      }
+      head();
+      if (!paged) show();
+    }));
+  });
+  done.querySelector('[data-act="again"]').addEventListener("click", reset);
+  root.classList.add("live");
+  show();
+}
+
+return {quiz};
+})();
+const H={router:__m["router.js"].router,stepper:__m["stepper.js"].stepper,timeline:__m["timeline.js"].timeline,quiz:__m["quiz.js"].quiz};
+document.querySelectorAll("[data-w]").forEach(function(el){var f=H[el.dataset.w];if(f){try{f(el)}catch(e){console.error(el.dataset.w,e)}}});
+})();
+</script>
+
+<!-- Review & edit overlay — injected by assemble.mjs (invariant; do not hand-edit) -->
+<script>
+/* =====================================================================
+   review-mode.js — drop-in "Review & edit" overlay for html-explainer pages
+
+   WHAT IT IS
+   A self-contained client-side overlay that lets a reader edit or annotate
+   an explainer in-place, then export the result — the front end of the
+   Phase 6 revise loop. No server. Works deployed or from a local file.
+
+   HOW TO USE (two steps)
+   1. Paste this entire block inside a <script> just before </body> in the
+      built HTML. It injects its own <style> and builds its own UI; there is
+      nothing else to wire up.
+   2. If the page has its own keyboard handler (e.g. a slide deck), add
+      `|| e.target.isContentEditable` to its "am I typing?" guard so editing
+      text doesn't trigger navigation. (Scrolling pages usually need nothing.)
+
+   ACTIVATION
+   - Deployed: append `?edit` to the URL. Hand reviewers a *labelled* link
+     (View = the plain URL; Review & edit = the URL + `?edit`).
+   - Local file (no second URL to give out): add the attribute
+     `<body data-review-toggle>` and a prominent top-right "Review & edit"
+     button appears that turns the toolbar on.
+
+   OPTIONAL DECK HOOK
+   - On a deck where off-screen sections can't be reached by scrollIntoView,
+     define `window.reviewGoto = note => goToSlide(note.slideIdx)` so the
+     panel's "jump to annotation" works. (Store slideIdx on the note via the
+     same hook if you need it.) Falls back to scrollIntoView otherwise.
+
+   LIMITS (state these in the hand-off)
+   - Edits/notes are per-browser: no shared live document, no server save
+     (localStorage is best-effort and not always available on file://).
+   - `contenteditable` edits the rendered markup, NOT JS-rendered content
+     (quiz/demo data arrays) — route those changes through the *note* path.
+   ===================================================================== */
+(function () {
+  "use strict";
+  var qs = new URLSearchParams(location.search);
+  var viaQuery = qs.has("edit");
+  var viaToggle = document.body.hasAttribute("data-review-toggle");
+  if (!viaQuery && !viaToggle) return;
+
+  // ---- styles (use the page's design tokens, with fallbacks) ----
+  var css = [
+    "body.rv-on #topbar{top:46px}", // example: offset a known fixed header; harmless if absent
+    "body.rv-pad{padding-top:46px}", // scrolling pages: push content below the toolbar (decks skip this)
+    "#rv-bar{position:fixed;top:0;left:0;right:0;min-height:46px;z-index:9000;display:flex;align-items:center;gap:10px;padding:6px 14px;background:#23211c;color:#f6f3ec;font-family:var(--sans,system-ui,sans-serif);font-size:13px;box-shadow:0 2px 12px rgba(0,0,0,.25);flex-wrap:wrap}",
+    "#rv-bar .rv-tag{font-family:var(--mono,ui-monospace,monospace);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#e6b566;display:flex;align-items:center;gap:7px}",
+    "#rv-bar .rv-tag::before{content:'';width:7px;height:7px;border-radius:50%;background:#e6b566}",
+    ".rv-seg{display:inline-flex;border:1px solid #4a463d;border-radius:8px;overflow:hidden}",
+    ".rv-seg button{background:none;border:none;color:#cfc9bb;font-family:inherit;font-size:12px;padding:6px 11px;cursor:pointer}",
+    ".rv-seg button.on{background:#e6b566;color:#23211c;font-weight:600}",
+    ".rv-act{background:#3a362e;border:1px solid #4a463d;color:#f6f3ec;font-family:inherit;font-size:12px;padding:6px 11px;border-radius:8px;cursor:pointer}",
+    ".rv-act:hover{background:#4a463d}",
+    "#rv-bar .rv-spacer{flex:1}",
+    "#rv-bar .rv-exit{color:#cfc9bb;text-decoration:none;font-size:12px;border-bottom:1px dashed #6a6456;cursor:pointer}",
+    "#rv-launch{position:fixed;top:8px;right:14px;z-index:9002;background:#b9772a;color:#fff;border:none;border-radius:24px;padding:11px 18px;font-family:var(--sans,system-ui,sans-serif);font-size:13.5px;font-weight:600;cursor:pointer;box-shadow:0 6px 22px rgba(0,0,0,.28);display:inline-flex;align-items:center;gap:7px}",
+    "#rv-launch:hover{background:#a3641f}",
+    "#rv-launch svg{display:block}",
+    "body.rv-mode-edit [data-rv-edit]:hover{outline:2px dashed #1f6f8b;outline-offset:3px;cursor:text}",
+    "body.rv-mode-edit [data-rv-edit]:focus{outline:2px solid #1f6f8b;outline-offset:3px;background:rgba(31,111,139,.06)}",
+    "body.rv-mode-note .rv-target:hover{cursor:crosshair;outline:1px dashed #b9772a;outline-offset:2px}",
+    ".rv-annotated{outline:2px dashed #b9772a !important;outline-offset:3px;background:rgba(185,119,42,.09)}",
+    ".rv-flash{animation:rvflash 1.2s ease}",
+    "@keyframes rvflash{0%,100%{background:transparent}30%{background:rgba(230,181,102,.35)}}",
+    "#rv-notes{position:fixed;top:46px;right:0;bottom:0;width:330px;max-width:86vw;z-index:8999;background:var(--card,#fffdf8);border-left:1px solid var(--line-strong,#c8bfab);box-shadow:-6px 0 24px rgba(0,0,0,.08);transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column}",
+    "#rv-notes.open{transform:none}",
+    "#rv-notes .rv-notes-hd{display:flex;align-items:center;justify-content:space-between;padding:0 10px 0 0}",
+    "#rv-notes h4{font-family:var(--display,Georgia,serif);font-size:16px;margin:0;padding:16px 18px 10px;color:var(--ink,#23211c)}",
+    "#rv-collapse{font-family:var(--sans,sans-serif);font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--ink-faint,#8a8478);background:transparent;border:1px solid var(--line,#ddd5c5);border-radius:7px;padding:5px 10px;cursor:pointer}",
+    "#rv-collapse:hover{color:var(--ink,#23211c);border-color:var(--line-strong,#c8bfab)}",
+    "#rv-notes .rv-list{flex:1;overflow:auto;padding:0 14px 14px}",
+    "#rv-notes .rv-empty{color:var(--ink-faint,#8a8478);font-size:13px;padding:10px 4px;font-style:italic;line-height:1.5}",
+    ".rv-note{border:1px solid var(--line,#ddd5c5);border-radius:10px;padding:11px 12px;margin-bottom:9px;background:var(--card,#fffdf8)}",
+    ".rv-note .rv-loc{font-family:var(--mono,ui-monospace,monospace);font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--augment,#b9772a);cursor:pointer}",
+    ".rv-note .rv-ex{font-size:12px;color:var(--ink-faint,#8a8478);margin:4px 0;line-height:1.4}",
+    ".rv-note .rv-txt{font-size:13.5px;color:var(--ink,#23211c);line-height:1.45}",
+    ".rv-note .rv-del{float:right;border:none;background:none;color:var(--ink-faint,#8a8478);cursor:pointer;font-size:15px;line-height:1}",
+    "#rv-pop{position:fixed;z-index:9010;width:280px;background:var(--card,#fffdf8);border:1px solid var(--line-strong,#c8bfab);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:12px;display:none}",
+    "#rv-pop.open{display:block}",
+    "#rv-pop .rv-ex{font-size:11.5px;color:var(--ink-faint,#8a8478);margin-bottom:8px;line-height:1.4;max-height:48px;overflow:hidden}",
+    "#rv-pop textarea{width:100%;height:74px;resize:vertical;font-family:var(--sans,system-ui,sans-serif);font-size:13px;border:1px solid var(--line-strong,#c8bfab);border-radius:8px;padding:8px;box-sizing:border-box}",
+    "#rv-pop .rv-pop-act{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}",
+    "#rv-pop button{font-family:var(--sans,system-ui,sans-serif);font-size:12px;padding:6px 12px;border-radius:7px;cursor:pointer;border:1px solid var(--line-strong,#c8bfab);background:var(--card,#fffdf8)}",
+    "#rv-pop button.rv-save{background:#b9772a;color:#fff;border-color:#b9772a}",
+    ".rv-toast{position:fixed;bottom:82px;left:50%;transform:translateX(-50%);background:#23211c;color:#f6f3ec;font-size:13px;padding:9px 16px;border-radius:20px;z-index:9010;opacity:0;transition:opacity .25s;pointer-events:none}",
+    ".rv-toast.show{opacity:1}",
+    "#rv-fallback{position:fixed;inset:0;z-index:9020;background:rgba(35,33,28,.5);display:none;align-items:center;justify-content:center;padding:24px}",
+    "#rv-fallback.open{display:flex}",
+    "#rv-fallback .rv-fb-card{background:var(--card,#fffdf8);border-radius:12px;padding:16px;max-width:560px;width:100%}",
+    "#rv-fallback textarea{width:100%;height:240px;font-family:var(--mono,ui-monospace,monospace);font-size:12px;box-sizing:border-box}"
+  ].join("\n");
+  var styleEl = document.createElement("style");
+  styleEl.textContent = css;
+  document.head.appendChild(styleEl);
+
+  // state must be initialised before activate() can render
+  var built = false, mode = "interact", pendingEl = null, notes = load();
+
+  function $(id) { return document.getElementById(id); }
+
+  // local files: show a launcher button instead of opening immediately
+  if (viaToggle && !viaQuery) {
+    var launch = document.createElement("button");
+    launch.id = "rv-launch";
+    launch.setAttribute("aria-label", "Review & edit this page");
+    launch.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span>Review &amp; edit</span>';
+    launch.onclick = function () { launch.style.display = "none"; activate(); };
+    document.body.appendChild(launch);
+    // Slide decks put their nav in the top-right — move launcher to bottom-left to avoid collision.
+    // Scrolling pages: position just below any fixed/sticky top nav instead.
+    requestAnimationFrame(function () {
+      // If the page's own CSS repositioned the launcher (e.g. the assembler's
+      // deck-offset rule), it knows its chrome better than this heuristic — keep it.
+      var cs = getComputedStyle(launch);
+      if (cs.top !== "8px" || cs.right !== "14px") return;
+      var isDeck = !!document.querySelector(".slide,[data-deck],[data-slide],.slides-track,.deck");
+      if (isDeck) {
+        launch.style.top = "auto";
+        launch.style.right = "auto";
+        launch.style.bottom = "16px";
+        launch.style.left = "14px";
+      } else {
+        var navBottom = 0;
+        document.querySelectorAll("nav,header,[role=navigation],[role=banner]").forEach(function (el) {
+          var s = getComputedStyle(el);
+          if (s.position === "fixed" || s.position === "sticky") {
+            navBottom = Math.max(navBottom, el.getBoundingClientRect().bottom);
+          }
+        });
+        if (navBottom > 0) launch.style.top = (navBottom + 8) + "px";
+      }
+    });
+  } else {
+    activate();
+  }
+
+  function activate() {
+    document.body.classList.add("rv-on");
+    if (!document.querySelector(".slide,[data-deck]")) document.body.classList.add("rv-pad");
+    var bar = document.getElementById("rv-bar"); if (bar) bar.style.display = ""; // re-show on re-entry
+    if (built) return;
+    built = true;
+    markEditable();
+    buildToolbar();
+    buildPanel();
+    buildPopover();
+    buildFallback();
+    renderNotes();
+  }
+
+  // ---- editable prose (broad, but never controls or the review UI) ----
+  function markEditable() {
+    // Skip the overlay's own UI, interactive controls, and anything already
+    // covered by an editable ancestor (so we don't double-mark nested text).
+    var skip = "#rv-bar,#rv-notes,#rv-pop,#rv-fallback,#rv-launch,input,textarea,select,[data-rv-edit],[contenteditable],[data-rv-edit-exclude]";
+    function mark(el) {
+      if (el.closest(skip)) return;
+      el.setAttribute("data-rv-edit", "");
+    }
+    // 1) Known text-bearing elements (broadened well past the old p/h/li set:
+    //    table cells, summaries, definition lists, captions all hold prose too).
+    var sel = "h1,h2,h3,h4,h5,h6,p,li,blockquote,figcaption,figure,summary,caption,td,th,dt,dd,button,a,label,[data-rv-edit-include]";
+    Array.prototype.forEach.call(document.querySelectorAll(sel), mark);
+    // 2) Generic containers (div/section/etc.) that hold their OWN text directly
+    //    rather than via a block child — extremely common in AI-generated markup,
+    //    and the reason "some text wasn't editable". Only mark the ones with loose
+    //    text so we don't turn whole layout wrappers into one big editable blob.
+    Array.prototype.forEach.call(
+      document.querySelectorAll("div,section,article,header,footer,main,aside,span"),
+      function (el) {
+        var ownText = Array.prototype.some.call(el.childNodes, function (n) {
+          return n.nodeType === 3 && n.textContent.trim();
+        });
+        if (ownText) mark(el);
+      }
+    );
+  }
+
+  function buildToolbar() {
+    var bar = document.createElement("div");
+    bar.id = "rv-bar";
+    bar.innerHTML =
+      '<span class="rv-tag">Review mode</span>' +
+      '<div class="rv-seg" id="rv-seg">' +
+        '<button data-mode="interact" class="on">Preview</button>' +
+        '<button data-mode="edit">Edit text</button>' +
+        '<button data-mode="note">Add note</button>' +
+      "</div>" +
+      '<span class="rv-spacer"></span>' +
+      '<button class="rv-act" id="rv-toggle-notes">Notes (0)</button>' +
+      '<button class="rv-act" id="rv-copy">Copy notes for LLM</button>' +
+      '<button class="rv-act" id="rv-download">Download edits</button>' +
+      '<span class="rv-exit" id="rv-exit">Exit</span>';
+    document.body.appendChild(bar);
+    Array.prototype.forEach.call(bar.querySelectorAll("#rv-seg button"), function (b) {
+      b.onclick = function () { setMode(b.dataset.mode); };
+    });
+    $("rv-toggle-notes").onclick = function () { $("rv-notes").classList.toggle("open"); };
+    $("rv-copy").onclick = copyBrief;
+    $("rv-download").onclick = downloadEdits;
+    $("rv-exit").onclick = function () {
+      if (viaQuery) location.href = location.pathname; // drop ?edit
+      else { document.body.classList.remove("rv-on", "rv-mode-edit", "rv-mode-note", "rv-pad"); setMode("interact"); $("rv-bar").style.display = "none"; var l = $("rv-launch"); if (l) l.style.display = ""; }
+    };
+  }
+
+  function buildPanel() {
+    var p = document.createElement("div");
+    p.id = "rv-notes";
+    p.innerHTML = '<div class="rv-notes-hd"><h4>Annotations</h4><button id="rv-collapse" title="Collapse panel (your notes are kept)" aria-label="Collapse panel">Collapse &rsaquo;</button></div><div class="rv-list" id="rv-list"></div>';
+    document.body.appendChild(p);
+    // Collapse hides the panel without deleting notes (they persist in
+    // localStorage and reopen via the toolbar's "Notes (N)" button).
+    $("rv-collapse").onclick = function () { $("rv-notes").classList.remove("open"); };
+  }
+
+  function buildPopover() {
+    var pop = document.createElement("div");
+    pop.id = "rv-pop";
+    pop.innerHTML =
+      '<div class="rv-ex" id="rv-pop-ex"></div>' +
+      '<textarea id="rv-pop-ta" placeholder="What should change here?"></textarea>' +
+      '<div class="rv-pop-act"><button id="rv-pop-cancel">Cancel</button>' +
+      '<button class="rv-save" id="rv-pop-save">Save note</button></div>';
+    document.body.appendChild(pop);
+    $("rv-pop-cancel").onclick = closePop;
+    $("rv-pop-save").onclick = saveNote;
+  }
+
+  function buildFallback() {
+    var f = document.createElement("div");
+    f.id = "rv-fallback";
+    f.innerHTML = '<div class="rv-fb-card"><p style="margin:0 0 8px;font-family:var(--sans,sans-serif);font-size:13px">Copy the revision brief below (clipboard was blocked):</p><textarea id="rv-fb-ta" readonly></textarea><div style="text-align:right;margin-top:8px"><button class="rv-act" id="rv-fb-close" style="background:#23211c">Close</button></div></div>';
+    document.body.appendChild(f);
+    $("rv-fb-close").onclick = function () { f.classList.remove("open"); };
+  }
+
+  function setMode(m) {
+    mode = m;
+    document.body.classList.toggle("rv-mode-edit", m === "edit");
+    document.body.classList.toggle("rv-mode-note", m === "note");
+    Array.prototype.forEach.call(document.querySelectorAll("[data-rv-edit]"), function (el) {
+      el.contentEditable = (m === "edit" ? "true" : "false");
+      el.classList.toggle("rv-target", m === "note");
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("#rv-seg button"), function (b) {
+      b.classList.toggle("on", b.dataset.mode === m);
+    });
+    if (m !== "note") closePop();
+  }
+
+  // ---- note capture (capture-phase so it beats demo handlers) ----
+  document.addEventListener("click", function (e) {
+    if (mode !== "note") return;
+    if (e.target.closest("#rv-bar,#rv-notes,#rv-pop,#rv-fallback,#rv-launch")) return;
+    var el = e.target;
+    if (!el || el === document.body || el === document.documentElement) return;
+    e.preventDefault(); e.stopPropagation();
+    pendingEl = el;
+    var ex = excerpt(el);
+    $("rv-pop-ex").textContent = "“" + ex + "”";
+    $("rv-pop-ta").value = "";
+    openPop(e.clientX, e.clientY);
+    setTimeout(function () { $("rv-pop-ta").focus(); }, 30);
+  }, true);
+
+  // In Edit mode, clicking an editable button/link must place the caret to edit
+  // its text — NOT trigger its action. Capture-phase so it beats page handlers.
+  document.addEventListener("click", function (e) {
+    if (mode !== "edit") return;
+    if (e.target.closest("#rv-bar,#rv-notes,#rv-pop,#rv-fallback,#rv-launch")) return;
+    if (e.target.closest("[data-rv-edit]") && e.target.closest("button,a")) {
+      e.preventDefault(); e.stopPropagation();
+    }
+  }, true);
+
+  function saveNote() {
+    var txt = $("rv-pop-ta").value.trim();
+    if (!txt || !pendingEl) { closePop(); return; }
+    pendingEl.classList.add("rv-annotated");
+    notes.push({ loc: locate(pendingEl), excerpt: excerpt(pendingEl), note: txt, el: pendingEl });
+    closePop(); save(); renderNotes();
+    $("rv-notes").classList.add("open"); toast("Note added");
+  }
+
+  function openPop(x, y) {
+    var pop = $("rv-pop");
+    pop.classList.add("open");
+    var w = 280, h = pop.offsetHeight || 190;
+    pop.style.left = Math.max(12, Math.min(x, window.innerWidth - w - 12)) + "px";
+    pop.style.top = Math.max(54, Math.min(y, window.innerHeight - h - 12)) + "px";
+  }
+  function closePop() { $("rv-pop") && $("rv-pop").classList.remove("open"); pendingEl = null; }
+
+  function renderNotes() {
+    $("rv-toggle-notes").textContent = "Notes (" + notes.length + ")";
+    var list = $("rv-list");
+    if (!notes.length) {
+      list.innerHTML = '<div class="rv-empty">No annotations yet. Switch to “Add note”, then click any text to leave a comment for the LLM.</div>';
+      return;
+    }
+    list.innerHTML = "";
+    notes.forEach(function (n, i) {
+      var d = document.createElement("div");
+      d.className = "rv-note";
+      d.innerHTML =
+        '<button class="rv-del" title="Delete this note">×</button>' +
+        '<div class="rv-loc">' + esc(n.loc) + "</div>" +
+        '<div class="rv-ex">“' + esc(n.excerpt) + '”</div>' +
+        '<div class="rv-txt">' + esc(n.note) + "</div>";
+      d.querySelector(".rv-loc").onclick = function () { gotoNote(n); };
+      d.querySelector(".rv-del").onclick = function () { notes.splice(i, 1); save(); renderNotes(); };
+      list.appendChild(d);
+    });
+  }
+
+  // Shared revision-brief text, used by both "Copy notes" and the download.
+  function briefText() {
+    var out = "# Revision requests\n(" + notes.length + " annotation" + (notes.length > 1 ? "s" : "") + " from a reviewer)\n\n";
+    notes.forEach(function (n, i) {
+      out += (i + 1) + ". " + n.loc + "\n   Text: \"" + n.excerpt + "\"\n   Change: " + n.note + "\n\n";
+    });
+    out += "Please apply these to the source HTML, keeping the structured data arrays and CSS tokens intact, then re-screenshot to verify.";
+    return out;
+  }
+
+  function copyBrief() {
+    if (!notes.length) { toast("No notes yet"); return; }
+    copy(briefText());
+  }
+
+  function downloadEdits() {
+    var was = mode; setMode("interact");
+    var clone = document.documentElement.cloneNode(true);
+    rm(clone, "#rv-bar,#rv-notes,#rv-pop,#rv-fallback,#rv-launch,.rv-toast");
+    Array.prototype.forEach.call(clone.querySelectorAll("[data-rv-edit]"), function (n) {
+      n.removeAttribute("data-rv-edit"); n.removeAttribute("contenteditable"); n.classList.remove("rv-target");
+    });
+    Array.prototype.forEach.call(clone.querySelectorAll(".rv-annotated"), function (n) { n.classList.remove("rv-annotated"); });
+    var b = clone.querySelector("body");
+    if (b) b.classList.remove("rv-on", "rv-mode-edit", "rv-mode-note");
+    var html = "<!DOCTYPE html>\n" + clone.outerHTML;
+    // Append the reviewer's notes as an HTML comment so a single download carries
+    // BOTH the inline text edits and the comments. Invisible on the rendered page;
+    // sanitize so note text can't break out of the comment.
+    if (notes.length) {
+      var safe = briefText().replace(/<!--/g, "<!-").replace(/-->/g, "->").replace(/--/g, "—");
+      html += "\n\n<!-- ===== REVIEWER NOTES (" + notes.length + ") — appended by review-mode.js =====\n\n" +
+              safe + "\n\n===== end reviewer notes ===== -->\n";
+    }
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([html], { type: "text/html" }));
+    a.download = (document.title || "page").replace(/[^a-z0-9]+/gi, "-").toLowerCase() + "-edited.html";
+    a.click();
+    setMode(was);
+    toast(notes.length ? "Downloaded — edits + " + notes.length + " note" + (notes.length > 1 ? "s" : "") : "Downloaded edited copy");
+  }
+
+  // ---- location label: nearest section heading, deck-agnostic ----
+  function locate(el) {
+    var sec = el.closest("section,[data-section],.slide,article");
+    var head = sec && sec.querySelector("h1,h2,h3,h4");
+    if (!head) head = nearestHeading(el);
+    return head ? head.innerText.trim().replace(/\s+/g, " ").slice(0, 60) : "Page";
+  }
+  function nearestHeading(el) {
+    var heads = Array.prototype.slice.call(document.querySelectorAll("h1,h2,h3,h4"))
+      .filter(function (h) { return !h.closest("#rv-bar,#rv-notes,#rv-pop"); });
+    var best = null;
+    for (var i = 0; i < heads.length; i++) {
+      var h = heads[i];
+      if (h === el || (h.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING)) best = h;
+      else break;
+    }
+    return best;
+  }
+  function gotoNote(n) {
+    if (typeof window.reviewGoto === "function") { window.reviewGoto(n); return; }
+    if (n.el && n.el.isConnected) {
+      n.el.scrollIntoView({ behavior: "smooth", block: "center" });
+      n.el.classList.add("rv-flash");
+      setTimeout(function () { n.el.classList.remove("rv-flash"); }, 1200);
+    }
+  }
+
+  // ---- helpers ----
+  function excerpt(el) { return (el.innerText || el.textContent || "").trim().replace(/\s+/g, " ").slice(0, 140); }
+  function esc(s) { return (s || "").replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }); }
+  function rm(root, sel) { Array.prototype.forEach.call(root.querySelectorAll(sel), function (n) { n.remove(); }); }
+  // Per-page key so notes from one explainer never leak into another on the same origin.
+  function notesKey() { try { return "rv-notes:" + (location.pathname || "") + (location.search || ""); } catch (e) { return "rv-notes"; } }
+  function save() { try { localStorage.setItem(notesKey(), JSON.stringify(notes.map(function (n) { return { loc: n.loc, excerpt: n.excerpt, note: n.note }; }))); } catch (e) {} }
+  function load() { try { return JSON.parse(localStorage.getItem(notesKey()) || "[]"); } catch (e) { return []; } }
+  function copy(t) {
+    var ok = false;
+    try { if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(t); ok = true; } } catch (e) {}
+    if (ok) { toast("Revision brief copied — paste it to the LLM"); }
+    else { $("rv-fb-ta").value = t; $("rv-fallback").classList.add("open"); $("rv-fb-ta").select(); } // clipboard blocked (e.g. file://)
+  }
+  var tT;
+  function toast(m) {
+    var el = document.querySelector(".rv-toast");
+    if (!el) { el = document.createElement("div"); el.className = "rv-toast"; document.body.appendChild(el); }
+    el.textContent = m; el.classList.add("show");
+    clearTimeout(tT); tT = setTimeout(function () { el.classList.remove("show"); }, 1900);
+  }
+})();
+
+</script>
+</body>
+</html>
