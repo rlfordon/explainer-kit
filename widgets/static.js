@@ -2,7 +2,7 @@
  *
  *   ```cards {.mono}         Tag | Text                 (hero cards; a {.topic} on the tag colours it)
  *   ```cards {.rule}         Kicker | Title | Text      (the last column is the text, the one before it the title)
- *   ```stats                 Label | Value
+ *   ```stats {.big-first}     Label | Value              (.big-first: the value big, the label under it)
  *   ```callout {kind=note|key|warn title="…"}   Markdown body
  *   ```deeper {title="Go deeper: …"}             Markdown body, folded
  *   ```myths {said="Commonly said" fix="Actually"}

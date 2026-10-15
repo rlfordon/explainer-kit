@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Jev could do for legal research and citation analysis</title>
+<meta name="description" content="Jev is a model from TypeSafe AI that writes nothing. It reads text, answers closed questions, and attaches a probability to each answer. Citator labels, cite-checks, and docket coding are closed questions. Here are eleven things worth trying, what supports each, and where the approach has already failed.">
+<meta name="generator" content="html-explainer/explainer build.mjs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700;800&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=IBM+Plex+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{--s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--s8:64px;--s9:96px;--maxw:1180px;--measure:66ch;--r:4px}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--text);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+h1,h2,h3,h4{font-family:var(--disp);font-weight:600;line-height:1.14;margin:0;letter-spacing:-.012em;text-wrap:balance}
+p{margin:0 0 var(--s4)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-dim)}
+a:hover{border-bottom-color:var(--accent)}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+strong{font-weight:600;color:var(--ink)}
+mark{background:var(--accent-dim);color:inherit;padding:0 .15em;border-radius:2px}
+code{font-family:var(--mono);font-size:.88em;background:var(--raise);padding:.08em .35em;border-radius:3px}
+ul,ol{margin:0 0 var(--s4);padding-left:1.2em}
+li{margin-bottom:var(--s2)}
+blockquote{margin:0 0 var(--s4);padding-left:var(--s4);border-left:3px solid var(--line-2);color:var(--ink-2)}
+h3{font-size:21px;margin:var(--s6) 0 var(--s3)}
+h4{font-size:18px;margin:var(--s5) 0 var(--s2)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--s5)}
+.skip{position:absolute;left:-999px;top:0;background:var(--ink);color:var(--bg);padding:8px 12px;z-index:100}
+.skip:focus{left:8px;top:8px}
+.nav{position:sticky;top:0;z-index:60;background:var(--nav-bg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:var(--s5);height:54px}
+.brand{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;color:var(--ink)}
+.nav .links{display:flex;gap:var(--s4);margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.nav .links::-webkit-scrollbar{display:none}
+.nav .links a{font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap;padding:6px 0;border:0}
+.nav .links a:hover,.nav .links a.on{color:var(--accent)}
+.hero{border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--surface-2),var(--bg))}
+.hero .wrap{padding:var(--s9) var(--s5) var(--s8)}
+.hero h1{font-size:clamp(38px,6.2vw,68px);max-width:17ch;margin-bottom:var(--s5)}
+.hero .dek{font-size:20px;color:var(--ink-2);max-width:60ch;margin-bottom:var(--s7)}
+.hero p:not(.dek){max-width:var(--measure);color:var(--ink-2)}
+.hero.dark{background:var(--bg);border-bottom:0}
+.hero.dark .meta{border-top-color:var(--line)}
+.hero .eyebrow{margin-bottom:var(--s4)}
+.hero-anim{animation:rise .6s ease-out both}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.hero-anim{animation:none}}
+.meta{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s5);font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);border-top:1px solid var(--line);padding-top:var(--s4);margin-top:var(--s6)}
+.section{padding:var(--s9) 0;border-top:1px solid var(--line)}
+section[id]{scroll-margin-top:72px}
+.band{background:var(--surface)}
+.eyebrow{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 var(--s3)}
+.eyebrow span{color:var(--ink-3)}
+.sechead{margin-bottom:var(--s6)}
+.sechead h2{font-size:clamp(28px,3.8vw,40px);max-width:17ch}
+.sechead .lede{font-size:18.5px;color:var(--ink-2);max-width:62ch;margin:var(--s3) 0 0}
+.split-head .sechead{max-width:none;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:var(--s7);align-items:end}
+.split-head .sechead .eyebrow{grid-column:1/-1}
+.split-head .sechead h2{max-width:18ch}
+.split-head .sechead .lede{margin:0;padding-bottom:6px}
+.secbody>p,.secbody>ul,.secbody>ol,.secbody>blockquote,.secbody>h3,.secbody>h4,.col>p,.col>ul,.col>ol{max-width:var(--measure)}
+.lede{font-size:18.5px;color:var(--ink-2);max-width:62ch}
+.note{font-family:var(--mono);font-size:12.5px;line-height:1.6;color:var(--ink-3);letter-spacing:.01em}
+.kicker{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:0 0 var(--s2)}
+.foot{margin-top:var(--s7);padding-top:var(--s5);border-top:1px solid var(--line);font-size:14.5px;color:var(--ink-3);max-width:var(--measure)}
+.pagefoot{border-top:1px solid var(--line);padding:var(--s6) 0 var(--s8);font-size:14.5px;color:var(--ink-3)}
+.pagefoot p{max-width:var(--measure)}
+.secbody>*:last-child,.col>*:last-child{margin-bottom:0}
+.tick{display:inline-block;width:13px;height:13px;border:1.5px solid var(--ink-3);border-radius:2px;margin-right:8px;vertical-align:-1px}
+.tick.on{background:var(--ink-3)}
+.cols{display:grid;gap:var(--s7);align-items:start}
+.cols>.col{min-width:0}
+.cols-rule .col{border-top:2px solid var(--ink);padding-top:var(--s4)}
+.cols-rule .col h3{margin-top:0;font-size:19px}
+.cols-rule .col ul{list-style:none;padding:0;margin:0}
+.cols-rule .col li{font-size:15px;color:var(--ink-2);padding:var(--s3) 0;border-bottom:1px solid var(--line);line-height:1.5;margin:0}
+.cols-rule .col li strong{color:var(--ink)}
+.chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:3px;color:#fff;background:var(--c,var(--ink-2));white-space:nowrap;line-height:1.5;vertical-align:1px}
+.chip+.chip{margin-left:4px}
+.yes,.no{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.yes{color:var(--ok)} .no{color:var(--bad)}
+.ok,.bad,.warn,.flag{display:inline-flex;align-items:flex-start;gap:7px;font-family:var(--mono);font-size:12px;font-weight:600;line-height:1.45;letter-spacing:.05em;text-transform:uppercase;padding:5px 10px;border-radius:3px}
+.ok{background:var(--ok-dim);color:var(--ok)}
+.bad{background:var(--bad-dim);color:var(--bad)}
+.warn{background:var(--warn-dim);color:var(--warn)}
+.flag{color:var(--warn);border:1px solid currentColor;background:transparent}
+.muted{color:var(--ink-3);font-weight:400}
+.c{font-family:var(--mono);font-size:.68em;font-weight:600;vertical-align:super;line-height:0;margin-left:1px}
+.c a{border:0;padding:0 1px}
+.c+.c{margin-left:2px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);background:var(--surface-2);border-radius:var(--r);margin:0 0 var(--s5)}
+table{border-collapse:collapse;width:100%;font-size:15.5px}
+table th,table td{text-align:left;vertical-align:top;padding:var(--s4);border-bottom:1px solid var(--line)}
+table thead th{position:sticky;top:0;background:var(--surface-2);border-bottom:2px solid var(--line-2);font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;z-index:2}
+table thead th.h-c{color:var(--c);box-shadow:inset 0 -3px 0 var(--c)}
+table.cmp tbody th{font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);width:180px;background:var(--surface)}
+table tr:last-child th,table tr:last-child td{border-bottom:0}
+table.data td{font-size:15px}
+.demo{border:1px solid var(--line-2);background:var(--surface-2);border-radius:5px;overflow:hidden;margin:var(--s7) 0 0}
+.secbody>.demo:first-child{margin-top:0}
+.demo-head{padding:var(--s4) var(--s5);border-bottom:1px solid var(--line);background:var(--surface);display:flex;flex-wrap:wrap;gap:var(--s3);align-items:baseline;justify-content:space-between}
+.demo-head h3{font-size:20px;margin:0}
+.demo-head .hint{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.demo-body{padding:var(--s6) var(--s5)}
+.omitted{border:1px dashed var(--line-2);border-radius:5px;padding:var(--s5);margin:var(--s6) 0;color:var(--ink-3);font-size:15px;max-width:var(--measure)}
+.omitted b{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.seg{display:flex;border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden}
+.seg button{flex:1;appearance:none;border:0;background:var(--surface);color:var(--ink-2);font-family:var(--sans);font-size:14px;font-weight:500;padding:11px 8px;cursor:pointer;line-height:1.3;border-right:1px solid var(--line-2)}
+.seg button:last-child{border-right:0}
+.seg button:hover{background:var(--raise)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.btnrow{display:flex;gap:var(--s3);align-items:center;margin-top:var(--s5);flex-wrap:wrap}
+.btn{appearance:none;font-family:var(--sans);font-size:15px;font-weight:600;padding:11px 22px;border-radius:var(--r);cursor:pointer;border:1px solid transparent;line-height:1.3}
+.btn-primary{background:var(--ink);color:var(--bg)}
+.btn-primary:hover{opacity:.88}
+.btn-primary[disabled]{background:var(--line-2);color:var(--surface-2);cursor:default}
+.btn-ghost{background:transparent;color:var(--ink-2);border-color:var(--line-2)}
+.btn-ghost:hover{background:var(--raise)}
+.btn-ghost[disabled]{opacity:.45;cursor:default}
+.cx-ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s5) var(--s6);margin-bottom:var(--s6)}
+.cx-ctrl label,.cx-ctrl .clab{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s3);font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:var(--s2)}
+.cx-out{font-family:var(--sans);font-size:15px;font-weight:700;letter-spacing:0;text-transform:none;color:var(--ink);white-space:nowrap}
+.cx-ctrl input[type=range]{width:100%;accent-color:var(--accent);height:28px;margin:0}
+.cx-ctrl .seg{flex-wrap:wrap}
+.cx-say{font-size:15.5px;color:var(--ink-2);max-width:var(--measure);margin:var(--s3) 0 0}
+.cx-say .xv{font-variant-numeric:tabular-nums}
+pre.code{font-family:var(--mono);font-size:13.5px;line-height:1.6;background:var(--dk-bg);color:var(--dk-ink);padding:var(--s4) var(--s5);border-radius:5px;overflow-x:auto;margin:0 0 var(--s5)}
+pre.code code{background:none;padding:0;font-size:inherit;color:inherit}
+.dark{--bg:var(--dk-bg);--surface:var(--dk-surface);--surface-2:var(--dk-surface);--raise:var(--dk-line);--line:var(--dk-line);--line-2:var(--dk-line);--ink:var(--dk-ink);--ink-2:var(--dk-ink-2);--ink-3:var(--dk-ink-2);--accent:var(--accent-lt);--accent-dim:rgba(255,255,255,.14);background:var(--bg);color:var(--ink);border-top:0}
+.dark .chip{background:var(--c-lt,var(--ink-2));color:var(--dk-bg)}
+.dark .flag{color:#e8bd5e}
+@media (max-width:900px){
+.cols{grid-template-columns:1fr!important;gap:var(--s6)}
+.split-head .sechead{grid-template-columns:1fr;row-gap:var(--s3)}
+.split-head .sechead .lede{padding-bottom:0}
+}
+@media (max-width:640px){
+body{font-size:16px}
+.section{padding:var(--s8) 0}
+.hero .wrap{padding:var(--s8) var(--s5) var(--s7)}
+.demo-body{padding:var(--s5) var(--s4)}
+.btn{padding:12px 18px}
+.wrap{padding:0 var(--s4)}
+}
+@media print{
+.nav,.skip,.btnrow,.ck-count{display:none!important}
+.hero{background:none}
+.section{padding:var(--s6) 0;break-inside:avoid-page}
+.demo{break-inside:avoid}
+a{border:0;color:inherit}
+a[href^="http"]::after{content:" (" attr(href) ")";font-size:.8em;color:var(--ink-3);word-break:break-all}
+[hidden].stage,[hidden].rt-v,[hidden].qz,.tree-static[hidden],.tl-list[hidden]{display:block!important}
+.tree-live,.tl-live{display:none!important}
+}
+.cards{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:var(--s5);margin:0 0 var(--s5)}
+.cards .card{min-width:0}
+.cards .kicker{margin-bottom:var(--s2)}
+.cards .card[class*="c-"] .kicker{color:var(--c)}
+.dark .cards .card[class*="c-"] .kicker,.dark .cards .card[class*="c-"] .ct{color:var(--c-lt,var(--c))}
+.cards .ct{font-family:var(--disp);font-size:19px;font-weight:600;line-height:1.25;margin-bottom:var(--s2);color:var(--c,var(--ink))}
+.cards .cb{font-size:15px;color:var(--ink-2);line-height:1.55}
+.cards.mono{max-width:940px;margin-bottom:var(--s5)}
+.cards.mono .card{border-top:3px solid var(--c,var(--line-2));padding-top:var(--s4)}
+.cards.mono .ct{font-family:var(--mono);font-size:22px;font-weight:700;letter-spacing:.06em;line-height:1}
+.cards.rule{gap:var(--s6);margin-top:var(--s2)}
+.cards.rule .card{border-left:2px solid var(--c,var(--line-2));padding-left:var(--s4)}
+.cards.boxed .card{border:1px solid var(--line);background:var(--surface-2);border-radius:5px;padding:var(--s4) var(--s5);border-top:3px solid var(--c,var(--line-2))}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s5);margin:var(--s6) 0}
+.stat{border-top:1px solid var(--line-2);padding-top:var(--s4)}
+.stat .sl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:var(--s2)}
+.stat .sv{font-family:var(--disp);font-size:23px;color:var(--ink);line-height:1.25}
+.stats.big-first .stat{display:flex;flex-direction:column-reverse;justify-content:flex-end}
+.stats.big-first .sv{font-size:clamp(26px,3vw,34px);margin-bottom:var(--s2)}
+.stats.big-first .sl{font-family:var(--sans);font-size:14.5px;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink-2);line-height:1.45;margin:0}
+.callout{border-left:3px solid var(--accent);background:var(--surface-2);padding:var(--s4) var(--s5);margin:var(--s5) 0;max-width:var(--measure);border-radius:0 5px 5px 0}
+.callout.k-key{border-left-color:var(--ok)}
+.callout.k-warn{border-left-color:var(--bad);background:var(--bad-dim)}
+.callout.k-flag{border-left-color:var(--warn)}
+.callout-t{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:var(--s2)!important}
+.callout.k-key .callout-t{color:var(--ok)} .callout.k-warn .callout-t{color:var(--bad)} .callout.k-flag .callout-t{color:var(--warn)}
+.callout p{font-size:16px;color:var(--ink-2)}
+.callout>*:last-child{margin-bottom:0}
+details.deeper{margin-top:var(--s5);border-top:1px solid var(--line-2);padding-top:var(--s4);max-width:var(--measure)}
+details.deeper summary{cursor:pointer;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);list-style:none}
+details.deeper summary::-webkit-details-marker{display:none}
+details.deeper summary::before{content:"+ ";font-weight:700}
+details.deeper[open] summary::before{content:"– "}
+details.deeper .dbody{padding-top:var(--s4);font-size:15.5px;color:var(--ink-2)}
+details.deeper .dbody>*:last-child{margin-bottom:0}
+.miscon{display:flex;flex-direction:column;gap:var(--s6);max-width:960px}
+.mis{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:var(--s6);align-items:start;padding-top:var(--s5);border-top:1px solid var(--line)}
+.mis .claim{font-family:var(--disp);font-size:20px;line-height:1.3;color:var(--ink-3)}
+.mis .fix{font-size:16px;color:var(--ink)}
+.mis .lab{display:block;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;margin-bottom:var(--s2)}
+.mis .lab.bad{color:var(--bad)} .mis .lab.good{color:var(--ok)}
+.mis .lab.bad,.mis .lab.good{background:none;padding:0}
+.mis .fix p:last-child{margin-bottom:0}
+.gloss{margin:0 0 var(--s5);max-width:var(--measure)}
+.gloss .gi{display:grid;grid-template-columns:minmax(120px,.38fr) 1fr;gap:var(--s4);padding:var(--s3) 0;border-bottom:1px solid var(--line)}
+.gloss dt{font-weight:600}
+.gloss dd{margin:0;color:var(--ink-2);font-size:15.5px}
+.gloss.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));max-width:none;border-top:1px solid var(--line-2)}
+.gloss.grid .gi{display:block;padding:var(--s5) var(--s5) var(--s5) 0}
+.gloss.grid dt{font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:.04em;margin-bottom:var(--s2)}
+.gloss.grid dd{font-size:15px}
+.srcs{columns:2;column-gap:var(--s8);max-width:960px}
+.srcs li{break-inside:avoid;font-size:15px;color:var(--ink-2);margin-bottom:var(--s3)}
+@media (max-width:900px){
+.cards{grid-template-columns:1fr}
+.mis{grid-template-columns:1fr;gap:var(--s4)}
+.srcs{columns:1}
+}
+.bars{margin:0 0 var(--s5);max-width:640px}
+.bars-t{font-family:var(--disp);font-size:18px;font-weight:600;line-height:1.3;color:var(--ink);margin:0 0 var(--s4)}
+.bars-cap{font-size:14px;color:var(--ink-3);margin:var(--s3) 0 0;line-height:1.5}
+.bar{display:grid;grid-template-columns:minmax(90px,max-content) minmax(60px,1fr) auto;gap:var(--s3);align-items:center;margin-bottom:var(--s2);font-size:15px}
+.bars .bar .bl{color:var(--ink-2);min-width:0}
+.bar .bt{height:12px;background:var(--raise);border-radius:6px;overflow:hidden}
+.bar .bt i{display:block;height:100%;background:var(--bc,var(--accent));border-radius:6px}
+.bar b{font-family:var(--mono);font-size:13.5px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;min-width:3.2em;text-align:right}
+.bars:not(.peak-set) .bar.peak .bl,.bar.peak b{color:var(--ink);font-weight:700}
+.bar.peak .bt i{background:var(--bc,var(--accent))}
+.bars:has(.peak) .bar:not(.peak) .bt i{background:color-mix(in srgb,var(--bc,var(--accent)) 35%,var(--surface-2))}
+.bars.compact .bar{margin-bottom:4px;font-size:14px}
+.bars.compact .bar .bt{height:8px}
+.bars-stack{display:flex;height:22px;border-radius:4px;overflow:hidden;background:var(--raise)}
+.bars-stack i{display:block;height:100%;background:var(--bc)}
+.bars-legend{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);margin-top:var(--s3);font-size:13.5px;color:var(--ink-2)}
+.bars-legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--bc);margin-right:6px;vertical-align:-1px}
+@media (max-width:640px){.bar{grid-template-columns:minmax(70px,.9fr) minmax(50px,1fr) auto}}
+.w-catalog .cat-filters{display:flex;flex-wrap:wrap;gap:var(--s4) var(--s6);align-items:flex-end;margin-bottom:var(--s4)}
+.cat-fg{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center}
+.cat-fl{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-right:var(--s1);flex-basis:100%}
+.cat-chip{appearance:none;display:inline-flex;align-items:center;gap:7px;min-height:40px;font-family:var(--sans);font-size:14px;font-weight:500;line-height:1.2;padding:8px 14px;border:1px solid var(--line-2);border-radius:999px;background:var(--surface);color:var(--ink-2);cursor:pointer}
+.cat-chip:hover{background:var(--raise)}
+.cat-chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.cat-chip:focus-visible,.cat-pick:focus-visible,.cat-rb:focus-visible,.cat-q:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cat-q{appearance:none;flex:1 1 220px;min-width:0;max-width:360px;min-height:42px;font-family:var(--sans);font-size:15px;padding:9px 14px;border:1px solid var(--line-2);border-radius:var(--r);background:var(--surface);color:var(--ink)}
+.cat-q::placeholder{color:var(--ink-3)}
+.cat-count{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--ink-3);margin:0 0 var(--s4)}
+.cat-empty{color:var(--ink-3);font-size:15.5px;margin:var(--s4) 0 0}
+.cat-pip{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--c,var(--ink-3));flex:none}
+.cat-pip.off{background:transparent;box-shadow:inset 0 0 0 1.5px var(--line-2)}
+.dark .cat-pip{background:var(--c-lt,var(--c,var(--ink-3)))}
+.dark .cat-pip.off{background:transparent}
+.cat-pips{display:inline-flex;gap:5px;align-items:center}
+.cat-tags{display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center}
+.cat-tag{display:inline-flex;align-items:center;gap:6px}
+.cat-tag.plain{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3)}
+.cat-tag .ok,.cat-tag .bad,.cat-tag .warn,.cat-tag .flag{padding:3px 8px;font-size:11px}
+.cat-sec h5{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin:var(--s4) 0 var(--s1)}
+.cat-sec p{font-size:15.5px;color:var(--ink-2);margin:0;max-width:68ch}
+.cat-sec pre.code{margin:0;font-size:13px;white-space:pre-wrap;word-break:break-word}
+.cat-warn{border-left:3px solid var(--bad);padding-left:var(--s4)}
+.cat-warn h5{color:var(--bad)}
+.cat-grp+.cat-grp{margin-top:var(--s6)}
+.cat-gh{font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:0 0 var(--s2)}
+.cat-row{border-top:1px solid var(--line)}
+.cat-grp .cat-row:last-child{border-bottom:1px solid var(--line)}
+.cat-rb{appearance:none;width:100%;text-align:left;background:none;border:0;color:var(--ink);font:inherit;padding:var(--s3) var(--s1);display:grid;grid-template-columns:minmax(0,1fr) auto 24px;column-gap:var(--s4);row-gap:4px;align-items:center;min-height:44px}
+button.cat-rb{cursor:pointer}
+button.cat-rb:hover{background:var(--raise)}
+.cat-rb .cat-nm{font-weight:600;font-size:16px}
+.cat-rb .cat-tags{justify-self:end}
+.cat-rb .cat-sum{grid-column:1/3;font-size:14.5px;color:var(--ink-2);line-height:1.5}
+div.cat-rb{grid-template-columns:minmax(0,1fr) auto}
+div.cat-rb .cat-sum{grid-column:1/-1}
+.cat-chev{grid-column:3;grid-row:1;width:24px;height:24px;display:grid;place-items:center;color:var(--ink-3)}
+.cat-chev::before{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s}
+.cat-rb[aria-expanded="true"] .cat-chev::before{transform:rotate(45deg)}
+@media (prefers-reduced-motion:reduce){.cat-chev::before{transition:none}}
+.cat-det{padding:0 var(--s1) var(--s4);display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));column-gap:var(--s6)}
+.cat-det .cat-sec h5{margin-top:var(--s2)}
+.cat-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:var(--s6);align-items:start}
+.cat-index{list-style:none;margin:0;padding:0}
+.cat-index li{margin:0}
+.cat-ih{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);padding:var(--s4) 0 var(--s2)}
+.cat-pick{appearance:none;width:100%;text-align:left;font:inherit;color:var(--ink);background:none;border:0;border-top:1px solid var(--line);padding:var(--s3) var(--s3);display:flex;gap:var(--s3);align-items:center;cursor:pointer;min-height:44px}
+.cat-li:last-child .cat-pick{border-bottom:1px solid var(--line)}
+.cat-pick:hover{background:var(--raise)}
+.cat-pick[aria-current="true"]{background:var(--surface);box-shadow:inset 3px 0 0 var(--accent)}
+.cat-pick .cat-nm{flex:1;font-size:15.5px;font-weight:500;line-height:1.35}
+.cat-pick[aria-current="true"] .cat-nm{font-weight:600}
+.cat-pick .cat-tags{flex:none;justify-content:flex-end;max-width:45%}
+.cat-panel{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:var(--s5);position:sticky;top:72px}
+.cat-art{scroll-margin-top:72px}
+.cat-art+.cat-art{margin-top:var(--s6);padding-top:var(--s5);border-top:1px solid var(--line)}
+.cat-live .cat-art+.cat-art{margin-top:0;padding-top:0;border-top:0}
+.cat-at{font-size:22px;margin:0 0 var(--s3)}
+.cat-meta{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);margin-bottom:var(--s4)}
+.cat-lead{font-size:16px;color:var(--ink);margin:0 0 var(--s2)}
+@media (max-width:900px){
+.cat-split{grid-template-columns:1fr}
+.cat-panel{position:static}
+}
+@media (max-width:640px){
+.cat-rb{grid-template-columns:minmax(0,1fr) 24px}
+.cat-rb .cat-tags{grid-column:1;grid-row:2;justify-self:start}
+.cat-rb .cat-sum{grid-column:1/-1}
+div.cat-rb{grid-template-columns:1fr}
+.cat-pick .cat-tags{max-width:none}
+.cat-panel{padding:var(--s4)}
+.w-catalog .cat-filters{gap:var(--s4)}
+.cat-q{max-width:none}
+}
+@media print{
+.cat-filters,.cat-count,.cat-side{display:none!important}
+.cat-det[hidden],.cat-art[hidden],.cat-row[hidden],.cat-li[hidden],.cat-grp[hidden]{display:block!important}
+.cat-panel{position:static;border:0;padding:0}
+.cat-split{display:block}
+}
+.cat-tag .muted{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3)}
+.w-triage .tg-scen{grid-column:1/-1}
+.tg-wrap{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s3);margin:var(--s2) 0 var(--s5)}
+.tg-wrap.has-rows{grid-template-columns:auto minmax(0,1fr)}
+.tg-rows{display:grid;grid-template-rows:repeat(var(--rows,1),1fr);height:calc(var(--rows,1)*64px);margin-top:26px}
+.tg-rows span{display:flex;align-items:center;justify-content:flex-end;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--ink-2);text-align:right;line-height:1.3;max-width:13ch}
+.tg-main{min-width:0;padding:0 8px}
+.tg-plot{position:relative;height:220px;border-bottom:1.5px solid var(--ink)}
+.has-rows .tg-plot{height:calc(var(--rows,1)*64px)}
+.tg-band{position:absolute;top:0;bottom:0;transition:left .1s,width .1s}
+.w-triage{--z-low:var(--bad);--z-mid:var(--warn);--z-high:var(--ok)}
+.tg-band.low{background:color-mix(in srgb,var(--z-low) 13%,transparent)}
+.tg-band.mid{background:color-mix(in srgb,var(--z-mid) 13%,transparent)}
+.tg-band.high{background:color-mix(in srgb,var(--z-high) 13%,transparent)}
+.tg-band span{position:absolute;top:-22px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tg-band.low span{color:var(--z-low)} .tg-band.mid span{color:var(--z-mid)} .tg-band.high span{color:var(--z-high)}
+.tg-plot{margin-top:26px}
+.tg-line{position:absolute;top:-4px;bottom:0;width:2px;margin-left:-1px;background:var(--ink);transition:left .1s}
+.tg-dot{position:absolute;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--dc,var(--c,var(--accent)));border:2px solid var(--dc,var(--c,var(--accent)));opacity:.85;transition:left .15s}
+.w-triage.fade-mid .tg-dot.mid{--dc:var(--ink-3);opacity:.45}
+.tg-rowlab{display:none;position:absolute;left:4px;margin-top:3px;padding:1px 5px;border-radius:3px;background:color-mix(in srgb,var(--surface-2) 85%,transparent);font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.04em;color:var(--ink-2);z-index:3;pointer-events:none}
+.tg-dot.ring{background:var(--surface-2);opacity:1}
+.tg-dot.err{width:13px;height:13px;margin:-6.5px 0 0 -6.5px;border-color:var(--ink);border-width:2.5px;opacity:1;z-index:2}
+.tg-axis{position:relative;height:24px;margin-top:4px}
+.tg-axis span{position:absolute;transform:translateX(-50%);font-family:var(--mono);font-size:12px;color:var(--ink-3)}
+.tg-axlab{text-align:center;font-size:13.5px;color:var(--ink-3);margin-top:2px}
+.tg-legend{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s5);font-size:14px;color:var(--ink-2);margin-bottom:var(--s4)}
+.tg-legend span{display:inline-flex;align-items:center;gap:8px}
+.tg-legend .tg-dot{position:static;margin:0;flex:none}
+.tg-stack{display:flex;height:10px;border-radius:5px;overflow:hidden;margin-bottom:var(--s5);background:var(--raise)}
+.tg-stack span{display:block;height:100%;transition:width .15s}
+.tg-stack .low{background:var(--z-low)} .tg-stack .mid{background:var(--z-mid)} .tg-stack .high{background:var(--z-high)}
+.tg-read{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s5)}
+.tg-z{display:flex;gap:var(--s3);align-items:baseline;border-top:3px solid var(--zc);padding-top:var(--s3);min-width:0}
+.tg-z.low{--zc:var(--z-low)} .tg-z.mid{--zc:var(--z-mid)} .tg-z.high{--zc:var(--z-high)}
+.tg-z b{font-family:var(--disp);font-size:32px;font-weight:600;line-height:1;color:var(--zc);font-variant-numeric:tabular-nums}
+.tg-z span{font-size:14.5px;color:var(--ink-2);line-height:1.45}
+.tg-say{margin-top:var(--s5)}
+@media (max-width:760px){
+.tg-read{grid-template-columns:1fr}
+.tg-plot{height:200px}
+.tg-dot{width:8px;height:8px;margin:-4px 0 0 -4px}
+.tg-dot.err{width:11px;height:11px;margin:-5.5px 0 0 -5.5px}
+.tg-wrap.has-rows{grid-template-columns:minmax(0,1fr)}
+.tg-rows{display:none}
+.tg-rowlab{display:block}
+}
+@media (prefers-reduced-motion:reduce){.tg-band,.tg-line,.tg-dot,.tg-stack span{transition:none}}
+.cx-presets{display:flex;flex-wrap:wrap;gap:var(--s2);margin-bottom:var(--s5)}
+.cx-presets .btn{font-size:14px;padding:9px 14px}
+.cx-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--s5);margin-bottom:var(--s5)}
+.cx-res{border-top:3px solid var(--accent);padding-top:var(--s3);min-width:0}
+.cx-res b{display:block;font-family:var(--disp);font-size:clamp(26px,3.4vw,36px);font-weight:600;line-height:1.1;color:var(--ink);margin-bottom:6px;overflow-wrap:anywhere}
+.cx-res span{display:block;font-size:14.5px;color:var(--ink-2);line-height:1.45}
+.cx-meter{margin:var(--s4) 0 var(--s3)}
+.cx-track{height:12px;background:var(--raise);border-radius:6px;overflow:hidden}
+.cx-fill{height:100%;background:var(--accent);border-radius:6px;transition:width .15s}
+.cx-fill.over{background:var(--bad)}
+@media (prefers-reduced-motion:reduce){.cx-fill{transition:none}}
+:root{--bg:#eef1f5;--surface:#f7f9fb;--surface-2:#ffffff;--raise:#e4e9ef;--line:#d5dce4;--line-2:#b9c4cf;--ink:#14181f;--ink-2:#4a5460;--ink-3:#626d7b;--accent:#1d4f91;--ok:#1a6b5e;--bad:#8c2f2f;--warn:#8a5a00;--dk-bg:#131a24;--dk-surface:#1c2531;--dk-line:#2f3c4c;--dk-ink:#e8edf3;--dk-ink-2:#9fb0c2;--accent-dim:rgba(29,79,145,0.1);--accent-lt:#839ec3;--ok-dim:rgba(26,107,94,0.11);--bad-dim:rgba(140,47,47,0.11);--warn-dim:rgba(138,90,0,0.11);--nav-bg:rgba(238,241,245,0.92);--disp:"Source Serif 4",Georgia,"Times New Roman",serif;--text:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--sans:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+.c-law{--c:#2c6a4f;--c-dim:rgba(44,106,79,0.11);--c-lt:#96b5a7}
+.c-elsewhere{--c:#1d4f91;--c-dim:rgba(29,79,145,0.11);--c-lt:#8ea7c8}
+.c-untried{--c:#7c8796;--c-dim:rgba(124,135,150,0.11);--c-lt:#bec3cb}
+
+</style>
+</head>
+<body data-review-toggle>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Sections"><div class="wrap"><span class="brand">Jev and legal research</span><div class="links"><a href="#how">How it works</a><a href="#fit">Why law fits</a><a href="#ideas">Ideas</a><a href="#bands">Thresholds</a><a href="#scale">Scale and cost</a><a href="#limits">Limits</a><a href="#first">First project</a><a href="#sources">Sources</a></div></div></nav>
+<header class="hero"><div class="wrap hero-anim"><h1>What Jev could do for legal research and citation analysis</h1><p class="dek">Jev is a model from TypeSafe AI that writes nothing. It reads text, answers closed questions, and attaches a probability to each answer. Citator labels, cite-checks, and docket coding are closed questions. Here are eleven things worth trying, what supports each, and where the approach has already failed.</p><p class="kicker">One decision, illustrated</p><blockquote><p>&quot;We decline to extend <em>Doe</em> beyond its facts. Unlike the plaintiff there, ...&quot;</p></blockquote><figure class="bars compact"><p class="bars-t">How does the passage treat the cited case?</p><div class="bar"><span class="bl">follows</span><span class="bt"><i style="width:3.00%"></i></span><b>0.03</b></div><div class="bar peak"><span class="bl">distinguishes</span><span class="bt"><i style="width:81.00%"></i></span><b>0.81</b></div><div class="bar"><span class="bl">criticizes</span><span class="bt"><i style="width:10.00%"></i></span><b>0.10</b></div><div class="bar"><span class="bl">overrules</span><span class="bt"><i style="width:1.00%"></i></span><b>0.01</b></div><div class="bar"><span class="bl">unclear</span><span class="bt"><i style="width:5.00%"></i></span><b>0.05</b></div><p class="bars-cap">0.81 clears a 0.80 threshold, so the label is recorded. Below it, a person reads the passage.</p></figure><div class="stats big-first"><div class="stat"><div class="sl">answer types: Choice, Score, and Noul (a yes-probability)<span class="c"><a href="#s4">4</a></span></div><div class="sv">3</div></div><div class="stat"><div class="sl">ceiling for the text you send plus the longest question<span class="c"><a href="#s3">3</a></span></div><div class="sv">32k tokens</div></div><div class="stat"><div class="sl">per million input tokens; output is free<span class="c"><a href="#s3">3</a></span></div><div class="sv">$0.042</div></div><div class="stat"><div class="sl">projects in the awesome-jev list is about law<span class="c"><a href="#s1">1</a></span></div><div class="sv">1 of 212</div></div></div><div class="meta"><span>Field guide · September 2026</span><span>Checked against the linked sources on September 19, 2026</span><span>Model version at the time: jev-1.13.0</span></div></div></header>
+<main id="main" tabindex="-1">
+<section class="section" id="how"><div class="wrap"><div class="sechead"><p class="eyebrow"><span>§01</span> &nbsp;How it works</p><h2>Text in, typed answers out</h2></div><div class="secbody"><div class="cols" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)"><div class="col"><p>A request has two parts. The <code>state</code> is whatever text you want judged: a passage, a docket entry, a JSON record. The <code>questions</code> are closed, and each declares its type. Every question in one request is answered in a single pass over the state, so ten questions take about as long as one.<span class="c"><a href="#s4">4</a></span><span class="c"><a href="#s14">14</a></span></p><p>Think of Jev as a research assistant who fills in a coding sheet and never writes the memo. It cannot quote, explain, or search. Each answer comes back as a number your own code compares against a threshold, and the threshold decides whether a person looks.</p><dl class="gloss "><div class="gi"><dt><code>choice</code></dt><dd>Picks one option from a list you define, and returns the probability of every option plus a confidence. <em>Which treatment label fits this citing passage?</em></dd></div><div class="gi"><dt><code>score</code></dt><dd>Places the text on ordered levels you define, as a probability-weighted position. <em>Bare citation, a sentence or two, or extended discussion?</em></dd></div><div class="gi"><dt><code>noul</code></dt><dd>Returns the probability that a yes/no statement is true. There is no separate confidence field, and you turn it into a boolean yourself.<span class="c"><a href="#s4">4</a></span> <em>Does this passage support the proposition it is cited for?</em></dd></div></dl></div><div class="col"><p class="kicker">Request</p><pre class="code" data-lang="json"><code>POST /v1/systemone
+{ &quot;model&quot;: &quot;jev-1.13.0&quot;,
+  &quot;state&quot;: {
+    &quot;cited_case&quot;: &quot;Doe v. Roe (hypothetical)&quot;,
+    &quot;citing_passage&quot;: &quot;We decline to extend Doe beyond
+      its facts. Unlike the plaintiff there, ...&quot; },
+  &quot;questions&quot;: {
+    &quot;treatment&quot;: { &quot;type&quot;: &quot;choice&quot;,
+      &quot;instructions&quot;: &quot;How does the passage treat the cited case?&quot;,
+      &quot;criteria&quot;: {
+        &quot;follows&quot;: &quot;Applies its rule&quot;,
+        &quot;distinguishes&quot;: &quot;Finds it inapplicable on facts or issue&quot;,
+        &quot;criticizes&quot;: &quot;Disagrees but does not overrule&quot;,
+        &quot;overrules&quot;: &quot;Declares it no longer good law&quot;,
+        &quot;unclear&quot;: &quot;The passage does not show the treatment&quot; } },
+    &quot;negative&quot;: { &quot;type&quot;: &quot;noul&quot;,
+      &quot;instructions&quot;: &quot;Does the passage limit the
+        cited case&#39;s authority?&quot; } } }</code></pre><p class="kicker">Response</p><pre class="code" data-lang="json"><code>{ &quot;answers&quot;: {
+    &quot;treatment&quot;: { &quot;choice&quot;: &quot;distinguishes&quot;,
+      &quot;probabilities&quot;: { &quot;follows&quot;: 0.03, &quot;distinguishes&quot;: 0.81,
+        &quot;criticizes&quot;: 0.10, &quot;overrules&quot;: 0.01, &quot;unclear&quot;: 0.05 },
+      &quot;confidence&quot;: 0.78 },
+    &quot;negative&quot;: { &quot;noul&quot;: 0.88 } } }</code></pre><p class="note">Illustrative values. The field names follow TypeSafe&#39;s API reference.<span class="c"><a href="#s4">4</a></span></p></div></div><div class="stats big-first"><div class="stat"><div class="sl">TypeSafe&#39;s stated latency range<span class="c"><a href="#s2">2</a></span></div><div class="sv">70–500 ms</div></div><div class="stat"><div class="sl">measured by an outside tester on 24 documents; slowest 1.3 s<span class="c"><a href="#s5">5</a></span></div><div class="sv">0.32 s median</div></div><div class="stat"><div class="sl">documents in that same test<span class="c"><a href="#s5">5</a></span></div><div class="sv">$0.22 per 1,000</div></div><div class="stat"><div class="sl">and 250,000 tokens per second, subject to change<span class="c"><a href="#s3">3</a></span></div><div class="sv">1,200 requests/min</div></div></div></div></div></section>
+<section class="section band" id="fit"><div class="wrap"><div class="sechead"><p class="eyebrow"><span>§02</span> &nbsp;Why law fits</p><h2>Legal research already runs on closed label sets</h2></div><div class="secbody"><p>A citator signal, a Bluebook signal, and a docket event code are each a choice from a fixed list. The published benchmarks for legal AI are mostly the same shape, and the commercial products that assign these labels by hand disagree with each other more than most users assume.</p><div class="cols" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div class="col"><figure class="bars stacked"><p class="bars-t">147 of LegalBench&#39;s 162 tasks are yes/no or multiple choice</p><div class="bars-stack" role="img" aria-label="Binary 112, Multiple choice 35, Multi-class 8, Open generation 7"><i class="" style="--bc:var(--accent);width:69.14%"></i><i class="" style="--bc:color-mix(in srgb,var(--accent) 60%,var(--surface-2));width:21.60%"></i><i class="" style="--bc:color-mix(in srgb,var(--accent) 30%,var(--surface-2));width:4.94%"></i><i class="" style="--bc:var(--ink-3);width:4.32%"></i></div><div class="bars-legend"><span class="" style="--bc:var(--accent)">Binary, 112</span><span class="" style="--bc:color-mix(in srgb,var(--accent) 60%,var(--surface-2))">Multiple choice, 35</span><span class="" style="--bc:color-mix(in srgb,var(--accent) 30%,var(--surface-2))">Multi-class, 8</span><span class="" style="--bc:var(--ink-3)">Open generation, 7</span></div><p class="bars-cap">Tasks include hearsay, overruling, and 16 issue-spotting sets. CaseHOLD adds 53,137 five-option questions on picking the right holding.</p></figure><p class="note">Sources: LegalBench<span class="c"><a href="#s24">24</a></span>, CaseHOLD<span class="c"><a href="#s25">25</a></span>.</p></div><div class="col"><figure class="bars"><p class="bars-t">Share of 309 clearly negative citing relationships each citator failed to identify correctly</p><div class="bar"><span class="bl">Shepard&#39;s</span><span class="bt"><i style="width:33.00%"></i></span><b>33%</b></div><div class="bar"><span class="bl">KeyCite</span><span class="bt"><i style="width:38.00%"></i></span><b>38%</b></div><div class="bar"><span class="bl">BCite</span><span class="bt"><i style="width:72.00%"></i></span><b>72%</b></div><p class="bars-cap">Hellyer&#39;s 2018 study of 357 citing relationships. All three citators agreed on the type of negative treatment in 40 of them, or 11%.</p></figure><p class="note">Source: Hellyer<span class="c"><a href="#s19">19</a></span>.</p></div></div><dl class="gloss "><div class="gi"><dt>Citator treatment phrases</dt><dd>followed by · distinguished by · criticized by · questioned by · limited · overruled by · superseded by statute</dd></div><div class="gi"><dt>Bluebook Rule 1.2 signals<span class="c"><a href="#s27">27</a></span></dt><dd>[no signal] · e.g. · accord · see · see also · cf. · compare … with · contra · but see · but cf. · see generally</dd></div><div class="gi"><dt>SCALES docket events<span class="c"><a href="#s26">26</a></span></dt><dd>complaint · removal · motion · order · judgment · verdict · sentence … about 27 events, 70+ labels in all</dd></div></dl><p>The Stanford study of commercial legal AI tools gave one failure a name. A <strong>misgrounded</strong> answer cites a real source that does not support the claim, and the authors call it harder to spot than an invented case. Lexis+ AI answered 65% of their 202 queries accurately and Westlaw AI-Assisted Research 42%.<span class="c"><a href="#s22">22</a></span> Whether a cited passage supports a proposition is a yes/no question about two pieces of text.</p></div></div></section>
+<section class="section" id="ideas"><div class="wrap"><div class="sechead"><p class="eyebrow"><span>§03</span> &nbsp;Ideas</p><h2>Eleven things to try</h2></div><div class="secbody"><p>Only one of these has been built with Jev for law. Five borrow a pattern someone built with Jev in another field, and the rest are untested. Pick one to see the question you would ask, what supports the idea, and the main way it could go wrong.</p><div class="demo w-catalog cat-is-split split" data-w="catalog" data-fm="one one" data-noun="ideas"><div class="demo-body"><div class="cat-filters" hidden><div class="cat-fg" role="group" aria-labelledby="catf-1"><span class="cat-fl" id="catf-1">Answer type</span><button type="button" class="cat-chip" data-g="0" data-v="all" aria-pressed="true">All</button><button type="button" class="cat-chip" data-g="0" data-v="0" aria-pressed="false">Choice</button><button type="button" class="cat-chip" data-g="0" data-v="1" aria-pressed="false">Score</button><button type="button" class="cat-chip" data-g="0" data-v="2" aria-pressed="false">Noul</button></div><div class="cat-fg" role="group" aria-labelledby="catf-2"><span class="cat-fl" id="catf-2">Evidence</span><button type="button" class="cat-chip" data-g="1" data-v="all" aria-pressed="true">All</button><button type="button" class="cat-chip" data-g="1" data-v="0" aria-pressed="false"><i class="cat-pip c-law" aria-hidden="true"></i>Built for law</button><button type="button" class="cat-chip" data-g="1" data-v="1" aria-pressed="false"><i class="cat-pip c-elsewhere" aria-hidden="true"></i>Built elsewhere</button><button type="button" class="cat-chip" data-g="1" data-v="2" aria-pressed="false"><i class="cat-pip c-untried" aria-hidden="true"></i>Not built</button></div></div><p class="cat-count" aria-live="polite" hidden></p><div class="cat-split"><div class="cat-side" hidden><ul class="cat-index"><li class="cat-li" data-i="0" data-grp="0" data-f0="0 2" data-f1="2"><button type="button" class="cat-pick" data-i="0" aria-current="false"><span class="cat-pips" role="img" aria-label="Evidence: Not built"><i class="cat-pip c-untried" title="Not built"></i></span><span class="cat-nm">Classify how a citing opinion treats a case</span><span class="cat-tags"><span class="cat-tag plain">Choice</span><span class="cat-tag plain">Noul</span></span></button></li><li class="cat-li" data-i="1" data-grp="0" data-f0="0" data-f1="1"><button type="button" class="cat-pick" data-i="1" aria-current="false"><span class="cat-pips" role="img" aria-label="Evidence: Built elsewhere"><i class="cat-pip c-elsewhere" title="Built elsewhere"></i></span><span class="cat-nm">Check that a source supports the proposition</span><span class="cat-tags"><span class="cat-tag plain">Choice</span></span></button></li><li class="cat-li" data-i="2" data-grp="0" data-f0="0" data-f1="2"><button type="button" class="cat-pick" data-i="2" aria-current="false"><span class="cat-pips" role="img" aria-label="Evidence: Not built"><i class="cat-pip c-untried" title="Not built"></i></span><span class="cat-nm">Audit Bluebook signals</span><span class="cat-tags"><span class="cat-tag plain">Choice</span></span></button></li><li class="cat-li" data-i="3" data-grp="0" data-f0="2" data-f1="2"><button type="button" class="cat-pick" data-i="3" aria-current="false"><span class="cat-pips" role="img" aria-label="Evidence: Not built"><i class="cat-pip c-untried" title="Not built"></i></span><span class="cat-nm">Sweep a corpus for overruling language</span><span class="cat-tags"><span class="cat-tag plain">Noul</span></span></button></li><li class="cat-li" data-i="4" data-grp="0" data-f0="2 1" data-f1="1"><button type="button" class="cat-pick" data-i="4" aria-current="false"><span class="cat-pips" role="img" aria-label="Evidence: Built elsewhere"><i class="cat-pip c-elsewhere" title="Built elsewhere"></i></span><span class="cat-nm">Rerank search results for a research question</span><span class="cat-tags"><span class="cat-tag plain">Noul</span><span class="cat-tag plain">Score</span></span></button></li><li class="cat-li" data-i="5" data-grp="0" data-f0="2 0" data-f1="1"><button type="button" class="cat-pick" data-i="5" aria-current="false"><span class="cat-pips" role="img" aria-label="Evidence: Built elsewhere"><i class="cat-pip c-elsewhere" title="Built elsewhere"></i></span><span class="cat-nm">Query dockets and opinions in plain English</span><span class="cat-tags"><span class="cat-tag plain">Noul</span><span class="cat-tag plain">Choice</span></span></button></li><li class="cat-li" data-i="6" data-grp="0" data-f0="2" data-f1="2"><button type="button" class="cat-pick" data-i="6" aria-current="false"><span class="cat-pips" role="img" aria-label="Evidence: Not built"><i class="cat-pip c-untried" title="Not built"></i></span><span class="cat-nm">Label docket entries without a training set</span><span class="cat-tags"><span class="cat-tag plain">Noul</span></span></button></li><li class="cat-li" data-i="7" data-grp="0" data-f0="2" data-f1="0"><button type="button" class="cat-pick" data-i="7" aria-current="false"><span class="cat-pips" role="img" aria-label="Evidence: Built for law"><i class="cat-pip c-law" title="Built for law"></i></span><span class="cat-nm">Forecast rulings on motions to dismiss</span><span class="cat-tags"><span class="cat-tag plain">Noul</span></span></button></li><li class="cat-li" data-i="8" data-grp="0" data-f0="0" data-f1="2"><button type="button" class="cat-pick" data-i="8" aria-current="false"><span class="cat-pips" role="img" aria-label="Evidence: Not built"><i class="cat-pip c-untried" title="Not built"></i></span><span class="cat-nm">Match parentheticals to holdings</span><span class="cat-tags"><span class="cat-tag plain">Choice</span></span></button></li><li class="cat-li" data-i="9" data-grp="0" data-f0="0 1 2" data-f1="1"><button type="button" class="cat-pick" data-i="9" aria-current="false"><span class="cat-pips" role="img" aria-label="Evidence: Built elsewhere"><i class="cat-pip c-elsewhere" title="Built elsewhere"></i></span><span class="cat-nm">Code opinions for empirical research</span><span class="cat-tags"><span class="cat-tag plain">Choice</span><span class="cat-tag plain">Score</span><span class="cat-tag plain">Noul</span></span></button></li><li class="cat-li" data-i="10" data-grp="0" data-f0="0 2" data-f1="1"><button type="button" class="cat-pick" data-i="10" aria-current="false"><span class="cat-pips" role="img" aria-label="Evidence: Built elsewhere"><i class="cat-pip c-elsewhere" title="Built elsewhere"></i></span><span class="cat-nm">Triage reference and intake questions</span><span class="cat-tags"><span class="cat-tag plain">Choice</span><span class="cat-tag plain">Noul</span></span></button></li></ul></div><div class="cat-panel" aria-live="polite"><article class="cat-art" data-i="0"><h4 class="cat-at">Classify how a citing opinion treats a case</h4><div class="cat-meta"><span class="cat-tag plain">Choice</span><span class="cat-tag plain">Noul</span><span class="cat-tag plain"><i class="cat-pip c-untried" aria-hidden="true"></i>Not built</span></div><p class="cat-lead">For every passage that cites a case, label the treatment. This is the core judgment inside a citator.</p><div class="cat-sec"><h5>The question</h5><pre class="code"><code>choice: &quot;How does the passage treat the cited case?&quot;
+  follows | distinguishes | criticizes | overrules | unclear
+noul:   &quot;Does the passage limit the cited case&#39;s authority?&quot;</code></pre></div><div class="cat-sec"><h5>What supports it</h5><p>The commercial citators missed or mislabeled 33% to 72% of clearly negative treatments in Hellyer&#39;s sample and agreed on the type 11% of the time<span class="c"><a href="#s19">19</a></span>. Free Law Project is building an open citator for CourtListener, starting with Supreme Court overrulings<span class="c"><a href="#s20">20</a></span>. General language models reached 79.1% on coarse labels and 67.7% on fine-grained ones across 239 expert-annotated citations<span class="c"><a href="#s21">21</a></span>. Chandler names this as a use<span class="c"><a href="#s18">18</a></span>.</p></div><div class="cat-sec cat-warn"><h5>Main risk</h5><p>Keep the option list short and include an escape option. A 12-way Choice collapsed in testing<span class="c"><a href="#s8">8</a></span>. Free Law Project&#39;s own scheme has &quot;ambiguous&quot; and &quot;unverifiable&quot; categories, so some share of passages has no right answer.</p></div></article><article class="cat-art" data-i="1"><h4 class="cat-at">Check that a source supports the proposition</h4><div class="cat-meta"><span class="cat-tag plain">Choice</span><span class="cat-tag plain"><i class="cat-pip c-elsewhere" aria-hidden="true"></i>Built elsewhere</span></div><p class="cat-lead">For each sentence and the passage it cites, decide whether the passage supports it. This targets the misgrounded citation.</p><div class="cat-sec"><h5>The question</h5><pre class="code"><code>choice: &quot;A brief cites a case for `sentence`. `passage` is text from that case.
+  How does `passage` relate to the claim made in `sentence`?&quot;
+  supports | contradicts | says_nothing</code></pre></div><div class="cat-sec"><h5>What supports it</h5><p>citation-verifier does this for academic papers with nearly this wording. Claude finds the quote, code confirms the quote is verbatim in the source, Jev scores the relation, and rows under 0.8 go to a person<span class="c"><a href="#s16">16</a></span>. The Stanford study defines misgrounded answers and calls them harder to spot than fabricated cases<span class="c"><a href="#s22">22</a></span>.</p></div><div class="cat-sec cat-warn"><h5>Main risk</h5><p>The citation-verifier&#39;s author states that its thresholds have not been validated on labeled data<span class="c"><a href="#s16">16</a></span>. Legal support often turns on an inferential step, which is the difference between no signal and &quot;see.&quot;</p></div></article><article class="cat-art" data-i="2"><h4 class="cat-at">Audit Bluebook signals</h4><div class="cat-meta"><span class="cat-tag plain">Choice</span><span class="cat-tag plain"><i class="cat-pip c-untried" aria-hidden="true"></i>Not built</span></div><p class="cat-lead">Given a proposition and the cited passage, pick the signal that fits, then compare it with the signal the author used.</p><div class="cat-sec"><h5>The question</h5><pre class="code"><code>choice 1: &quot;What is the relation between the text and the source?&quot;
+  support | comparison | contradiction | background
+choice 2 (if support): states_it_directly | supports_with_inferential_step | supports_by_analogy</code></pre></div><div class="cat-sec"><h5>What supports it</h5><p>Rule 1.2 defines each signal by the relation it asserts: no signal when the source directly states the proposition, &quot;see&quot; when there is an inferential step, &quot;cf.&quot; for support by analogy, &quot;contra&quot; for direct contradiction<span class="c"><a href="#s27">27</a></span>. That is a typed relation with an ordering by strength.</p></div><div class="cat-sec cat-warn"><h5>Main risk</h5><p>Eleven signals exceed the reported 10-option cap and the tested limit for long lists, so the question has to be split in two<span class="c"><a href="#s8">8</a></span><span class="c"><a href="#s29">29</a></span>. Untested.</p></div></article><article class="cat-art" data-i="3"><h4 class="cat-at">Sweep a corpus for overruling language</h4><div class="cat-meta"><span class="cat-tag plain">Noul</span><span class="cat-tag plain"><i class="cat-pip c-untried" aria-hidden="true"></i>Not built</span></div><p class="cat-lead">Ask one yes/no question of every sentence that mentions another case: does this sentence say a case is overruled?</p><div class="cat-sec"><h5>The question</h5><pre class="code"><code>noul: &quot;Does this sentence state that an earlier decision is overruled,
+  abrogated, or no longer good law?&quot;</code></pre></div><div class="cat-sec"><h5>What supports it</h5><p>The Overruling dataset is 2,400 sentences with attorney-annotated positives, and the paper reports F1 of 0.958 to 0.974 on it<span class="c"><a href="#s25">25</a></span>. Free Law Project&#39;s first citator phase targets exactly this label<span class="c"><a href="#s20">20</a></span>. A ready benchmark exists, so this is the cheapest idea to evaluate honestly.</p></div><div class="cat-sec cat-warn"><h5>Main risk</h5><p>In Hellyer&#39;s sample the citators mislabeled one to three of four Supreme Court overrulings<span class="c"><a href="#s19">19</a></span>. The hard cases are implicit: &quot;overruling recognized by&quot; and statutes that supersede.</p></div></article><article class="cat-art" data-i="4"><h4 class="cat-at">Rerank search results for a research question</h4><div class="cat-meta"><span class="cat-tag plain">Noul</span><span class="cat-tag plain">Score</span><span class="cat-tag plain"><i class="cat-pip c-elsewhere" aria-hidden="true"></i>Built elsewhere</span></div><p class="cat-lead">After a keyword or vector search returns candidates, score each one against the research question and reorder.</p><div class="cat-sec"><h5>The question</h5><pre class="code"><code>noul: &quot;Would this opinion excerpt be useful evidence for answering `question`?&quot;</code></pre></div><div class="cat-sec"><h5>What supports it</h5><p>A LlamaIndex adapter reports nDCG@5 rising from 0.340 to 0.396 on nfcorpus and 0.629 to 0.715 on SciFact at about $0.0003 per query, and it keeps the original order if Jev fails<span class="c"><a href="#s13">13</a></span>. jev-reranker adds a cutoff that drops weak candidates<span class="c"><a href="#s36">36</a></span>.</p></div><div class="cat-sec cat-warn"><h5>Main risk</h5><p>The largest independent study found Jev alone slightly worse than an embedding ranker under independent labels, and better only when fused with it. No reranker rescues a candidate list that missed the relevant cases<span class="c"><a href="#s9">9</a></span>. Score one row per request when order matters<span class="c"><a href="#s10">10</a></span>.</p></div></article><article class="cat-art" data-i="5"><h4 class="cat-at">Query dockets and opinions in plain English</h4><div class="cat-meta"><span class="cat-tag plain">Noul</span><span class="cat-tag plain">Choice</span><span class="cat-tag plain"><i class="cat-pip c-elsewhere" aria-hidden="true"></i>Built elsewhere</span></div><p class="cat-lead">Add a natural-language predicate to SQL over a table of docket entries or opinions.</p><div class="cat-sec"><h5>The question</h5><pre class="code"><code>SELECT * FROM docket_entries
+WHERE court = &#39;cand&#39; AND date_filed &gt; &#39;2025-01-01&#39;
+  AND jev(docket_entries, &#39;the court granted a motion to dismiss in full&#39;);</code></pre></div><div class="cat-sec"><h5>What supports it</h5><p>jevql runs ordinary SQL first, then asks Jev about each surviving row and caches the answers. Extensions exist for SQLite, DuckDB, and Postgres<span class="c"><a href="#s12">12</a></span><span class="c"><a href="#s35">35</a></span><span class="c"><a href="#s11">11</a></span>. One reports 2,000 rows in 3.5 seconds for about $0.012<span class="c"><a href="#s11">11</a></span>.</p></div><div class="cat-sec cat-warn"><h5>Main risk</h5><p>Every such query is a full scan of the rows that survive the SQL filter. Accuracy drops with more than 20 to 25 rows per request<span class="c"><a href="#s11">11</a></span>. The SQLite author warns that text in a row can steer the model, which matters when the rows are adversarial filings<span class="c"><a href="#s35">35</a></span>.</p></div></article><article class="cat-art" data-i="6"><h4 class="cat-at">Label docket entries without a training set</h4><div class="cat-meta"><span class="cat-tag plain">Noul</span><span class="cat-tag plain"><i class="cat-pip c-untried" aria-hidden="true"></i>Not built</span></div><p class="cat-lead">Tag each docket entry with events such as motion, order, or judgment, and attributes such as granted or denied.</p><div class="cat-sec"><h5>The question</h5><pre class="code"><code>One noul per label, all in the same request:
+  &quot;Is this entry a motion?&quot;   &quot;Is this entry an order?&quot;
+  &quot;Does it grant relief in full?&quot;   &quot;Does it set a deadline?&quot;</code></pre></div><div class="cat-sec"><h5>What supports it</h5><p>SCALES already does this with a fine-tuned model over 70+ labels, pretrained on 11 million docket entries<span class="c"><a href="#s26">26</a></span>. TypeSafe&#39;s guidance is one Noul per label when several can apply, and questions in a single request add little latency<span class="c"><a href="#s4">4</a></span><span class="c"><a href="#s14">14</a></span>. The appeal is a new label defined in a sentence rather than by retraining.</p></div><div class="cat-sec cat-warn"><h5>Main risk</h5><p>A trained classifier may simply be better. In one test a naive Bayes baseline beat Jev on a 12-class task<span class="c"><a href="#s8">8</a></span>. Compare against SCALES before building on this.</p></div></article><article class="cat-art" data-i="7"><h4 class="cat-at">Forecast rulings on motions to dismiss</h4><div class="cat-meta"><span class="cat-tag plain">Noul</span><span class="cat-tag plain"><i class="cat-pip c-law" aria-hidden="true"></i>Built for law</span></div><p class="cat-lead">For each claim against each defendant, estimate the probability that the first written disposition dismisses it in full.</p><div class="cat-sec"><h5>The question</h5><pre class="code"><code>noul: &quot;Will the frozen claim against the identified defendant or defendant
+  group be fully dismissed in that disposition?&quot;</code></pre></div><div class="cat-sec"><h5>What supports it</h5><p>LegalForecast-MTD is the only legal entry in awesome-jev. It was built by a practicing attorney, covers 91 cases, screens outcome-leaking text, requires a model&#39;s training cutoff to predate the decision, and scores probabilities with a Brier metric<span class="c"><a href="#s17">17</a></span>. Its code calls the Jev API directly.</p></div><div class="cat-sec cat-warn"><h5>Main risk</h5><p>No validated results have been published; the README says preliminary rows are withheld<span class="c"><a href="#s17">17</a></span>. Older work sets expectations: 70.2% on Supreme Court outcomes<span class="c"><a href="#s30">30</a></span>, a statistical model beating experts 75% to 59.1%<span class="c"><a href="#s31">31</a></span>, and a summary-judgment model that only tied a baseline using party identity<span class="c"><a href="#s32">32</a></span>.</p></div></article><article class="cat-art" data-i="8"><h4 class="cat-at">Match parentheticals to holdings</h4><div class="cat-meta"><span class="cat-tag plain">Choice</span><span class="cat-tag plain"><i class="cat-pip c-untried" aria-hidden="true"></i>Not built</span></div><p class="cat-lead">Given a citing context and a handful of candidate holding statements, pick the one the case stands for, or test whether a draft parenthetical matches.</p><div class="cat-sec"><h5>The question</h5><pre class="code"><code>choice: &quot;Which statement is the holding of the cited case as used here?&quot;
+  up to five candidate holdings, plus none_of_these</code></pre></div><div class="cat-sec"><h5>What supports it</h5><p>CaseHOLD is 53,137 questions in exactly this form, five candidates each, where a legal-domain BERT reached 0.695 F1<span class="c"><a href="#s25">25</a></span>. The documented Jev examples use three options; five is untested.</p></div><div class="cat-sec cat-warn"><h5>Main risk</h5><p>Untested with Jev. The candidates must come from somewhere, so this needs a generator or a headnote source upstream, and holding against dicta is contested even among people.</p></div></article><article class="cat-art" data-i="9"><h4 class="cat-at">Code opinions for empirical research</h4><div class="cat-meta"><span class="cat-tag plain">Choice</span><span class="cat-tag plain">Score</span><span class="cat-tag plain">Noul</span><span class="cat-tag plain"><i class="cat-pip c-elsewhere" aria-hidden="true"></i>Built elsewhere</span></div><p class="cat-lead">Fill in a coding sheet for thousands of opinions: outcome, standard of review, whether a doctrine was applied, how much discussion it got.</p><div class="cat-sec"><h5>The question</h5><pre class="code"><code>Ten questions in one request. Put the codebook in the criteria:
+  &quot;criteria&quot;: { &quot;applied&quot;: &quot;The court used the test to decide the issue&quot;,
+                &quot;mentioned&quot;: &quot;The court named the test without using it&quot; }</code></pre></div><div class="cat-sec"><h5>What supports it</h5><p>Several questions ride on one pass over the state, and one measurement found ten no slower than one<span class="c"><a href="#s14">14</a></span>. A triage dashboard keeps every human correction and shows it to the model on later runs<span class="c"><a href="#s34">34</a></span>. Chandler lists tabular review and research grids among the uses<span class="c"><a href="#s18">18</a></span>.</p></div><div class="cat-sec cat-warn"><h5>Main risk</h5><p>Score was the weakest type out of distribution, at 44.7% accuracy when the label depended on a policy missing from the text<span class="c"><a href="#s6">6</a></span>. Report agreement with human coders the way any content analysis would.</p></div></article><article class="cat-art" data-i="10"><h4 class="cat-at">Triage reference and intake questions</h4><div class="cat-meta"><span class="cat-tag plain">Choice</span><span class="cat-tag plain">Noul</span><span class="cat-tag plain"><i class="cat-pip c-elsewhere" aria-hidden="true"></i>Built elsewhere</span></div><p class="cat-lead">Route an incoming question to the right desk, flag urgency, and spot the legal issue area before a person picks it up.</p><div class="cat-sec"><h5>The question</h5><pre class="code"><code>choice: &quot;Which area of law does this question concern?&quot;
+  housing | family | consumer | employment | other
+noul:   &quot;Does the message mention a deadline within 14 days?&quot;</code></pre></div><div class="cat-sec"><h5>What supports it</h5><p>Routing is the most common pattern in awesome-jev, with low-confidence answers sent to human review<span class="c"><a href="#s1">1</a></span>. LegalBench includes 16 binary issue-spotting tasks<span class="c"><a href="#s24">24</a></span>. Chandler lists legal-aid intake<span class="c"><a href="#s18">18</a></span>.</p></div><div class="cat-sec cat-warn"><h5>Main risk</h5><p>Intake messages are confidential by nature, and zero data retention is an enterprise term<span class="c"><a href="#s3">3</a></span><span class="c"><a href="#s18">18</a></span>. A forced choice can also drop a qualifier that mattered, a failure commenters raised at launch<span class="c"><a href="#s29">29</a></span>.</p></div></article><p class="cat-empty" hidden>No idea matches both filters. Clear a filter to see one.</p></div></div></div></div></div></div></section>
+<section class="section band" id="bands"><div class="wrap"><div class="sechead"><p class="eyebrow"><span>§04</span> &nbsp;Thresholds</p><h2>Use the probability to decide who reads what</h2></div><div class="secbody"><p>The projects that use Jev carefully all do the same thing with its numbers. Answers above one threshold pass, answers below another get flagged, and the middle goes to a person. One prose linter reports nothing at all between 0.4 and 0.6.<span class="c"><a href="#s15">15</a></span> The citation-verifier sends every row under 0.8 to human review.<span class="c"><a href="#s16">16</a></span></p><p>Below are 240 simulated cite-checks. Move the thresholds and watch who ends up reading what. Then switch the calibration: an independent test found Jev&#39;s probabilities well calibrated on familiar benchmarks but overconfident for Choice and underconfident for Noul on material it had not seen.<span class="c"><a href="#s6">6</a></span></p><div class="demo w-triage" data-w="triage" style="--z-low:var(--bad);--z-mid:var(--warn);--z-high:var(--accent)" data-classes="yes no"><div class="demo-head"><h3>240 simulated cite-checks</h3><span class="hint">Drag the thresholds · switch the calibration</span></div><div class="demo-body"><div class="cx-ctrls"><div class="cx-ctrl"><label for="tg-3">Flag below <output class="cx-out">0.30</output></label><input type="range" id="tg-3" data-t="lo" min="0" max="1" step="0.01" value="0.3"></div><div class="cx-ctrl"><label for="tg-4">Accept above <output class="cx-out">0.85</output></label><input type="range" id="tg-4" data-t="hi" min="0" max="1" step="0.01" value="0.85"></div><div class="cx-ctrl tg-scen"><div class="clab" id="tg-5">Model calibration</div><div class="seg" role="group" aria-labelledby="tg-5"><button type="button" data-s="round(p, 2)" aria-pressed="true">Well calibrated</button><button type="button" data-s="round(sigmoid(logit(p)*3.29), 2)" aria-pressed="false">Overconfident (Choice, out of distribution)</button><button type="button" data-s="round(sigmoid(logit(p)*0.66), 2)" aria-pressed="false">Underconfident (Noul, out of distribution)</button></div></div></div><div class="tg-wrap" style="--rows:1"><div class="tg-main"><div class="tg-plot" style="--rows:1" role="img" aria-label="240 items by score: 58 flag, 111 person reads, 71 accept"><div class="tg-band low" style="left:0.00%;width:30.00%"><span>Flag</span></div><div class="tg-band mid" style="left:30.00%;width:55.00%"><span>Person reads</span></div><div class="tg-band high" style="left:85.00%;width:15.00%"><span>Accept</span></div><div class="tg-line lo" style="left:30.00%"></div><div class="tg-line hi" style="left:85.00%"></div><span class="tg-dot err" data-p="0.092725" data-c="0" data-g="1" style="--dc:var(--accent);left:9.00%;top:62.21%"></span><span class="tg-dot mid" data-p="0.55773" data-c="0" data-g="1" style="--dc:var(--accent);left:56.00%;top:56.88%"></span><span class="tg-dot" data-p="0.984478" data-c="0" data-g="1" style="--dc:var(--accent);left:98.00%;top:45.23%"></span><span class="tg-dot" data-p="0.901656" data-c="0" data-g="1" style="--dc:var(--accent);left:90.00%;top:91.61%"></span><span class="tg-dot mid" data-p="0.708548" data-c="0" data-g="1" style="--dc:var(--accent);left:71.00%;top:42.19%"></span><span class="tg-dot mid" data-p="0.807172" data-c="0" data-g="1" style="--dc:var(--accent);left:81.00%;top:39.22%"></span><span class="tg-dot mid" data-p="0.462743" data-c="0" data-g="1" style="--dc:var(--accent);left:46.00%;top:77.85%"></span><span class="tg-dot" data-p="0.968709" data-c="0" data-g="1" style="--dc:var(--accent);left:97.00%;top:88.71%"></span><span class="tg-dot err" data-p="0.120658" data-c="0" data-g="1" style="--dc:var(--accent);left:12.00%;top:12.34%"></span><span class="tg-dot mid" data-p="0.558901" data-c="0" data-g="1" style="--dc:var(--accent);left:56.00%;top:85.22%"></span><span class="tg-dot" data-p="0.936832" data-c="0" data-g="1" style="--dc:var(--accent);left:94.00%;top:80.92%"></span><span class="tg-dot mid" data-p="0.826558" data-c="0" data-g="1" style="--dc:var(--accent);left:83.00%;top:49.84%"></span><span class="tg-dot" data-p="0.994972" data-c="0" data-g="1" style="--dc:var(--accent);left:99.00%;top:16.90%"></span><span class="tg-dot err" data-p="0.034755" data-c="0" data-g="1" style="--dc:var(--accent);left:3.00%;top:83.36%"></span><span class="tg-dot" data-p="0.966832" data-c="0" data-g="1" style="--dc:var(--accent);left:97.00%;top:42.24%"></span><span class="tg-dot mid" data-p="0.788615" data-c="0" data-g="1" style="--dc:var(--accent);left:79.00%;top:71.97%"></span><span class="tg-dot" data-p="0.892045" data-c="0" data-g="1" style="--dc:var(--accent);left:89.00%;top:67.24%"></span><span class="tg-dot" data-p="0.95276" data-c="0" data-g="1" style="--dc:var(--accent);left:95.00%;top:12.73%"></span><span class="tg-dot" data-p="0.882527" data-c="0" data-g="1" style="--dc:var(--accent);left:88.00%;top:28.80%"></span><span class="tg-dot mid" data-p="0.838437" data-c="0" data-g="1" style="--dc:var(--accent);left:84.00%;top:70.69%"></span><span class="tg-dot mid" data-p="0.82873" data-c="0" data-g="1" style="--dc:var(--accent);left:83.00%;top:35.99%"></span><span class="tg-dot mid" data-p="0.812602" data-c="0" data-g="1" style="--dc:var(--accent);left:81.00%;top:47.34%"></span><span class="tg-dot mid" data-p="0.792137" data-c="0" data-g="1" style="--dc:var(--accent);left:79.00%;top:24.44%"></span><span class="tg-dot" data-p="0.911655" data-c="0" data-g="1" style="--dc:var(--accent);left:91.00%;top:13.69%"></span><span class="tg-dot err" data-p="0.17299" data-c="0" data-g="1" style="--dc:var(--accent);left:17.00%;top:52.50%"></span><span class="tg-dot" data-p="0.879613" data-c="0" data-g="1" style="--dc:var(--accent);left:88.00%;top:21.29%"></span><span class="tg-dot mid" data-p="0.625698" data-c="0" data-g="1" style="--dc:var(--accent);left:63.00%;top:35.27%"></span><span class="tg-dot mid" data-p="0.815392" data-c="0" data-g="1" style="--dc:var(--accent);left:82.00%;top:42.62%"></span><span class="tg-dot mid" data-p="0.838839" data-c="0" data-g="1" style="--dc:var(--accent);left:84.00%;top:47.20%"></span><span class="tg-dot mid" data-p="0.814571" data-c="0" data-g="1" style="--dc:var(--accent);left:81.00%;top:18.06%"></span><span class="tg-dot" data-p="0.996172" data-c="0" data-g="1" style="--dc:var(--accent);left:100.00%;top:23.63%"></span><span class="tg-dot" data-p="0.849852" data-c="0" data-g="1" style="--dc:var(--accent);left:85.00%;top:37.09%"></span><span class="tg-dot" data-p="0.984687" data-c="0" data-g="1" style="--dc:var(--accent);left:98.00%;top:17.56%"></span><span class="tg-dot" data-p="0.915604" data-c="0" data-g="1" style="--dc:var(--accent);left:92.00%;top:48.60%"></span><span class="tg-dot mid" data-p="0.315204" data-c="0" data-g="1" style="--dc:var(--accent);left:32.00%;top:70.06%"></span><span class="tg-dot" data-p="0.888023" data-c="0" data-g="1" style="--dc:var(--accent);left:89.00%;top:15.60%"></span><span class="tg-dot" data-p="0.960976" data-c="0" data-g="1" style="--dc:var(--accent);left:96.00%;top:45.72%"></span><span class="tg-dot" data-p="0.869957" data-c="0" data-g="1" style="--dc:var(--accent);left:87.00%;top:79.01%"></span><span class="tg-dot" data-p="0.95497" data-c="0" data-g="1" style="--dc:var(--accent);left:95.00%;top:75.93%"></span><span class="tg-dot mid" data-p="0.558128" data-c="0" data-g="1" style="--dc:var(--accent);left:56.00%;top:34.19%"></span><span class="tg-dot mid" data-p="0.752809" data-c="0" data-g="1" style="--dc:var(--accent);left:75.00%;top:83.94%"></span><span class="tg-dot" data-p="0.969904" data-c="0" data-g="1" style="--dc:var(--accent);left:97.00%;top:90.82%"></span><span class="tg-dot err" data-p="0.226856" data-c="0" data-g="1" style="--dc:var(--accent);left:23.00%;top:43.53%"></span><span class="tg-dot mid" data-p="0.575163" data-c="0" data-g="1" style="--dc:var(--accent);left:58.00%;top:33.87%"></span><span class="tg-dot" data-p="0.950941" data-c="0" data-g="1" style="--dc:var(--accent);left:95.00%;top:25.70%"></span><span class="tg-dot mid" data-p="0.772864" data-c="0" data-g="1" style="--dc:var(--accent);left:77.00%;top:22.40%"></span><span class="tg-dot mid" data-p="0.532235" data-c="0" data-g="1" style="--dc:var(--accent);left:53.00%;top:45.71%"></span><span class="tg-dot" data-p="0.880705" data-c="0" data-g="1" style="--dc:var(--accent);left:88.00%;top:42.14%"></span><span class="tg-dot mid" data-p="0.844987" data-c="0" data-g="1" style="--dc:var(--accent);left:84.00%;top:61.08%"></span><span class="tg-dot" data-p="0.890066" data-c="0" data-g="1" style="--dc:var(--accent);left:89.00%;top:59.39%"></span><span class="tg-dot" data-p="0.880097" data-c="0" data-g="1" style="--dc:var(--accent);left:88.00%;top:33.75%"></span><span class="tg-dot" data-p="0.977517" data-c="0" data-g="1" style="--dc:var(--accent);left:98.00%;top:74.89%"></span><span class="tg-dot" data-p="0.967693" data-c="0" data-g="1" style="--dc:var(--accent);left:97.00%;top:79.50%"></span><span class="tg-dot mid" data-p="0.305437" data-c="0" data-g="1" style="--dc:var(--accent);left:31.00%;top:68.05%"></span><span class="tg-dot" data-p="0.961458" data-c="0" data-g="1" style="--dc:var(--accent);left:96.00%;top:79.33%"></span><span class="tg-dot" data-p="0.916816" data-c="0" data-g="1" style="--dc:var(--accent);left:92.00%;top:80.42%"></span><span class="tg-dot" data-p="0.990724" data-c="0" data-g="1" style="--dc:var(--accent);left:99.00%;top:52.21%"></span><span class="tg-dot" data-p="0.887956" data-c="0" data-g="1" style="--dc:var(--accent);left:89.00%;top:24.16%"></span><span class="tg-dot" data-p="0.983674" data-c="0" data-g="1" style="--dc:var(--accent);left:98.00%;top:37.12%"></span><span class="tg-dot mid" data-p="0.56239" data-c="0" data-g="1" style="--dc:var(--accent);left:56.00%;top:37.94%"></span><span class="tg-dot" data-p="0.92309" data-c="0" data-g="1" style="--dc:var(--accent);left:92.00%;top:61.22%"></span><span class="tg-dot mid" data-p="0.773695" data-c="0" data-g="1" style="--dc:var(--accent);left:77.00%;top:83.18%"></span><span class="tg-dot" data-p="0.860002" data-c="0" data-g="1" style="--dc:var(--accent);left:86.00%;top:27.82%"></span><span class="tg-dot mid" data-p="0.557403" data-c="0" data-g="1" style="--dc:var(--accent);left:56.00%;top:53.19%"></span><span class="tg-dot" data-p="0.889865" data-c="0" data-g="1" style="--dc:var(--accent);left:89.00%;top:43.08%"></span><span class="tg-dot" data-p="0.852087" data-c="0" data-g="1" style="--dc:var(--accent);left:85.00%;top:51.98%"></span><span class="tg-dot" data-p="0.858916" data-c="0" data-g="1" style="--dc:var(--accent);left:86.00%;top:21.40%"></span><span class="tg-dot mid" data-p="0.682523" data-c="0" data-g="1" style="--dc:var(--accent);left:68.00%;top:56.26%"></span><span class="tg-dot err" data-p="0.240003" data-c="0" data-g="1" style="--dc:var(--accent);left:24.00%;top:85.78%"></span><span class="tg-dot mid" data-p="0.748397" data-c="0" data-g="1" style="--dc:var(--accent);left:75.00%;top:41.83%"></span><span class="tg-dot" data-p="0.955948" data-c="0" data-g="1" style="--dc:var(--accent);left:96.00%;top:64.33%"></span><span class="tg-dot" data-p="0.861847" data-c="0" data-g="1" style="--dc:var(--accent);left:86.00%;top:31.93%"></span><span class="tg-dot mid" data-p="0.622429" data-c="0" data-g="1" style="--dc:var(--accent);left:62.00%;top:72.83%"></span><span class="tg-dot mid" data-p="0.799379" data-c="0" data-g="1" style="--dc:var(--accent);left:80.00%;top:71.43%"></span><span class="tg-dot mid" data-p="0.83272" data-c="0" data-g="1" style="--dc:var(--accent);left:83.00%;top:23.44%"></span><span class="tg-dot" data-p="0.89368" data-c="0" data-g="1" style="--dc:var(--accent);left:89.00%;top:28.90%"></span><span class="tg-dot mid" data-p="0.79441" data-c="0" data-g="1" style="--dc:var(--accent);left:79.00%;top:37.75%"></span><span class="tg-dot mid" data-p="0.817286" data-c="0" data-g="1" style="--dc:var(--accent);left:82.00%;top:67.13%"></span><span class="tg-dot" data-p="0.853457" data-c="0" data-g="1" style="--dc:var(--accent);left:85.00%;top:28.09%"></span><span class="tg-dot" data-p="0.921275" data-c="0" data-g="1" style="--dc:var(--accent);left:92.00%;top:12.38%"></span><span class="tg-dot" data-p="0.944456" data-c="0" data-g="1" style="--dc:var(--accent);left:94.00%;top:22.93%"></span><span class="tg-dot mid" data-p="0.431049" data-c="0" data-g="1" style="--dc:var(--accent);left:43.00%;top:28.64%"></span><span class="tg-dot" data-p="0.96437" data-c="0" data-g="1" style="--dc:var(--accent);left:96.00%;top:12.62%"></span><span class="tg-dot" data-p="0.996972" data-c="0" data-g="1" style="--dc:var(--accent);left:100.00%;top:41.91%"></span><span class="tg-dot mid" data-p="0.820625" data-c="0" data-g="1" style="--dc:var(--accent);left:82.00%;top:27.05%"></span><span class="tg-dot mid" data-p="0.384954" data-c="0" data-g="1" style="--dc:var(--accent);left:38.00%;top:47.17%"></span><span class="tg-dot mid" data-p="0.677613" data-c="0" data-g="1" style="--dc:var(--accent);left:68.00%;top:90.73%"></span><span class="tg-dot mid" data-p="0.32155" data-c="0" data-g="1" style="--dc:var(--accent);left:32.00%;top:15.15%"></span><span class="tg-dot mid" data-p="0.686213" data-c="0" data-g="1" style="--dc:var(--accent);left:69.00%;top:50.62%"></span><span class="tg-dot" data-p="0.949549" data-c="0" data-g="1" style="--dc:var(--accent);left:95.00%;top:23.00%"></span><span class="tg-dot mid" data-p="0.708662" data-c="0" data-g="1" style="--dc:var(--accent);left:71.00%;top:10.23%"></span><span class="tg-dot" data-p="0.957437" data-c="0" data-g="1" style="--dc:var(--accent);left:96.00%;top:48.30%"></span><span class="tg-dot" data-p="0.931335" data-c="0" data-g="1" style="--dc:var(--accent);left:93.00%;top:85.40%"></span><span class="tg-dot mid" data-p="0.36537" data-c="0" data-g="1" style="--dc:var(--accent);left:37.00%;top:91.80%"></span><span class="tg-dot mid" data-p="0.55228" data-c="0" data-g="1" style="--dc:var(--accent);left:55.00%;top:26.07%"></span><span class="tg-dot" data-p="0.954878" data-c="0" data-g="1" style="--dc:var(--accent);left:95.00%;top:76.27%"></span><span class="tg-dot mid" data-p="0.56637" data-c="0" data-g="1" style="--dc:var(--accent);left:57.00%;top:23.38%"></span><span class="tg-dot mid" data-p="0.627674" data-c="0" data-g="1" style="--dc:var(--accent);left:63.00%;top:43.02%"></span><span class="tg-dot mid" data-p="0.801704" data-c="0" data-g="1" style="--dc:var(--accent);left:80.00%;top:65.99%"></span><span class="tg-dot mid" data-p="0.5643" data-c="0" data-g="1" style="--dc:var(--accent);left:56.00%;top:60.81%"></span><span class="tg-dot mid" data-p="0.4643" data-c="0" data-g="1" style="--dc:var(--accent);left:46.00%;top:28.09%"></span><span class="tg-dot" data-p="0.989523" data-c="0" data-g="1" style="--dc:var(--accent);left:99.00%;top:9.75%"></span><span class="tg-dot mid" data-p="0.690161" data-c="0" data-g="1" style="--dc:var(--accent);left:69.00%;top:58.15%"></span><span class="tg-dot mid" data-p="0.785734" data-c="0" data-g="1" style="--dc:var(--accent);left:79.00%;top:79.92%"></span><span class="tg-dot mid" data-p="0.595909" data-c="0" data-g="1" style="--dc:var(--accent);left:60.00%;top:58.40%"></span><span class="tg-dot" data-p="0.959028" data-c="0" data-g="1" style="--dc:var(--accent);left:96.00%;top:57.40%"></span><span class="tg-dot" data-p="0.89709" data-c="0" data-g="1" style="--dc:var(--accent);left:90.00%;top:27.53%"></span><span class="tg-dot" data-p="0.944705" data-c="0" data-g="1" style="--dc:var(--accent);left:94.00%;top:50.26%"></span><span class="tg-dot" data-p="0.982774" data-c="0" data-g="1" style="--dc:var(--accent);left:98.00%;top:78.44%"></span><span class="tg-dot" data-p="0.957" data-c="0" data-g="1" style="--dc:var(--accent);left:96.00%;top:86.71%"></span><span class="tg-dot mid" data-p="0.799569" data-c="0" data-g="1" style="--dc:var(--accent);left:80.00%;top:9.85%"></span><span class="tg-dot mid" data-p="0.797763" data-c="0" data-g="1" style="--dc:var(--accent);left:80.00%;top:8.86%"></span><span class="tg-dot" data-p="0.862882" data-c="0" data-g="1" style="--dc:var(--accent);left:86.00%;top:35.73%"></span><span class="tg-dot mid" data-p="0.747397" data-c="0" data-g="1" style="--dc:var(--accent);left:75.00%;top:43.24%"></span><span class="tg-dot mid" data-p="0.443521" data-c="0" data-g="1" style="--dc:var(--accent);left:44.00%;top:47.60%"></span><span class="tg-dot mid" data-p="0.709953" data-c="0" data-g="1" style="--dc:var(--accent);left:71.00%;top:44.05%"></span><span class="tg-dot mid" data-p="0.689129" data-c="0" data-g="1" style="--dc:var(--accent);left:69.00%;top:79.46%"></span><span class="tg-dot" data-p="0.998097" data-c="0" data-g="1" style="--dc:var(--accent);left:100.00%;top:48.02%"></span><span class="tg-dot" data-p="0.886843" data-c="0" data-g="1" style="--dc:var(--accent);left:89.00%;top:71.36%"></span><span class="tg-dot" data-p="0.897203" data-c="0" data-g="1" style="--dc:var(--accent);left:90.00%;top:15.34%"></span><span class="tg-dot mid" data-p="0.747294" data-c="0" data-g="1" style="--dc:var(--accent);left:75.00%;top:15.77%"></span><span class="tg-dot" data-p="0.922496" data-c="0" data-g="1" style="--dc:var(--accent);left:92.00%;top:83.58%"></span><span class="tg-dot mid" data-p="0.814835" data-c="0" data-g="1" style="--dc:var(--accent);left:81.00%;top:34.91%"></span><span class="tg-dot" data-p="0.899595" data-c="0" data-g="1" style="--dc:var(--accent);left:90.00%;top:81.40%"></span><span class="tg-dot" data-p="0.966262" data-c="0" data-g="1" style="--dc:var(--accent);left:97.00%;top:58.35%"></span><span class="tg-dot mid" data-p="0.616306" data-c="0" data-g="1" style="--dc:var(--accent);left:62.00%;top:83.92%"></span><span class="tg-dot mid" data-p="0.343104" data-c="0" data-g="1" style="--dc:var(--accent);left:34.00%;top:21.61%"></span><span class="tg-dot mid" data-p="0.316251" data-c="0" data-g="1" style="--dc:var(--accent);left:32.00%;top:55.57%"></span><span class="tg-dot" data-p="0.966073" data-c="0" data-g="1" style="--dc:var(--accent);left:97.00%;top:28.57%"></span><span class="tg-dot" data-p="0.963322" data-c="0" data-g="1" style="--dc:var(--accent);left:96.00%;top:81.28%"></span><span class="tg-dot err" data-p="0.272256" data-c="0" data-g="1" style="--dc:var(--accent);left:27.00%;top:15.00%"></span><span class="tg-dot mid" data-p="0.756605" data-c="0" data-g="1" style="--dc:var(--accent);left:76.00%;top:85.35%"></span><span class="tg-dot mid" data-p="0.639101" data-c="0" data-g="1" style="--dc:var(--accent);left:64.00%;top:82.06%"></span><span class="tg-dot" data-p="0.96064" data-c="0" data-g="1" style="--dc:var(--accent);left:96.00%;top:78.06%"></span><span class="tg-dot mid" data-p="0.634047" data-c="0" data-g="1" style="--dc:var(--accent);left:63.00%;top:26.66%"></span><span class="tg-dot mid" data-p="0.79755" data-c="0" data-g="1" style="--dc:var(--accent);left:80.00%;top:10.80%"></span><span class="tg-dot" data-p="0.986202" data-c="0" data-g="1" style="--dc:var(--accent);left:99.00%;top:47.55%"></span><span class="tg-dot" data-p="0.96106" data-c="0" data-g="1" style="--dc:var(--accent);left:96.00%;top:9.93%"></span><span class="tg-dot mid" data-p="0.540825" data-c="0" data-g="1" style="--dc:var(--accent);left:54.00%;top:82.88%"></span><span class="tg-dot" data-p="0.935501" data-c="0" data-g="1" style="--dc:var(--accent);left:94.00%;top:58.86%"></span><span class="tg-dot mid" data-p="0.509956" data-c="0" data-g="1" style="--dc:var(--accent);left:51.00%;top:89.37%"></span><span class="tg-dot" data-p="0.950881" data-c="0" data-g="1" style="--dc:var(--accent);left:95.00%;top:29.60%"></span><span class="tg-dot" data-p="0.860343" data-c="0" data-g="1" style="--dc:var(--accent);left:86.00%;top:11.63%"></span><span class="tg-dot mid" data-p="0.487647" data-c="0" data-g="1" style="--dc:var(--accent);left:49.00%;top:68.44%"></span><span class="tg-dot ring mid" data-p="0.62852" data-c="1" style="--dc:var(--bad);left:63.00%;top:70.79%"></span><span class="tg-dot ring mid" data-p="0.663985" data-c="1" style="--dc:var(--bad);left:66.00%;top:70.78%"></span><span class="tg-dot ring" data-p="0.239131" data-c="1" style="--dc:var(--bad);left:24.00%;top:8.55%"></span><span class="tg-dot ring mid" data-p="0.339452" data-c="1" style="--dc:var(--bad);left:34.00%;top:59.81%"></span><span class="tg-dot ring mid" data-p="0.501654" data-c="1" style="--dc:var(--bad);left:50.00%;top:67.80%"></span><span class="tg-dot ring mid" data-p="0.58626" data-c="1" style="--dc:var(--bad);left:59.00%;top:58.11%"></span><span class="tg-dot ring" data-p="0.213891" data-c="1" style="--dc:var(--bad);left:21.00%;top:42.59%"></span><span class="tg-dot ring mid" data-p="0.532333" data-c="1" style="--dc:var(--bad);left:53.00%;top:85.22%"></span><span class="tg-dot ring" data-p="0.063239" data-c="1" style="--dc:var(--bad);left:6.00%;top:26.44%"></span><span class="tg-dot ring" data-p="0.086102" data-c="1" style="--dc:var(--bad);left:9.00%;top:89.88%"></span><span class="tg-dot ring mid" data-p="0.677902" data-c="1" style="--dc:var(--bad);left:68.00%;top:54.28%"></span><span class="tg-dot ring" data-p="0.069097" data-c="1" style="--dc:var(--bad);left:7.00%;top:80.06%"></span><span class="tg-dot ring mid" data-p="0.730367" data-c="1" style="--dc:var(--bad);left:73.00%;top:10.44%"></span><span class="tg-dot ring mid" data-p="0.656945" data-c="1" style="--dc:var(--bad);left:66.00%;top:60.15%"></span><span class="tg-dot ring" data-p="0.210594" data-c="1" style="--dc:var(--bad);left:21.00%;top:74.55%"></span><span class="tg-dot ring" data-p="0.133224" data-c="1" style="--dc:var(--bad);left:13.00%;top:73.99%"></span><span class="tg-dot ring mid" data-p="0.473137" data-c="1" style="--dc:var(--bad);left:47.00%;top:49.08%"></span><span class="tg-dot ring" data-p="0.182087" data-c="1" style="--dc:var(--bad);left:18.00%;top:88.01%"></span><span class="tg-dot ring" data-p="0.27493" data-c="1" style="--dc:var(--bad);left:27.00%;top:39.83%"></span><span class="tg-dot ring" data-p="0.036848" data-c="1" style="--dc:var(--bad);left:4.00%;top:20.67%"></span><span class="tg-dot ring mid" data-p="0.469504" data-c="1" style="--dc:var(--bad);left:47.00%;top:23.63%"></span><span class="tg-dot ring mid" data-p="0.663278" data-c="1" style="--dc:var(--bad);left:66.00%;top:14.57%"></span><span class="tg-dot ring" data-p="0.092084" data-c="1" style="--dc:var(--bad);left:9.00%;top:32.88%"></span><span class="tg-dot ring" data-p="0.195215" data-c="1" style="--dc:var(--bad);left:20.00%;top:30.26%"></span><span class="tg-dot ring mid" data-p="0.78594" data-c="1" style="--dc:var(--bad);left:79.00%;top:68.27%"></span><span class="tg-dot ring mid" data-p="0.504548" data-c="1" style="--dc:var(--bad);left:50.00%;top:75.07%"></span><span class="tg-dot ring" data-p="0.206204" data-c="1" style="--dc:var(--bad);left:21.00%;top:53.80%"></span><span class="tg-dot ring mid" data-p="0.329456" data-c="1" style="--dc:var(--bad);left:33.00%;top:30.97%"></span><span class="tg-dot ring" data-p="0.125722" data-c="1" style="--dc:var(--bad);left:13.00%;top:89.65%"></span><span class="tg-dot ring mid" data-p="0.467886" data-c="1" style="--dc:var(--bad);left:47.00%;top:18.20%"></span><span class="tg-dot ring mid" data-p="0.608361" data-c="1" style="--dc:var(--bad);left:61.00%;top:79.73%"></span><span class="tg-dot ring" data-p="0.218334" data-c="1" style="--dc:var(--bad);left:22.00%;top:55.53%"></span><span class="tg-dot ring" data-p="0.064829" data-c="1" style="--dc:var(--bad);left:6.00%;top:37.53%"></span><span class="tg-dot ring" data-p="0.144258" data-c="1" style="--dc:var(--bad);left:14.00%;top:8.66%"></span><span class="tg-dot ring mid" data-p="0.305491" data-c="1" style="--dc:var(--bad);left:31.00%;top:87.37%"></span><span class="tg-dot ring mid" data-p="0.384282" data-c="1" style="--dc:var(--bad);left:38.00%;top:68.72%"></span><span class="tg-dot ring" data-p="0.180159" data-c="1" style="--dc:var(--bad);left:18.00%;top:54.36%"></span><span class="tg-dot ring" data-p="0.168321" data-c="1" style="--dc:var(--bad);left:17.00%;top:17.42%"></span><span class="tg-dot ring" data-p="0.106893" data-c="1" style="--dc:var(--bad);left:11.00%;top:15.29%"></span><span class="tg-dot ring" data-p="0.033291" data-c="1" style="--dc:var(--bad);left:3.00%;top:34.47%"></span><span class="tg-dot ring" data-p="0.075681" data-c="1" style="--dc:var(--bad);left:8.00%;top:37.37%"></span><span class="tg-dot ring" data-p="0.139286" data-c="1" style="--dc:var(--bad);left:14.00%;top:40.19%"></span><span class="tg-dot ring" data-p="0.091346" data-c="1" style="--dc:var(--bad);left:9.00%;top:18.36%"></span><span class="tg-dot ring mid" data-p="0.341905" data-c="1" style="--dc:var(--bad);left:34.00%;top:39.64%"></span><span class="tg-dot ring mid" data-p="0.638382" data-c="1" style="--dc:var(--bad);left:64.00%;top:86.21%"></span><span class="tg-dot ring" data-p="0.164726" data-c="1" style="--dc:var(--bad);left:16.00%;top:16.38%"></span><span class="tg-dot ring err" data-p="0.902224" data-c="1" style="--dc:var(--bad);left:90.00%;top:27.76%"></span><span class="tg-dot ring mid" data-p="0.674205" data-c="1" style="--dc:var(--bad);left:67.00%;top:56.05%"></span><span class="tg-dot ring mid" data-p="0.656724" data-c="1" style="--dc:var(--bad);left:66.00%;top:78.30%"></span><span class="tg-dot ring" data-p="0.014957" data-c="1" style="--dc:var(--bad);left:1.00%;top:57.30%"></span><span class="tg-dot ring" data-p="0.133586" data-c="1" style="--dc:var(--bad);left:13.00%;top:44.32%"></span><span class="tg-dot ring" data-p="0.072216" data-c="1" style="--dc:var(--bad);left:7.00%;top:14.22%"></span><span class="tg-dot ring" data-p="0.276373" data-c="1" style="--dc:var(--bad);left:28.00%;top:89.03%"></span><span class="tg-dot ring mid" data-p="0.328159" data-c="1" style="--dc:var(--bad);left:33.00%;top:38.01%"></span><span class="tg-dot ring" data-p="0.053382" data-c="1" style="--dc:var(--bad);left:5.00%;top:70.08%"></span><span class="tg-dot ring mid" data-p="0.716427" data-c="1" style="--dc:var(--bad);left:72.00%;top:71.11%"></span><span class="tg-dot ring" data-p="0.0048" data-c="1" style="--dc:var(--bad);left:0.00%;top:35.16%"></span><span class="tg-dot ring" data-p="0.096494" data-c="1" style="--dc:var(--bad);left:10.00%;top:88.43%"></span><span class="tg-dot ring mid" data-p="0.605972" data-c="1" style="--dc:var(--bad);left:61.00%;top:8.49%"></span><span class="tg-dot ring" data-p="0.201345" data-c="1" style="--dc:var(--bad);left:20.00%;top:34.27%"></span><span class="tg-dot ring" data-p="0.015968" data-c="1" style="--dc:var(--bad);left:2.00%;top:34.83%"></span><span class="tg-dot ring mid" data-p="0.665898" data-c="1" style="--dc:var(--bad);left:67.00%;top:64.31%"></span><span class="tg-dot ring mid" data-p="0.777289" data-c="1" style="--dc:var(--bad);left:78.00%;top:24.37%"></span><span class="tg-dot ring" data-p="0.289079" data-c="1" style="--dc:var(--bad);left:29.00%;top:14.62%"></span><span class="tg-dot ring mid" data-p="0.456876" data-c="1" style="--dc:var(--bad);left:46.00%;top:79.02%"></span><span class="tg-dot ring" data-p="0.005592" data-c="1" style="--dc:var(--bad);left:1.00%;top:77.58%"></span><span class="tg-dot ring" data-p="0.014297" data-c="1" style="--dc:var(--bad);left:1.00%;top:22.23%"></span><span class="tg-dot ring mid" data-p="0.311624" data-c="1" style="--dc:var(--bad);left:31.00%;top:55.64%"></span><span class="tg-dot ring mid" data-p="0.451626" data-c="1" style="--dc:var(--bad);left:45.00%;top:79.04%"></span><span class="tg-dot ring" data-p="0.241235" data-c="1" style="--dc:var(--bad);left:24.00%;top:32.98%"></span><span class="tg-dot ring" data-p="0.103868" data-c="1" style="--dc:var(--bad);left:10.00%;top:84.65%"></span><span class="tg-dot ring" data-p="0.008989" data-c="1" style="--dc:var(--bad);left:1.00%;top:25.42%"></span><span class="tg-dot ring" data-p="0.036389" data-c="1" style="--dc:var(--bad);left:4.00%;top:89.86%"></span><span class="tg-dot ring" data-p="0.085367" data-c="1" style="--dc:var(--bad);left:9.00%;top:64.83%"></span><span class="tg-dot ring" data-p="0.080021" data-c="1" style="--dc:var(--bad);left:8.00%;top:14.83%"></span><span class="tg-dot ring" data-p="0.24964" data-c="1" style="--dc:var(--bad);left:25.00%;top:78.94%"></span><span class="tg-dot ring mid" data-p="0.432953" data-c="1" style="--dc:var(--bad);left:43.00%;top:64.12%"></span><span class="tg-dot ring mid" data-p="0.501768" data-c="1" style="--dc:var(--bad);left:50.00%;top:29.38%"></span><span class="tg-dot ring mid" data-p="0.38617" data-c="1" style="--dc:var(--bad);left:39.00%;top:21.30%"></span><span class="tg-dot ring" data-p="0.04169" data-c="1" style="--dc:var(--bad);left:4.00%;top:61.63%"></span><span class="tg-dot ring mid" data-p="0.614391" data-c="1" style="--dc:var(--bad);left:61.00%;top:24.26%"></span><span class="tg-dot ring mid" data-p="0.365715" data-c="1" style="--dc:var(--bad);left:37.00%;top:85.09%"></span><span class="tg-dot ring" data-p="0.078599" data-c="1" style="--dc:var(--bad);left:8.00%;top:72.13%"></span><span class="tg-dot ring mid" data-p="0.522278" data-c="1" style="--dc:var(--bad);left:52.00%;top:77.06%"></span><span class="tg-dot ring err" data-p="0.986796" data-c="1" style="--dc:var(--bad);left:99.00%;top:39.28%"></span><span class="tg-dot ring mid" data-p="0.381" data-c="1" style="--dc:var(--bad);left:38.00%;top:63.69%"></span><span class="tg-dot ring" data-p="0.24935" data-c="1" style="--dc:var(--bad);left:25.00%;top:38.40%"></span><span class="tg-dot ring mid" data-p="0.528376" data-c="1" style="--dc:var(--bad);left:53.00%;top:23.21%"></span><span class="tg-dot ring" data-p="0.095122" data-c="1" style="--dc:var(--bad);left:10.00%;top:25.23%"></span><span class="tg-dot ring" data-p="0.176954" data-c="1" style="--dc:var(--bad);left:18.00%;top:53.23%"></span><span class="tg-dot ring" data-p="0.12117" data-c="1" style="--dc:var(--bad);left:12.00%;top:14.89%"></span><span class="tg-dot ring mid" data-p="0.422038" data-c="1" style="--dc:var(--bad);left:42.00%;top:59.76%"></span><span class="tg-dot ring mid" data-p="0.599388" data-c="1" style="--dc:var(--bad);left:60.00%;top:78.13%"></span><span class="tg-dot ring" data-p="0.109772" data-c="1" style="--dc:var(--bad);left:11.00%;top:85.30%"></span><span class="tg-dot ring mid" data-p="0.663934" data-c="1" style="--dc:var(--bad);left:66.00%;top:89.25%"></span><span class="tg-dot ring mid" data-p="0.517755" data-c="1" style="--dc:var(--bad);left:52.00%;top:70.50%"></span></div><div class="tg-axis" aria-hidden="true"><span style="left:0%">0.00</span><span style="left:25%">0.25</span><span style="left:50%">0.50</span><span style="left:75%">0.75</span><span style="left:100%">1.00</span></div><div class="tg-axlab">Reported probability that the source supports the proposition</div></div></div><div class="tg-legend"><span><i class="tg-dot" data-c="0" style="--dc:var(--accent)"></i>Source really does support the proposition</span><span><i class="tg-dot ring" data-c="1" style="--dc:var(--bad)"></i>Source does not support it</span></div><div class="tg-stack" aria-hidden="true"><span class="low" style="width:24.17%"></span><span class="mid" style="width:46.25%"></span><span class="high" style="width:29.58%"></span></div><div class="tg-read"><div class="tg-z low"><b class="xv" data-x="low">58</b><span>flagged as unsupported. <strong><span class="xv" data-x="lowGood">7</span></strong> of them were fine.</span></div><div class="tg-z mid"><b class="xv" data-x="mid">111</b><span>sent to a person, <strong><span class="xv" data-x="mid/total" data-f="percent">46%</span></strong> of the pile.</span></div><div class="tg-z high"><b class="xv" data-x="high">71</b><span>accepted without review. <strong><span class="xv" data-x="highBad">2</span></strong> of them were bad cites (<strong><span class="xv" data-x="high ? highBad/high : 0" data-f="pct1">2.8%</span></strong>).</span></div></div></div></div><p class="note">Simulated data, not Jev output. The overconfident and underconfident settings use the refit temperatures (3.29 and 0.66) from one independent out-of-distribution test.<span class="c"><a href="#s6">6</a></span> Probabilities are rounded to two decimals, as the API does.<span class="c"><a href="#s7">7</a></span> That test&#39;s author also advises against thresholding on the <code>confidence</code> field, which never beat the top probability.</p><p>The jevcal project turns this into a routine: label at least 100 examples per question, choose the threshold on half, verify it on the other half, and fail the build when a model update breaks it.<span class="c"><a href="#s7">7</a></span> A second library adds separate enter and exit thresholds so an alert does not flap when a score hovers near the line.<span class="c"><a href="#s33">33</a></span></p></div></div></section>
+<section class="section" id="scale"><div class="wrap"><div class="sechead"><p class="eyebrow"><span>§05</span> &nbsp;Scale and cost</p><h2>What a corpus-wide pass would cost</h2></div><div class="secbody"><p>Seth Chandler&#39;s observation about citators is a claim about price: classifying how each citing opinion treats an earlier case becomes cheap enough to run across the whole CourtListener corpus.<span class="c"><a href="#s18">18</a></span> The arithmetic is simple enough to check. Cost is input tokens times $0.042 per million. The floor on wall-clock time comes from the published rate limits.<span class="c"><a href="#s3">3</a></span></p><div class="demo w-calc" data-w="calc"><div class="demo-head"><h3>Price a corpus-wide pass</h3><span class="hint">Pick a preset or drag the sliders</span></div><div class="demo-body"><div class="cx-presets"><button type="button" class="btn btn-ghost" data-set="n=5000;t=500;q=3">5,000 cite-checks</button><button type="button" class="btn btn-ghost" data-set="n=1e6;t=600;q=4">1 million citing passages</button><button type="button" class="btn btn-ghost" data-set="n=100000;t=40000;q=10">100,000 full opinions, 10 variables</button></div><div class="cx-ctrls"><div class="cx-ctrl"><label for="cx-6">Requests <output class="cx-out">1 million</output></label><input type="range" id="cx-6" data-n="n" min="2" max="8" step="0.001" value="6" data-log="1" data-min="100" data-f="count"></div><div class="cx-ctrl"><label for="cx-7">Tokens of text per request <output class="cx-out">603</output></label><input type="range" id="cx-7" data-n="t" min="2" max="4.809997155362193" step="0.001" value="2.780317312140151" data-log="1" data-min="100" data-f="int"></div><div class="cx-ctrl"><label for="cx-8">Questions per request <output class="cx-out">4</output></label><input type="range" id="cx-8" data-n="q" min="1" max="10" step="1" value="4"></div><span class="cx-let" hidden data-n="per" data-l="t + q*40"></span><span class="cx-let" hidden data-n="total" data-l="n*per"></span></div><div class="cx-results"><div class="cx-res"><b class="xv" data-x="total/1e6*0.042" data-f="money">$32</b><span>at list price, output free</span></div><div class="cx-res"><b class="xv" data-x="n*q" data-f="count">4 million</b><span>typed decisions returned</span></div><div class="cx-res"><b class="xv" data-x="max(n/1200*60, total/250000)" data-f="duration">13.9 hours</b><span>minimum elapsed time under the rate limits</span></div></div><div class="cx-meter"><div class="cx-track"><div class="cx-fill" data-m="per/32000" data-o="per &gt; 32000" style="width:2.4%"></div></div></div><p class="cx-say" data-if="per &gt; 32000" hidden><span class="xv" data-x="per" data-f="int">763</span> tokens per request exceeds the 32,000-token limit. Each document must be split into <span class="xv" data-x="ceil(t/(32000-q*40))">1</span> or more chunks, and you write the rule that combines their answers.</p><p class="cx-say" data-if="per &lt;= 32000"><span class="xv" data-x="per" data-f="int">763</span> tokens per request uses <span class="xv" data-x="round(per/320)">2</span>% of the 32,000-token limit.</p></div></div><p class="note">Assumes 40 tokens per question, which is a guess; one measurement put ten questions at $0.0000167 per request against $0.0000120 for one.<span class="c"><a href="#s14">14</a></span> Preset token counts are rough. Rate limits may differ through OpenRouter, Vercel, or Cloudflare.</p></div></div></section>
+<section class="section band" id="limits"><div class="wrap"><div class="sechead"><p class="eyebrow"><span>§06</span> &nbsp;Limits</p><h2>Where it has already broken</h2></div><div class="secbody"><p>No one has published an independent measurement of Jev on U.S. court opinions. These results come from other domains, and each maps onto a legal use.</p><dl class="gloss "><div class="gi"><dt><strong>32k tokens</strong> <span class="muted">state plus longest question</span></dt><dd>Long opinions will not fit. You split them, ask the same question of each chunk, and write the rule that combines the answers. A tester&#39;s 53,000-character document only just fit.<span class="c"><a href="#s3">3</a></span><span class="c"><a href="#s5">5</a></span></dd></div><div class="gi"><dt><strong>0.400 vs. 0.911</strong> <span class="muted">accuracy, one 12-way Choice vs. 14 narrow questions</span></dt><dd><strong>Long option lists fail.</strong> On a 12-class accounting task, a single Choice scored 0.400. Having Jev score 14 narrow dimensions and fitting weights to them locally scored 0.911. A naive Bayes baseline on word pairs scored 0.949. Choice is reportedly capped at 10 options. Citator phrases, the eleven Bluebook signals, and SCALES&#39;s 70+ docket labels all need decomposing.<span class="c"><a href="#s8">8</a></span><span class="c"><a href="#s29">29</a></span></dd></div><div class="gi"><dt><strong>0.932 → 0.579</strong> <span class="muted">rank agreement with the baseline, 1 row vs. 40 rows per request</span></dt><dd><strong>Batching rows corrupts rankings.</strong> Packing 40 rows into one request moved 51% of yes/no probabilities by more than 0.20, and Score rankings fell further, from 0.974 to 0.506. A Postgres extension reports accuracy falling above 20 to 25 rows. Graded relevance fared worse than topic labels.<span class="c"><a href="#s10">10</a></span><span class="c"><a href="#s11">11</a></span></dd></div><div class="gi"><dt><strong>−0.028 NDCG@10</strong> <span class="muted">Jev alone vs. an embedding ranker</span></dt><dd><strong>Reranking alone did not beat vector search</strong> under independent labels, across 9,831 graded pairs. Fusing the two rankings gained 0.090. The same study found that grading Jev with Jev-written labels flipped the sign.<span class="c"><a href="#s9">9</a></span></dd></div><div class="gi"><dt><strong>0.040 → 0.116</strong> <span class="muted">calibration error after adding qualifiers</span></dt><dd><strong>Lawyerly questions score worse.</strong> Adding careful multi-clause qualifiers to a question raised calibration error and lowered agreement. A linter for question sets warns on compound questions, conditionals, and Choice lists with no escape option.<span class="c"><a href="#s5">5</a></span><span class="c"><a href="#s14">14</a></span></dd></div><div class="gi"><dt><strong>44.7% at 0.74</strong> <span class="muted">accuracy vs. average stated probability</span></dt><dd><strong>It cannot apply a rule it was not given.</strong> When the right Score depended on a policy absent from the text, accuracy fell to 44.7% while the model stayed confident. A local rule or a codebook has to be in the criteria.<span class="c"><a href="#s6">6</a></span></dd></div><div class="gi"><dt><strong>No passage</strong> <span class="muted">no quote, no reasoning, no retrieval</span></dt><dd>Chandler: &quot;A probability with no passage attached is hard to check and hard to defend.&quot;<span class="c"><a href="#s18">18</a></span> The citation-verifier pairs Jev with a language model that finds the quote and with code that confirms the quote is verbatim in the source.<span class="c"><a href="#s16">16</a></span></dd></div><div class="gi"><dt><strong>Confidentiality</strong> <span class="muted">zero retention is an enterprise term</span></dt><dd>TypeSafe says it does not train on requests, and offers zero data retention to enterprise customers under a data processing agreement.<span class="c"><a href="#s3">3</a></span> Chandler, after reading the privacy policy, has &quot;serious reservations about using Jev in representing a client or processing confidential information of any sort.&quot;<span class="c"><a href="#s18">18</a></span> Public opinions and dockets avoid the problem.</dd></div><div class="gi"><dt><strong>Rule 1.1</strong> <span class="muted">ABA Formal Opinion 512</span></dt><dd>Relying on a generative AI tool&#39;s output &quot;without an appropriate degree of independent verification or review&quot; can breach the duty of competence.<span class="c"><a href="#s28">28</a></span> A high probability can set the reading order. The lawyer still reads the case.</dd></div></dl></div></div></section>
+<section class="section" id="first"><div class="wrap"><div class="sechead"><p class="eyebrow"><span>§07</span> &nbsp;First project</p><h2>A cite-check gate for drafts, on public case law</h2></div><div class="secbody"><p>This combines the two strongest precedents: the citation-verifier pipeline and jevcal&#39;s threshold routine. It is an inference from those projects. Nobody has published it for case law, and the thresholds would need a labeled set of legal citations before anyone relied on them.</p><div class="tablewrap"><table class="cmp" style="min-width:510px"><thead><tr><th scope="col"><span class="note">Step</span></th><th scope="col">What happens</th><th scope="col">Who does it</th></tr></thead><tbody><tr><th scope="row">1 · <strong>Extract and resolve</strong></th><td>Pull every citation from the draft and confirm each case exists in CourtListener. A failed lookup is a possible fabrication.</td><td>code</td></tr><tr><th scope="row">2 · <strong>Locate the passage</strong></th><td>Find the pin-cited page or the best candidate passage. Confirm any quoted language appears verbatim.</td><td>search or LLM, then code</td></tr><tr><th scope="row">3 · <strong>Ask one Choice</strong></th><td>Does the passage support, contradict, or say nothing about the sentence citing it?</td><td><span class="chip c-elsewhere">Jev</span></td></tr><tr><th scope="row">4 · <strong>Apply fitted bands</strong></th><td>Thresholds chosen on 100+ labeled pairs and verified on held-out pairs.</td><td>code</td></tr><tr><th scope="row">5 · <strong>Read</strong></th><td>A person reads everything outside the accept band, and samples inside it.</td><td><span class="chip c-law">lawyer or librarian</span></td></tr></tbody></table></div><p>Damien Charlotin&#39;s database listed 2,045 court decisions involving hallucinated material on September 19, 2026, 1,397 of them in the United States.<span class="c"><a href="#s23">23</a></span> Step one addresses the invented case. Step three addresses the misgrounded one.</p></div></div></section>
+<section class="section band sources" id="sources"><div class="wrap"><div class="sechead"><p class="eyebrow">Sources</p><h2>What this page rests on</h2></div><div class="secbody"><p>The awesome-jev list states that a listing is not an endorsement, and several linked projects are days old.<span class="c"><a href="#s1">1</a></span> Figures marked vendor come from TypeSafe. Figures marked independent come from outside testers and have not been replicated.</p><ol class="srcs"><li id="s1"><a href="https://github.com/yibie/awesome-jev" target="_blank" rel="noopener noreferrer">awesome-jev, curated list of Jev projects</a> <span class="muted">· list</span></li><li id="s2"><a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev" target="_blank" rel="noopener noreferrer">TypeSafe AI, Introducing System One Models and Jev</a> <span class="muted">· vendor</span></li><li id="s3"><a href="https://docs.typesafe.ai/models" target="_blank" rel="noopener noreferrer">TypeSafe docs: models, pricing, limits, data handling</a> <span class="muted">· vendor</span></li><li id="s4"><a href="https://docs.typesafe.ai/api" target="_blank" rel="noopener noreferrer">TypeSafe docs: API reference and primitives</a> <span class="muted">· vendor</span></li><li id="s5"><a href="https://lindfors.no/blog/a-first-look-at-typesafes-jev/" target="_blank" rel="noopener noreferrer">Lindfors, An early-access test of TypeSafe&#39;s Jev</a> <span class="muted">· independent</span></li><li id="s6"><a href="https://github.com/scienthoon/jev-ood-calibration" target="_blank" rel="noopener noreferrer">jev-ood-calibration, out-of-distribution calibration test</a> <span class="muted">· independent</span></li><li id="s7"><a href="https://github.com/abhixhek/jevcal" target="_blank" rel="noopener noreferrer">jevcal, per-question threshold fitting</a> <span class="muted">· project</span></li><li id="s8"><a href="https://agentjournal.dev/blog/llm-judge-vs-feature-extraction/" target="_blank" rel="noopener noreferrer">Agent Journal, judge call vs. dimension scores</a> <span class="muted">· independent</span></li><li id="s9"><a href="https://github.com/zhuyansen/jev-search-rerank-eval" target="_blank" rel="noopener noreferrer">jev-search-rerank-eval, reranking study</a> <span class="muted">· independent</span></li><li id="s10"><a href="https://github.com/yodablocks/jev-orderby-bench" target="_blank" rel="noopener noreferrer">jev-orderby-bench, is ORDER BY on a probability defensible</a> <span class="muted">· independent</span></li><li id="s11"><a href="https://github.com/realZachi/pg-jev" target="_blank" rel="noopener noreferrer">pg-jev, Postgres extension</a> <span class="muted">· project</span></li><li id="s12"><a href="https://github.com/kylemclaren/jevql" target="_blank" rel="noopener noreferrer">jevql, SQL with Jev predicates</a> <span class="muted">· project</span></li><li id="s13"><a href="https://github.com/WiktorB2004/llama-index-jev" target="_blank" rel="noopener noreferrer">llama-index-jev, reranker and selector</a> <span class="muted">· project</span></li><li id="s14"><a href="https://github.com/ariel-frischer/jevkit" target="_blank" rel="noopener noreferrer">jevkit, question-set linter</a> <span class="muted">· project</span></li><li id="s15"><a href="https://github.com/DanRWilloughby/snifftest" target="_blank" rel="noopener noreferrer">Sniff Test, prose linter</a> <span class="muted">· project</span></li><li id="s16"><a href="https://github.com/MarissaFamularo/citation-verifier" target="_blank" rel="noopener noreferrer">citation-verifier, does the cited paper support the sentence</a> <span class="muted">· project</span></li><li id="s17"><a href="https://github.com/johnhughes3/LegalForecastBench" target="_blank" rel="noopener noreferrer">LegalForecastBench, motion-to-dismiss forecasting</a> <span class="muted">· project</span></li><li id="s18"><a href="https://legaled.ai/what-jev-might-mean-to-the-legal-world/" target="_blank" rel="noopener noreferrer">Seth Chandler, What Jev might mean to the legal world</a> <span class="muted">· commentary</span></li><li id="s19"><a href="https://www.aallnet.org/wp-content/uploads/2018/12/LLJ_110n4_02_hellyer.pdf" target="_blank" rel="noopener noreferrer">Hellyer, Evaluating Shepard&#39;s, KeyCite, and BCite, 110 Law Libr. J. 449 (2018)</a> <span class="muted">· study</span></li><li id="s20"><a href="https://free.law/2025/09/30/citator-annotation-updates/" target="_blank" rel="noopener noreferrer">Free Law Project, open citator announcement and annotation update</a> <span class="muted">· project</span></li><li id="s21"><a href="https://aclanthology.org/2025.nllp-1.13/" target="_blank" rel="noopener noreferrer">Demir &amp; Canbaz, Validate Your Authority, NLLP 2025</a> <span class="muted">· study</span></li><li id="s22"><a href="https://arxiv.org/abs/2405.20362" target="_blank" rel="noopener noreferrer">Magesh et al., Hallucination-Free? (Stanford RegLab)</a> <span class="muted">· study</span></li><li id="s23"><a href="https://www.damiencharlotin.com/hallucinations/" target="_blank" rel="noopener noreferrer">Charlotin, AI Hallucination Cases database</a> <span class="muted">· database</span></li><li id="s24"><a href="https://arxiv.org/abs/2308.11462" target="_blank" rel="noopener noreferrer">Guha et al., LegalBench</a> <span class="muted">· study</span></li><li id="s25"><a href="https://arxiv.org/abs/2104.08671" target="_blank" rel="noopener noreferrer">Zheng et al., CaseHOLD and the Overruling dataset</a> <span class="muted">· study</span></li><li id="s26"><a href="https://docs.scales-okn.org/nlp/" target="_blank" rel="noopener noreferrer">SCALES-OKN litigation ontology and NLP docs</a> <span class="muted">· project</span></li><li id="s27"><a href="https://tarlton.law.utexas.edu/bluebook-legal-citation/intro-signals" target="_blank" rel="noopener noreferrer">Tarlton Law Library, Bluebook introductory signals</a> <span class="muted">· guide</span></li><li id="s28"><a href="https://www.lawnext.com/wp-content/uploads/2024/07/aba-formal-opinion-512.pdf" target="_blank" rel="noopener noreferrer">ABA Formal Opinion 512 (July 29, 2024)</a> <span class="muted">· ethics opinion</span></li><li id="s29"><a href="https://news.ycombinator.com/item?id=49717558" target="_blank" rel="noopener noreferrer">Hacker News launch thread</a> <span class="muted">· commentary</span></li><li id="s30"><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0174698" target="_blank" rel="noopener noreferrer">Katz, Bommarito &amp; Blackman, predicting Supreme Court behavior (2017)</a> <span class="muted">· study</span></li><li id="s31"><a href="https://scholarship.law.upenn.edu/faculty_scholarship/672/" target="_blank" rel="noopener noreferrer">Ruger et al., The Supreme Court Forecasting Project (2004)</a> <span class="muted">· study</span></li><li id="s32"><a href="https://texaslawreview.org/does-lawyering-matter-predicting-judicial-decisions-from-legal-briefs-and-what-that-means-for-access-to-justice/" target="_blank" rel="noopener noreferrer">Tippett et al., Does Lawyering Matter?, Texas L. Rev.</a> <span class="muted">· study</span></li><li id="s33"><a href="https://github.com/edgardcham/huncho" target="_blank" rel="noopener noreferrer">huncho, thresholds with hysteresis and replay</a> <span class="muted">· project</span></li><li id="s34"><a href="https://github.com/cephalization/jev-triage" target="_blank" rel="noopener noreferrer">jev-triage, triage with kept human corrections</a> <span class="muted">· project</span></li><li id="s35"><a href="https://github.com/mgaitan/sqlite-jev" target="_blank" rel="noopener noreferrer">sqlite-jev, SQLite extension</a> <span class="muted">· project</span></li><li id="s36"><a href="https://github.com/hotchpotch/jev-reranker" target="_blank" rel="noopener noreferrer">jev-reranker</a> <span class="muted">· project</span></li></ol></div></div></section>
+</main>
+<footer class="pagefoot"><div class="wrap"><p>This page is educational and is not legal advice. The ideas in §3 and the pipeline in §7 are proposals, not tested products. Research and drafting assisted by Claude; every figure links to the page it came from.</p></div></footer>
+<script>
+(function(){"use strict";
+const __m={};
+__m["catalog.js"]=(function(){
+/* catalog runtime — filter chips, search, a count, and either expanding rows or a list that
+ * picks what the detail panel shows. Without it, the static list shows every detail. */
+function catalog(root) {
+  const split = root.classList.contains("cat-is-split");
+  const modes = (root.dataset.fm || "").split(" ").filter(Boolean);
+  const noun = root.dataset.noun || "items";
+  const filters = root.querySelector(".cat-filters");
+  const countEl = root.querySelector(".cat-count");
+  const q = root.querySelector(".cat-q");
+  const empty = root.querySelector(".cat-empty");
+  const sel = modes.map(() => new Set());
+  if (filters) filters.hidden = false;
+  if (countEl) countEl.hidden = false;
+
+  const items = [...root.querySelectorAll(split ? ".cat-li" : ".cat-row")];
+  const arts = split ? new Map([...root.querySelectorAll(".cat-art")].map((a) => [a.dataset.i, a])) : null;
+  const has = items.map((el) => modes.map((_, g) => new Set((el.dataset["f" + g] || "").split(" ").filter(Boolean))));
+  const text = items.map((el) => ((split ? arts.get(el.dataset.i) : el) || el).textContent.toLowerCase());
+  let current = split && items.length ? items[0].dataset.i : null;
+
+  root.classList.add("cat-live");
+  if (split) {
+    root.querySelector(".cat-side").hidden = false;
+  } else {
+    for (const b of root.querySelectorAll("button.cat-rb")) {
+      const det = document.getElementById(b.getAttribute("aria-controls"));
+      b.setAttribute("aria-expanded", "false");
+      if (det) det.hidden = true;
+      b.addEventListener("click", () => {
+        const open = b.getAttribute("aria-expanded") !== "true";
+        b.setAttribute("aria-expanded", String(open));
+        if (det) det.hidden = !open;
+      });
+    }
+  }
+
+  function matches(i) {
+    for (let g = 0; g < modes.length; g++) {
+      if (!sel[g].size) continue;
+      const want = [...sel[g]];
+      if (modes[g] === "all" ? !want.every((v) => has[i][g].has(v)) : !want.some((v) => has[i][g].has(v))) return false;
+    }
+    const terms = q ? q.value.toLowerCase().trim().split(/\s+/).filter(Boolean) : [];
+    return terms.every((t) => text[i].includes(t));
+  }
+
+  function render() {
+    let shown = 0;
+    const vis = items.map((el, i) => { const ok = matches(i); el.hidden = !ok; if (ok) shown++; return ok; });
+    // group headings follow their items
+    for (const gEl of root.querySelectorAll(split ? ".cat-ih" : ".cat-grp")) {
+      const g = gEl.dataset.grp;
+      gEl.hidden = !items.some((el, i) => vis[i] && (split ? el.dataset.grp === g : gEl.contains(el)));
+    }
+    if (countEl) {
+      const all = modes.some((m, g) => m === "all" && sel[g].size > 1);
+      countEl.textContent = `Showing ${shown} of ${items.length} ${noun}${all ? " that have every value chosen" : ""}`;
+    }
+    if (empty) empty.hidden = shown > 0;
+    if (split) {
+      if (!items.some((el, i) => vis[i] && el.dataset.i === current)) {
+        const first = items.find((el, i) => vis[i]);
+        current = first ? first.dataset.i : null;
+      }
+      items.forEach((el) => el.querySelector(".cat-pick").setAttribute("aria-current", String(el.dataset.i === current)));
+      arts.forEach((a, i) => { a.hidden = i !== current; });
+    }
+  }
+
+  if (filters) filters.addEventListener("click", (e) => {
+    const b = e.target.closest(".cat-chip");
+    if (!b) return;
+    const g = +b.dataset.g, v = b.dataset.v;
+    if (modes[g] === "one") {
+      sel[g].clear();
+      if (v !== "all") sel[g].add(v);
+      filters.querySelectorAll(`.cat-chip[data-g="${g}"]`).forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    } else {
+      if (sel[g].has(v)) sel[g].delete(v); else sel[g].add(v);
+      b.setAttribute("aria-pressed", String(sel[g].has(v)));
+    }
+    render();
+  });
+  if (q) q.addEventListener("input", render);
+
+  if (split) root.querySelector(".cat-index").addEventListener("click", (e) => {
+    const b = e.target.closest(".cat-pick");
+    if (!b) return;
+    current = b.dataset.i;
+    render();
+    if (window.matchMedia("(max-width:900px)").matches) {
+      const a = arts.get(current);
+      if (a) a.scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion:reduce)").matches ? "auto" : "smooth" });
+    }
+  });
+
+  render();
+}
+
+return {catalog};
+})();
+__m["../../lib/expr.js"]=(function(){
+/* expr.js — the formula language widgets use (calc, triage), and the number formats.
+ *
+ * A link is data anyone can write, so a formula is parsed here, never handed to eval or
+ * Function. It can use: numbers (12, 0.5, 1e6), "strings" (for == and != only), the names
+ * the widget defines, + - * / % ^ (power), < <= > >= == !=, && || !, a ? b : c, parentheses
+ * and the functions in FN. Nothing else exists, there are no loops, and sizes are capped,
+ * so a hostile formula can only produce a wrong number.
+ *
+ *   compile("t + q*40", ["t", "q"])  → { run(scope) → value, names }   (throws on a bad formula)
+ *   fmt(value, "money")              → "$0.42"
+ *   template("{n | count} requests") → parts for widgets to render (see below)
+ * No DOM, no Node.
+ */
+
+const MAX_LEN = 600, MAX_TOKENS = 300, MAX_DEPTH = 40;
+
+const clamp = (x, a, b) => Math.min(Math.max(x, a), b);
+const FN = {
+  min: (...a) => Math.min(...a), max: (...a) => Math.max(...a), abs: Math.abs,
+  round: (x, d = 0) => { const k = 10 ** clamp(Math.round(d), 0, 10); return Math.round(x * k) / k; },
+  floor: Math.floor, ceil: Math.ceil, sqrt: Math.sqrt, exp: Math.exp, ln: Math.log, log: Math.log,
+  log10: Math.log10, pow: Math.pow, sign: Math.sign, clamp,
+  sigmoid: (z) => 1 / (1 + Math.exp(-z)),
+  logit: (p) => { p = clamp(p, 1e-9, 1 - 1e-9); return Math.log(p / (1 - p)); },
+};
+const CONST = { pi: Math.PI };
+
+function tokenize(src) {
+  const out = [];
+  const re = /\s*(?:(\d+\.?\d*(?:[eE][+-]?\d+)?|\.\d+(?:[eE][+-]?\d+)?)|([A-Za-z_][A-Za-z0-9_]*)|"([^"]*)"|'([^']*)'|(\*\*|<=|>=|==|!=|&&|\|\||[-+*/%^<>!?:(),]))/y;
+  let i = 0;
+  while (i < src.length) {
+    if (/^\s*$/.test(src.slice(i))) break;
+    re.lastIndex = i;
+    const m = re.exec(src);
+    if (!m) throw new Error(`unexpected "${src.slice(i).trim().slice(0, 12)}"`);
+    i = re.lastIndex;
+    if (m[1] !== undefined) out.push({ t: "num", v: Number(m[1]) });
+    else if (m[2] !== undefined) out.push({ t: "id", v: m[2] });
+    else if (m[3] !== undefined || m[4] !== undefined) out.push({ t: "str", v: m[3] ?? m[4] });
+    else out.push({ t: "op", v: m[5] === "**" ? "^" : m[5] });
+    if (out.length > MAX_TOKENS) throw new Error("formula too long");
+  }
+  return out;
+}
+
+const BIN = { "||": 1, "&&": 2, "==": 3, "!=": 3, "<": 4, "<=": 4, ">": 4, ">=": 4, "+": 5, "-": 5, "*": 6, "/": 6, "%": 6, "^": 8 };
+
+function num(x) { return typeof x === "string" ? NaN : Number(x); }
+
+/* Parse to a tree of closures. known: the names the formula may use. */
+function compile(src, known = []) {
+  src = String(src ?? "");
+  if (src.length > MAX_LEN) throw new Error("formula too long");
+  const toks = tokenize(src);
+  const names = new Set();
+  const allowed = new Set(known);
+  let k = 0;
+  const peek = () => toks[k], next = () => toks[k++];
+  const isOp = (v) => toks[k] && toks[k].t === "op" && toks[k].v === v;
+  const expect = (v) => { if (!isOp(v)) throw new Error(`expected "${v}"`); k++; };
+
+  function primary(d) {
+    if (d > MAX_DEPTH) throw new Error("formula nested too deeply");
+    const t = next();
+    if (!t) throw new Error("formula ends too soon");
+    if (t.t === "num") { const v = t.v; return () => v; }
+    if (t.t === "str") { const v = t.v; return () => v; }
+    if (t.t === "op" && t.v === "(") { const e = ternary(d + 1); expect(")"); return e; }
+    if (t.t === "op" && (t.v === "-" || t.v === "+" || t.v === "!")) {
+      const e = binary(d + 1, BIN["^"]); // so -2^2 is -(2^2)
+      return t.v === "-" ? (s) => -num(e(s)) : t.v === "+" ? (s) => num(e(s)) : (s) => !e(s);
+    }
+    if (t.t === "id") {
+      if (isOp("(")) {
+        const f = Object.prototype.hasOwnProperty.call(FN, t.v) ? FN[t.v] : null;
+        if (!f) throw new Error(`unknown function ${t.v}()`);
+        k++;
+        const args = [];
+        if (!isOp(")")) { do { args.push(ternary(d + 1)); } while (isOp(",") && ++k); }
+        expect(")");
+        if (args.length > 20) throw new Error("too many arguments");
+        return (s) => f(...args.map((a) => num(a(s))));
+      }
+      if (Object.prototype.hasOwnProperty.call(CONST, t.v) && !allowed.has(t.v)) { const v = CONST[t.v]; return () => v; }
+      if (t.v === "true" || t.v === "false") { const v = t.v === "true"; return () => v; }
+      if (!allowed.has(t.v)) throw new Error(`unknown name "${t.v}"`);
+      names.add(t.v);
+      const name = t.v;
+      return (s) => (s.has(name) ? s.get(name) : NaN);
+    }
+    throw new Error(`unexpected "${t.v}"`);
+  }
+  function unary(d) { return primary(d); }
+  function binary(d, minPrec) {
+    let left = unary(d);
+    for (;;) {
+      const t = peek();
+      if (!t || t.t !== "op" || !(t.v in BIN) || BIN[t.v] < minPrec) return left;
+      k++;
+      const op = t.v, prec = BIN[op];
+      const right = binary(d + 1, op === "^" ? prec : prec + 1);
+      left = combine(op, left, right);
+    }
+  }
+  function ternary(d) {
+    if (d > MAX_DEPTH) throw new Error("formula nested too deeply");
+    const c = binary(d, 1);
+    if (!isOp("?")) return c;
+    k++;
+    const a = ternary(d + 1);
+    expect(":");
+    const b = ternary(d + 1);
+    return (s) => (c(s) ? a(s) : b(s));
+  }
+  const tree = ternary(0);
+  if (k < toks.length) throw new Error(`unexpected "${toks[k].v}"`);
+  return {
+    names,
+    /* scope: a Map of name → value (a Map, so no name can reach Object.prototype) */
+    run(scope) { const v = tree(scope instanceof Map ? scope : new Map(Object.entries(scope || {}))); return v; },
+  };
+}
+
+function combine(op, l, r) {
+  switch (op) {
+    case "+": return (s) => num(l(s)) + num(r(s));
+    case "-": return (s) => num(l(s)) - num(r(s));
+    case "*": return (s) => num(l(s)) * num(r(s));
+    case "/": return (s) => num(l(s)) / num(r(s));
+    case "%": return (s) => num(l(s)) % num(r(s));
+    case "^": return (s) => num(l(s)) ** num(r(s));
+    case "<": return (s) => num(l(s)) < num(r(s));
+    case "<=": return (s) => num(l(s)) <= num(r(s));
+    case ">": return (s) => num(l(s)) > num(r(s));
+    case ">=": return (s) => num(l(s)) >= num(r(s));
+    case "==": return (s) => { const a = l(s), b = r(s); return typeof a === "string" || typeof b === "string" ? String(a) === String(b) : num(a) === num(b); };
+    case "!=": return (s) => { const a = l(s), b = r(s); return typeof a === "string" || typeof b === "string" ? String(a) !== String(b) : num(a) !== num(b); };
+    case "&&": return (s) => Boolean(l(s)) && Boolean(r(s));
+    case "||": return (s) => Boolean(l(s)) || Boolean(r(s));
+  }
+  throw new Error(`unknown operator ${op}`);
+}
+
+/* ---------- formats ---------- */
+
+const FORMATS = ["int", "count", "money", "percent", "pct1", "duration", "dec0", "dec1", "dec2", "dec3", "plain"];
+
+const intl = (n) => Math.round(n).toLocaleString("en-US");
+
+function fmt(v, f) {
+  if (typeof v === "boolean") return v ? "yes" : "no";
+  if (typeof v === "string") return v;
+  if (!Number.isFinite(v)) return "n/a";
+  switch (f) {
+    case "int": return intl(v);
+    case "count":
+      if (Math.abs(v) >= 1e9) return (v / 1e9).toFixed(1).replace(/\.0$/, "") + " billion";
+      if (Math.abs(v) >= 1e6) return (v / 1e6).toFixed(Math.abs(v) >= 1e7 ? 0 : 1).replace(/\.0$/, "") + " million";
+      return intl(v);
+    case "money": return (v < 0 ? "−" : "") + "$" + (Math.abs(v) < 1 ? Math.abs(v).toFixed(2) : intl(Math.abs(v)));
+    case "percent": return Math.round(v * 100) + "%";
+    case "pct1": return (v * 100).toFixed(1) + "%";
+    case "duration": {
+      const s = v;
+      return s < 90 ? Math.max(1, Math.round(s)) + " sec" : s < 5400 ? Math.round(s / 60) + " min" : s < 172800 ? (s / 3600).toFixed(1) + " hours" : (s / 86400).toFixed(1) + " days";
+    }
+    case "dec0": case "dec1": case "dec2": case "dec3": return v.toFixed(+f[3]);
+    default:
+      if (Number.isInteger(v)) return intl(v);
+      return String(+v.toPrecision(Math.abs(v) >= 1 ? 4 : 3));
+  }
+}
+
+/* ---------- templates: text with {formula} or {formula | format} ---------- */
+
+/* Split a template into text and formula parts. A "{" right after "]" belongs to an inline
+ * span ([label]{.class}), not a formula. → [{ text } | { x: formula, f: format }] */
+function template(src) {
+  const parts = [];
+  let i = 0, text = "";
+  src = String(src ?? "");
+  while (i < src.length) {
+    const c = src[i];
+    if (c === "{" && src[i - 1] !== "]" && src[i - 1] !== "\\") {
+      const j = src.indexOf("}", i + 1);
+      if (j > i) {
+        const body = src.slice(i + 1, j);
+        const m = body.match(/^(.*?)(?:\s\|\s*([a-z0-9]+))?\s*$/);
+        if (text) parts.push({ text }), text = "";
+        parts.push({ x: m[1].trim(), f: m[2] && FORMATS.includes(m[2]) ? m[2] : "" });
+        i = j + 1;
+        continue;
+      }
+    }
+    text += c;
+    i++;
+  }
+  if (text) parts.push({ text });
+  return parts;
+}
+
+return {compile,FORMATS,fmt,template};
+})();
+__m["../../lib/md.js"]=(function(){
+/* md.js — the explainer source format: a small Markdown dialect, after Tiny Little Office's TLO.
+ *
+ * Runs unchanged in Node (build, lint) and in the browser (the link viewer), so it touches
+ * no DOM and no Node API. Everything that reaches HTML goes through esc(), safeUrl() or
+ * cleanClass(); the viewer depends on that, because a link is text anyone can write.
+ *
+ * A source is: optional front matter (--- key: value ---), then blocks:
+ *   # h1 … ###### h6      ¶ paragraph      - / 1. lists (task items: - [ ] / - [x])
+ *   > quote               --- break        | tables | with a --- | --- separator row
+ *   ```lang {attrs}       a fence: a widget when lang names one, else code
+ * Any block may end with {#id .class key=value key="quoted value"}, on its last line or
+ * on a line of its own right after it.
+ */
+
+/* ---------- escaping and validation ---------- */
+
+function esc(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
+function cleanClass(s) {
+  return String(s).toLowerCase().replace(/[^a-z0-9_-]/g, "");
+}
+
+function cleanId(s) {
+  return String(s).replace(/[^A-Za-z0-9_-]/g, "");
+}
+
+function slug(s) {
+  return String(s).toLowerCase().replace(/<[^>]*>/g, "").replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "").slice(0, 48) || "section";
+}
+
+/* Only these schemes ever become an href; anything else renders as plain text. */
+function safeUrl(u) {
+  u = String(u).trim();
+  if (/^(https?:\/\/|mailto:|tel:)/i.test(u) && !/[\s<>"']/.test(u)) return u;
+  if (/^#[A-Za-z0-9_-]*$/.test(u)) return u;
+  return null;
+}
+
+function hexColor(s) {
+  s = String(s || "").trim();
+  return /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(s) ? s.toLowerCase() : null;
+}
+
+/* ---------- attributes: {#id .class key=value key="quoted"} ---------- */
+
+function parseAttrs(s) {
+  const a = { id: "", cls: [], kv: {} };
+  if (!s) return a;
+  const re = /#([\w-]+)|\.([\w-]+)|([\w-]+)=(?:"([^"]*)"|'([^']*)'|([^\s"']+))/g;
+  let m;
+  while ((m = re.exec(s))) {
+    if (m[1]) a.id = m[1];
+    else if (m[2]) a.cls.push(m[2].toLowerCase());
+    else a.kv[m[3].toLowerCase()] = m[4] ?? m[5] ?? m[6] ?? "";
+  }
+  return a;
+}
+
+const ATTR_TAIL = /(^|\s)\{\s*((?:[#.][\w-]+|[\w-]+=(?:"[^"]*"|'[^']*'|[^\s"'}]+))(?:\s+(?:[#.][\w-]+|[\w-]+=(?:"[^"]*"|'[^']*'|[^\s"'}]+)))*)\s*\}\s*$/;
+
+/* Split a trailing attribute block off a line. "[FBI]{.fbi}" is an inline span, not block
+ * attributes, because block attributes need whitespace (or nothing) before the brace. */
+function splitAttrs(line) {
+  const m = String(line).match(ATTR_TAIL);
+  if (!m) return [line, null];
+  return [line.slice(0, m.index + m[1].length).replace(/\s+$/, ""), parseAttrs(m[2])];
+}
+
+function mergeAttrs(a, b) {
+  if (!b) return a || parseAttrs("");
+  a = a || parseAttrs("");
+  return { id: b.id || a.id, cls: [...a.cls, ...b.cls], kv: { ...a.kv, ...b.kv } };
+}
+
+function attrHtml(a, extraCls) {
+  const cls = [...(extraCls ? [extraCls] : []), ...((a && a.cls) || []).map(cleanClass)].filter(Boolean);
+  let s = "";
+  if (a && a.id) s += ` id="${esc(cleanId(a.id))}"`;
+  if (cls.length) s += ` class="${esc(cls.join(" "))}"`;
+  return s;
+}
+
+/* ---------- front matter ---------- */
+
+function parseHead(lines) {
+  const head = {};
+  for (const line of lines) {
+    const m = line.match(/^\s*([A-Za-z][\w-]*)\s*:\s?(.*)$/);
+    if (m) head[m[1].toLowerCase()] = m[2].trim();
+  }
+  return head;
+}
+
+/* ---------- block parser ---------- */
+
+const RE_FENCE = /^(\s*)(`{3,}|~{3,})\s*([\w-]*)\s*(.*)$/;
+const RE_HEAD = /^(#{1,6})\s+(.*)$/;
+const RE_HR = /^\s*(-{3,}|\*{3,}|_{3,})\s*$/;
+const RE_ITEM = /^(\s*)([-*+]|\d{1,3}[.)])\s+(.*)$/;
+const RE_SEP = /^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)*\|?\s*$/;
+const RE_ATTR_ONLY = /^\s*\{\s*(?:[#.][\w-]+|[\w-]+=)[^{}]*\}\s*$/;
+
+function parse(src) {
+  const lines = String(src).replace(/\r\n?/g, "\n").split("\n");
+  let i = 0;
+  let head = {};
+  if (/^---\s*$/.test(lines[0] || "")) {
+    const end = lines.findIndex((l, k) => k > 0 && /^---\s*$/.test(l));
+    if (end > 0) { head = parseHead(lines.slice(1, end)); i = end + 1; }
+  }
+  const blocks = [];
+  const isBlank = (l) => !l || !l.trim();
+  const isTableStart = (k) => k + 1 < lines.length && lines[k].includes("|") && RE_SEP.test(lines[k + 1]);
+
+  while (i < lines.length) {
+    const line = lines[i];
+    if (isBlank(line)) { i++; continue; }
+
+    if (RE_ATTR_ONLY.test(line) && blocks.length) {
+      const last = blocks[blocks.length - 1];
+      last.a = mergeAttrs(last.a, parseAttrs(line.trim().slice(1, -1)));
+      i++; continue;
+    }
+
+    let m = line.match(RE_FENCE);
+    if (m) {
+      const fence = m[2], lang = m[3].toLowerCase();
+      const [, a] = splitAttrs(" " + m[4]);
+      const body = [];
+      i++;
+      while (i < lines.length && !(lines[i].trim().startsWith(fence[0].repeat(fence.length)) && lines[i].trim().replace(/[`~]/g, "") === "")) {
+        body.push(lines[i]); i++;
+      }
+      i++; // closing fence
+      const ind = m[1].length;
+      blocks.push({ k: "fence", lang, body: body.map((l) => l.slice(Math.min(ind, l.length - l.trimStart().length))).join("\n"), a: a || parseAttrs(m[4].replace(/^\{|\}$/g, "")) });
+      continue;
+    }
+
+    m = line.match(RE_HEAD);
+    if (m) {
+      const [text, a] = splitAttrs(m[2].trim());
+      blocks.push({ k: "h", level: m[1].length, text, a });
+      i++; continue;
+    }
+
+    if (RE_HR.test(line)) { blocks.push({ k: "hr" }); i++; continue; }
+
+    if (isTableStart(i)) {
+      const header = splitRow(lines[i]);
+      i += 2;
+      const rows = [];
+      while (i < lines.length && !isBlank(lines[i]) && lines[i].includes("|") && !RE_ATTR_ONLY.test(lines[i])) {
+        rows.push(splitRow(lines[i])); i++;
+      }
+      blocks.push({ k: "table", cols: header.map(parseColumn), rows });
+      continue;
+    }
+
+    if (RE_ITEM.test(line)) {
+      const start = i;
+      i++;
+      while (i < lines.length) {
+        if (isBlank(lines[i])) {
+          // a blank line continues the list if the next content line is an item or indented
+          let k = i; while (k < lines.length && isBlank(lines[k])) k++;
+          if (k < lines.length && (RE_ITEM.test(lines[k]) || /^\s{2,}\S/.test(lines[k]))) { i = k; continue; }
+          break;
+        }
+        if (RE_ITEM.test(lines[i]) || /^\s+\S/.test(lines[i])) { i++; continue; }
+        if (RE_ATTR_ONLY.test(lines[i])) break;
+        break;
+      }
+      blocks.push({ k: "list", items: parseList(lines.slice(start, i)) });
+      continue;
+    }
+
+    if (/^\s*>/.test(line)) {
+      const q = [];
+      while (i < lines.length && /^\s*>/.test(lines[i])) { q.push(lines[i].replace(/^\s*>\s?/, "")); i++; }
+      const [text, a] = splitAttrs(q.join("\n"));
+      blocks.push({ k: "quote", text, a });
+      continue;
+    }
+
+    // paragraph
+    const p = [];
+    while (i < lines.length && !isBlank(lines[i]) && !RE_FENCE.test(lines[i]) && !RE_HEAD.test(lines[i]) &&
+           !RE_ITEM.test(lines[i]) && !/^\s*>/.test(lines[i]) && !isTableStart(i) && !RE_ATTR_ONLY.test(lines[i]) &&
+           !(p.length && RE_HR.test(lines[i]))) {
+      p.push(lines[i].trim()); i++;
+    }
+    const [text, a] = splitAttrs(p.join("\n"));
+    blocks.push({ k: "p", text, a });
+  }
+  return { head, blocks };
+}
+
+/* ---------- tables ---------- */
+
+function splitRow(line) {
+  let s = line.trim();
+  if (s.startsWith("|")) s = s.slice(1);
+  if (s.endsWith("|") && !s.endsWith("\\|")) s = s.slice(0, -1);
+  const cells = [];
+  let cur = "", code = false;
+  for (let k = 0; k < s.length; k++) {
+    const c = s[k];
+    if (c === "\\" && s[k + 1] === "|") { cur += "|"; k++; continue; }
+    if (c === "`") code = !code;
+    if (c === "|" && !code) { cells.push(cur.trim()); cur = ""; continue; }
+    cur += c;
+  }
+  cells.push(cur.trim());
+  return cells;
+}
+
+const COL_TYPES = ["option", "long", "check", "date", "number", "money", "percent", "text"];
+
+function parseColumn(cell) {
+  const [text, a] = splitAttrs(cell);
+  const m = text.match(/^(.*?):([a-z]+)$/);
+  if (m && COL_TYPES.includes(m[2])) return { name: m[1].trim(), type: m[2], a };
+  return { name: text.trim(), type: "text", a };
+}
+
+/* A cell: text plus optional trailing {attrs}. */
+function cellOf(s) {
+  const [text, a] = splitAttrs(s || "");
+  return { text, a };
+}
+
+/* ---------- lists → trees ---------- */
+
+/* Items keep their first line in `text`; indented lines that follow become `paras`
+ * (blank-line separated) or `quote` (lines starting with >). Children nest by indent. */
+function parseList(lines) {
+  const root = { children: [], indent: -1 };
+  const stack = [root];
+  let cur = null, blankBefore = false;
+  for (const raw of lines) {
+    if (!raw.trim()) { blankBefore = true; continue; }
+    const m = raw.match(RE_ITEM);
+    const indent = raw.length - raw.trimStart().length;
+    if (m) {
+      let text = m[3], done = null;
+      const t = text.match(/^\[([ xX])\]\s+(.*)$/);
+      if (t) { done = t[1] !== " "; text = t[2]; }
+      const [txt, a] = splitAttrs(text);
+      const node = { indent, ord: /\d/.test(m[2]), done, text: txt, a, paras: [], quote: [], children: [] };
+      while (stack.length > 1 && stack[stack.length - 1].indent >= indent) stack.pop();
+      stack[stack.length - 1].children.push(node);
+      stack.push(node);
+      cur = node; blankBefore = false;
+      continue;
+    }
+    if (!cur) continue;
+    // an indented line belongs to the nearest open item indented less than it
+    // (so a question's "> why" written under its options goes to the question)
+    for (let k = stack.length - 1; k > 0; k--) {
+      if (stack[k].indent < indent) { if (stack[k] !== cur) { cur = stack[k]; stack.length = k + 1; } break; }
+    }
+    const t = raw.trim();
+    if (t.startsWith(">")) {
+      const q = t.replace(/^>\s?/, "");
+      if (!q) cur.quote.push("");
+      else if (blankBefore && cur.quote.length) cur.quote.push("", q);
+      else cur.quote.push(q);
+    } else if (blankBefore || !cur.paras.length && cur.text === "") {
+      cur.paras.push(t);
+    } else if (cur.paras.length) {
+      cur.paras[cur.paras.length - 1] += "\n" + t;
+    } else {
+      cur.text += "\n" + t;
+    }
+    blankBefore = false;
+  }
+  return root.children;
+}
+
+/* Paragraph strings from quote lines (blank entries separate paragraphs). */
+function quoteParas(lines) {
+  return lines.join("\n").split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean);
+}
+
+/* ---------- inline ---------- */
+
+/* Inline Markdown → HTML. Marks: **bold** *italic* `code` ==highlight== [text](url)
+ * [text]{.class} (a span; a topic colour name makes a chip). Everything else is escaped. */
+function inline(src, ctx) {
+  src = String(src ?? "");
+  let out = "";
+  let i = 0;
+  const colors = (ctx && ctx.colors) || {};
+  while (i < src.length) {
+    const c = src[i];
+    if (c === "\\" && i + 1 < src.length && /[\\`*_[\]{}()#+\-.!|>~=^]/.test(src[i + 1])) {
+      out += esc(src[i + 1]); i += 2; continue;
+    }
+    if (c === "\n") { out += "\n"; i++; continue; }
+    if (c === "`") {
+      const j = src.indexOf("`", i + 1);
+      if (j > i) { out += "<code>" + esc(src.slice(i + 1, j)) + "</code>"; i = j + 1; continue; }
+    }
+    if (c === "*" && src[i + 1] === "*") {
+      const j = src.indexOf("**", i + 2);
+      if (j > i + 2) { out += "<strong>" + inline(src.slice(i + 2, j), ctx) + "</strong>"; i = j + 2; continue; }
+    }
+    if ((c === "*" || c === "_") && src[i + 1] && src[i + 1] !== " " && src[i + 1] !== c &&
+        (c === "*" || i === 0 || /[\s(\["'“‘—–-]/.test(src[i - 1]))) {
+      let j = i + 1;
+      while (j < src.length) {
+        j = src.indexOf(c, j);
+        if (j < 0) break;
+        if (src[j - 1] !== " " && src[j + 1] !== c && (c === "*" || j + 1 >= src.length || /[\s).,;:!?\]"'”’—–-]/.test(src[j + 1]))) break;
+        j++;
+      }
+      if (j > i + 1) { out += "<em>" + inline(src.slice(i + 1, j), ctx) + "</em>"; i = j + 1; continue; }
+    }
+    if (c === "=" && src[i + 1] === "=") {
+      const j = src.indexOf("==", i + 2);
+      if (j > i + 2) { out += "<mark>" + inline(src.slice(i + 2, j), ctx) + "</mark>"; i = j + 2; continue; }
+    }
+    if (c === "[") {
+      let depth = 0, j = i;
+      for (; j < src.length; j++) {
+        if (src[j] === "\\") { j++; continue; }
+        if (src[j] === "[") depth++;
+        else if (src[j] === "]" && --depth === 0) break;
+      }
+      if (j < src.length) {
+        const label = src.slice(i + 1, j);
+        if (src[j + 1] === "(") {
+          const k = src.indexOf(")", j + 2);
+          if (k > j) {
+            const url = safeUrl(src.slice(j + 2, k));
+            const inner = inline(label, ctx);
+            if (url && url.startsWith("#")) out += `<a href="${esc(url)}">${inner}</a>`;
+            else if (url) out += `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${inner}</a>`;
+            else out += inner;
+            i = k + 1; continue;
+          }
+        }
+        if (src[j + 1] === "{") {
+          const k = src.indexOf("}", j + 2);
+          if (k > j) {
+            const a = parseAttrs(src.slice(j + 2, k));
+            const cls = a.cls.map(cleanClass).filter(Boolean);
+            const topic = cls.find((x) => colors[x]);
+            const all = topic ? ["chip", "c-" + topic, ...cls.filter((x) => x !== topic)] : cls;
+            out += `<span${all.length ? ` class="${esc(all.join(" "))}"` : ""}>${inline(label, ctx)}</span>`;
+            i = k + 1; continue;
+          }
+        }
+      }
+    }
+    out += esc(c); i++;
+  }
+  return out;
+}
+
+/* Plain text of inline Markdown (for titles, aria-labels, nav). */
+function plain(src) {
+  return String(src ?? "").replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/\[([^\]]*)\]\{[^}]*\}/g, "$1")
+    .replace(/[*_`=]{1,2}/g, "").replace(/\\(.)/g, "$1").trim();
+}
+
+return {esc,cleanClass,cleanId,slug,safeUrl,hexColor,parseAttrs,splitAttrs,mergeAttrs,attrHtml,parse,splitRow,parseColumn,cellOf,parseList,quoteParas,inline,plain};
+})();
+__m["../../lib/live.js"]=(function(){
+/* live.js — formulas inside widget text: rendered once with starting values (so the page
+ * reads without script), then kept current by the runtime. Used by calc and triage.
+ *
+ * Render side (Node or browser):  liveText(src, ctx, known, scope) → HTML
+ *   src is inline Markdown with {formula} or {formula | format}; each formula becomes
+ *   <span class="xv" data-x="formula" data-f="format">value</span>. A formula that does not
+ *   compile is reported with ctx.warn and shown as "?".
+ * Runtime side (browser):  live(root, known) → update(scope)
+ *   recomputes every [data-x] (text) and [data-if] (shown only when true) inside root.
+ * The formula text travels in a data attribute, escaped, and is only ever handed to
+ * expr.js's compile(), never to eval.
+ */
+const { compile, fmt, template } = __m["../../lib/expr.js"];
+const { esc } = __m["../../lib/md.js"];
+
+function evalSafe(src, known, scope) {
+  try { return compile(src, known).run(scope); } catch (e) { return NaN; }
+}
+
+function checkFormula(src, known, ctx, where) {
+  try { compile(src, known); return true; } catch (e) { ctx.warn(`${where}: "${src}" — ${e.message}`); return false; }
+}
+
+function liveText(src, ctx, known, scope, where = "formula") {
+  const parts = template(src);
+  const vals = [];
+  let text = "";
+  for (const p of parts) {
+    if (p.text !== undefined) { text += p.text; continue; }
+    const ok = checkFormula(p.x, known, ctx, where);
+    const v = ok ? evalSafe(p.x, known, scope) : NaN;
+    vals.push(ok ? `<span class="xv" data-x="${esc(p.x)}"${p.f ? ` data-f="${esc(p.f)}"` : ""}>${esc(fmt(v, p.f))}</span>` : "?");
+    text += `\u0001${vals.length - 1}\u0001`;
+  }
+  return ctx.inline(text).replace(/\u0001(\d+)\u0001/g, (_, i) => vals[+i]);
+}
+
+function live(root, known) {
+  const cache = new Map();
+  const get = (src) => {
+    if (!cache.has(src)) { try { cache.set(src, compile(src, known)); } catch (e) { cache.set(src, null); } }
+    return cache.get(src);
+  };
+  const outs = [...root.querySelectorAll("[data-x]")], conds = [...root.querySelectorAll("[data-if]")];
+  return function update(scope) {
+    for (const el of outs) {
+      const c = get(el.dataset.x);
+      el.textContent = c ? fmt(c.run(scope), el.dataset.f || "") : "?";
+    }
+    for (const el of conds) {
+      const c = get(el.dataset.if);
+      el.hidden = !(c && c.run(scope));
+    }
+  };
+}
+
+return {evalSafe,checkFormula,liveText,live};
+})();
+__m["triage.js"]=(function(){
+/* triage runtime — move the thresholds or switch scenario; dots, bands, counts and every
+ * formula follow. */
+const { compile } = __m["../../lib/expr.js"];
+const { live } = __m["../../lib/live.js"];
+
+const VARS = ["low", "mid", "high", "total", "lowGood", "lowBad", "midGood", "midBad", "highGood", "highBad", "lo", "hi"]; // as widgets/triage.js
+
+function triage(root) {
+  const keys = (root.dataset.classes || "").split(" ");
+  const incl = root.dataset.incl === "1";
+  const plot = root.querySelector(".tg-plot");
+  const dots = [...plot.querySelectorAll(".tg-dot")].map((el) => ({ el, p: +el.dataset.p, c: +el.dataset.c, good: el.dataset.g === "1" }));
+  const lo = root.querySelector('input[data-t="lo"]'), hi = root.querySelector('input[data-t="hi"]');
+  const scenBtns = [...root.querySelectorAll(".tg-scen button")];
+  const compiled = new Map();
+  const scaleOf = (src) => {
+    if (!compiled.has(src)) { try { compiled.set(src, compile(src, ["p", "class"])); } catch (e) { compiled.set(src, null); } }
+    return compiled.get(src);
+  };
+  const one = root.querySelector(".tg-scen-one");
+  let scen = scenBtns.length ? scaleOf(scenBtns[0].dataset.s) : one ? scaleOf(one.dataset.s) : null;
+  const update = live(root, VARS);
+  const bands = { low: plot.querySelector(".tg-band.low"), mid: plot.querySelector(".tg-band.mid"), high: plot.querySelector(".tg-band.high") };
+  const lines = { lo: plot.querySelector(".tg-line.lo"), hi: plot.querySelector(".tg-line.hi") };
+  const stack = root.querySelector(".tg-stack");
+  const pct = (v) => (Math.min(Math.max(v, 0), 1) * 100).toFixed(2) + "%";
+
+  function render(src) {
+    let a = +lo.value, b = +hi.value;
+    if (a > b) { if (src === lo) { hi.value = a; b = +hi.value; } else { lo.value = b; a = +lo.value; } }
+    lo.parentElement.querySelector(".cx-out").textContent = a.toFixed(2);
+    hi.parentElement.querySelector(".cx-out").textContent = b.toFixed(2);
+    const s = { low: 0, mid: 0, high: 0, lowGood: 0, lowBad: 0, midGood: 0, midBad: 0, highGood: 0, highBad: 0, total: dots.length, lo: a, hi: b };
+    const scope = new Map();
+    for (const d of dots) {
+      let p = d.p;
+      if (scen) {
+        scope.set("p", d.p); scope.set("class", keys[d.c] || "");
+        const v = +scen.run(scope);
+        p = Number.isFinite(v) ? Math.min(Math.max(v, 0), 1) : 0;
+      }
+      const z = p >= b ? "high" : (incl ? p <= a : p < a) ? "low" : "mid";
+      s[z]++; s[z + (d.good ? "Good" : "Bad")]++;
+      d.el.style.left = pct(p);
+      d.el.classList.toggle("mid", z === "mid");
+      d.el.classList.toggle("err", (z === "high" && !d.good) || (z === "low" && d.good));
+    }
+    const setBand = (el, x0, x1) => {
+      el.style.left = pct(x0); el.style.width = pct(x1 - x0);
+      const lab = el.querySelector("span");
+      if (lab) lab.hidden = (x1 - x0) < 0.13;
+    };
+    setBand(bands.low, 0, a); setBand(bands.mid, a, b); setBand(bands.high, b, 1);
+    lines.lo.style.left = pct(a); lines.hi.style.left = pct(b);
+    if (stack) ["low", "mid", "high"].forEach((z) => { stack.querySelector("." + z).style.width = pct(s[z] / s.total); });
+    plot.setAttribute("aria-label", `${s.total} items by score: ${s.low} in the low zone, ${s.mid} between, ${s.high} in the high zone`);
+    update(new Map(Object.entries(s)));
+  }
+
+  lo.addEventListener("input", () => render(lo));
+  hi.addEventListener("input", () => render(hi));
+  for (const btn of scenBtns) btn.addEventListener("click", () => {
+    scenBtns.forEach((x) => x.setAttribute("aria-pressed", String(x === btn)));
+    scen = scaleOf(btn.dataset.s);
+    render();
+  });
+  render();
+}
+
+return {triage};
+})();
+__m["calc.js"]=(function(){
+/* calc runtime — read the controls, recompute the lets, refresh every formula. */
+const { compile, fmt } = __m["../../lib/expr.js"];
+const { live } = __m["../../lib/live.js"];
+
+function calc(root) {
+  const ranges = [...root.querySelectorAll('input[type="range"][data-n]')];
+  const segs = [...root.querySelectorAll(".seg[data-n]")];
+  const lets = [...root.querySelectorAll(".cx-let")];
+  const names = [...ranges.map((r) => r.dataset.n), ...segs.map((s) => s.dataset.n), ...lets.map((l) => l.dataset.n)];
+  const letFns = lets.map((l) => { try { return [l.dataset.n, compile(l.dataset.l, names)]; } catch (e) { return [l.dataset.n, null]; } });
+  const meters = [...root.querySelectorAll(".cx-fill[data-m]")].map((el) => {
+    const c = (s) => { try { return compile(s, names); } catch (e) { return null; } };
+    return { el, m: c(el.dataset.m), o: el.dataset.o ? c(el.dataset.o) : null };
+  });
+  const update = live(root, names);
+
+  const valueOf = (r) => {
+    const pos = +r.value;
+    if (!r.dataset.log) return pos;
+    const v = 10 ** pos;
+    return +r.dataset.min >= 1 ? Math.round(v) : +v.toPrecision(3);
+  };
+  const segValue = (b) => (b.dataset.s ? b.dataset.v : +b.dataset.v);
+
+  function render() {
+    const scope = new Map();
+    for (const r of ranges) {
+      const v = valueOf(r);
+      scope.set(r.dataset.n, v);
+      const out = r.parentElement.querySelector(".cx-out");
+      if (out) out.textContent = fmt(v, r.dataset.f || "");
+    }
+    for (const s of segs) {
+      const b = s.querySelector('button[aria-pressed="true"]') || s.querySelector("button");
+      scope.set(s.dataset.n, b ? segValue(b) : NaN);
+    }
+    for (const [n, f] of letFns) scope.set(n, f ? f.run(scope) : NaN);
+    update(scope);
+    for (const { el, m, o } of meters) {
+      const v = m ? +m.run(scope) : 0;
+      el.style.width = (Math.min(Math.max(Number.isFinite(v) ? v : 0, 0), 1) * 100).toFixed(1) + "%";
+      el.classList.toggle("over", Boolean(o && o.run(scope)));
+    }
+  }
+
+  for (const r of ranges) r.addEventListener("input", render);
+  for (const s of segs) s.addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    s.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    render();
+  });
+  for (const p of root.querySelectorAll(".cx-presets [data-set]")) p.addEventListener("click", () => {
+    for (const pair of p.dataset.set.split(";")) {
+      const [n, raw] = pair.split("=");
+      const r = ranges.find((x) => x.dataset.n === n);
+      if (r) {
+        let v;
+        try { v = +compile(raw, []).run(new Map()); } catch (e) { continue; }
+        r.value = r.dataset.log ? Math.log10(Math.max(v, 1e-12)) : v;
+        continue;
+      }
+      const s = segs.find((x) => x.dataset.n === n);
+      if (s) s.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.v === raw)));
+    }
+    render();
+  });
+  render();
+}
+
+return {calc};
+})();
+const H={catalog:__m["catalog.js"].catalog,triage:__m["triage.js"].triage,calc:__m["calc.js"].calc};
+document.querySelectorAll("[data-w]").forEach(function(el){var f=H[el.dataset.w];if(f){try{f(el)}catch(e){console.error(el.dataset.w,e)}}});
+})();
+</script>
+
+<!-- Review & edit overlay — injected by assemble.mjs (invariant; do not hand-edit) -->
+<script>
+/* =====================================================================
+   review-mode.js — drop-in "Review & edit" overlay for html-explainer pages
+
+   WHAT IT IS
+   A self-contained client-side overlay that lets a reader edit or annotate
+   an explainer in-place, then export the result — the front end of the
+   Phase 6 revise loop. No server. Works deployed or from a local file.
+
+   HOW TO USE (two steps)
+   1. Paste this entire block inside a <script> just before </body> in the
+      built HTML. It injects its own <style> and builds its own UI; there is
+      nothing else to wire up.
+   2. If the page has its own keyboard handler (e.g. a slide deck), add
+      `|| e.target.isContentEditable` to its "am I typing?" guard so editing
+      text doesn't trigger navigation. (Scrolling pages usually need nothing.)
+
+   ACTIVATION
+   - Deployed: append `?edit` to the URL. Hand reviewers a *labelled* link
+     (View = the plain URL; Review & edit = the URL + `?edit`).
+   - Local file (no second URL to give out): add the attribute
+     `<body data-review-toggle>` and a prominent top-right "Review & edit"
+     button appears that turns the toolbar on.
+
+   OPTIONAL DECK HOOK
+   - On a deck where off-screen sections can't be reached by scrollIntoView,
+     define `window.reviewGoto = note => goToSlide(note.slideIdx)` so the
+     panel's "jump to annotation" works. (Store slideIdx on the note via the
+     same hook if you need it.) Falls back to scrollIntoView otherwise.
+
+   LIMITS (state these in the hand-off)
+   - Edits/notes are per-browser: no shared live document, no server save
+     (localStorage is best-effort and not always available on file://).
+   - `contenteditable` edits the rendered markup, NOT JS-rendered content
+     (quiz/demo data arrays) — route those changes through the *note* path.
+   ===================================================================== */
+(function () {
+  "use strict";
+  var qs = new URLSearchParams(location.search);
+  var viaQuery = qs.has("edit");
+  var viaToggle = document.body.hasAttribute("data-review-toggle");
+  if (!viaQuery && !viaToggle) return;
+
+  // ---- styles (use the page's design tokens, with fallbacks) ----
+  var css = [
+    "body.rv-on #topbar{top:46px}", // example: offset a known fixed header; harmless if absent
+    "body.rv-pad{padding-top:46px}", // scrolling pages: push content below the toolbar (decks skip this)
+    "#rv-bar{position:fixed;top:0;left:0;right:0;min-height:46px;z-index:9000;display:flex;align-items:center;gap:10px;padding:6px 14px;background:#23211c;color:#f6f3ec;font-family:var(--sans,system-ui,sans-serif);font-size:13px;box-shadow:0 2px 12px rgba(0,0,0,.25);flex-wrap:wrap}",
+    "#rv-bar .rv-tag{font-family:var(--mono,ui-monospace,monospace);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#e6b566;display:flex;align-items:center;gap:7px}",
+    "#rv-bar .rv-tag::before{content:'';width:7px;height:7px;border-radius:50%;background:#e6b566}",
+    ".rv-seg{display:inline-flex;border:1px solid #4a463d;border-radius:8px;overflow:hidden}",
+    ".rv-seg button{background:none;border:none;color:#cfc9bb;font-family:inherit;font-size:12px;padding:6px 11px;cursor:pointer}",
+    ".rv-seg button.on{background:#e6b566;color:#23211c;font-weight:600}",
+    ".rv-act{background:#3a362e;border:1px solid #4a463d;color:#f6f3ec;font-family:inherit;font-size:12px;padding:6px 11px;border-radius:8px;cursor:pointer}",
+    ".rv-act:hover{background:#4a463d}",
+    "#rv-bar .rv-spacer{flex:1}",
+    "#rv-bar .rv-exit{color:#cfc9bb;text-decoration:none;font-size:12px;border-bottom:1px dashed #6a6456;cursor:pointer}",
+    "#rv-launch{position:fixed;top:8px;right:14px;z-index:9002;background:#b9772a;color:#fff;border:none;border-radius:24px;padding:11px 18px;font-family:var(--sans,system-ui,sans-serif);font-size:13.5px;font-weight:600;cursor:pointer;box-shadow:0 6px 22px rgba(0,0,0,.28);display:inline-flex;align-items:center;gap:7px}",
+    "#rv-launch:hover{background:#a3641f}",
+    "#rv-launch svg{display:block}",
+    "body.rv-mode-edit [data-rv-edit]:hover{outline:2px dashed #1f6f8b;outline-offset:3px;cursor:text}",
+    "body.rv-mode-edit [data-rv-edit]:focus{outline:2px solid #1f6f8b;outline-offset:3px;background:rgba(31,111,139,.06)}",
+    "body.rv-mode-note .rv-target:hover{cursor:crosshair;outline:1px dashed #b9772a;outline-offset:2px}",
+    ".rv-annotated{outline:2px dashed #b9772a !important;outline-offset:3px;background:rgba(185,119,42,.09)}",
+    ".rv-flash{animation:rvflash 1.2s ease}",
+    "@keyframes rvflash{0%,100%{background:transparent}30%{background:rgba(230,181,102,.35)}}",
+    "#rv-notes{position:fixed;top:46px;right:0;bottom:0;width:330px;max-width:86vw;z-index:8999;background:var(--card,#fffdf8);border-left:1px solid var(--line-strong,#c8bfab);box-shadow:-6px 0 24px rgba(0,0,0,.08);transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column}",
+    "#rv-notes.open{transform:none}",
+    "#rv-notes .rv-notes-hd{display:flex;align-items:center;justify-content:space-between;padding:0 10px 0 0}",
+    "#rv-notes h4{font-family:var(--display,Georgia,serif);font-size:16px;margin:0;padding:16px 18px 10px;color:var(--ink,#23211c)}",
+    "#rv-collapse{font-family:var(--sans,sans-serif);font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--ink-faint,#8a8478);background:transparent;border:1px solid var(--line,#ddd5c5);border-radius:7px;padding:5px 10px;cursor:pointer}",
+    "#rv-collapse:hover{color:var(--ink,#23211c);border-color:var(--line-strong,#c8bfab)}",
+    "#rv-notes .rv-list{flex:1;overflow:auto;padding:0 14px 14px}",
+    "#rv-notes .rv-empty{color:var(--ink-faint,#8a8478);font-size:13px;padding:10px 4px;font-style:italic;line-height:1.5}",
+    ".rv-note{border:1px solid var(--line,#ddd5c5);border-radius:10px;padding:11px 12px;margin-bottom:9px;background:var(--card,#fffdf8)}",
+    ".rv-note .rv-loc{font-family:var(--mono,ui-monospace,monospace);font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--augment,#b9772a);cursor:pointer}",
+    ".rv-note .rv-ex{font-size:12px;color:var(--ink-faint,#8a8478);margin:4px 0;line-height:1.4}",
+    ".rv-note .rv-txt{font-size:13.5px;color:var(--ink,#23211c);line-height:1.45}",
+    ".rv-note .rv-del{float:right;border:none;background:none;color:var(--ink-faint,#8a8478);cursor:pointer;font-size:15px;line-height:1}",
+    "#rv-pop{position:fixed;z-index:9010;width:280px;background:var(--card,#fffdf8);border:1px solid var(--line-strong,#c8bfab);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:12px;display:none}",
+    "#rv-pop.open{display:block}",
+    "#rv-pop .rv-ex{font-size:11.5px;color:var(--ink-faint,#8a8478);margin-bottom:8px;line-height:1.4;max-height:48px;overflow:hidden}",
+    "#rv-pop textarea{width:100%;height:74px;resize:vertical;font-family:var(--sans,system-ui,sans-serif);font-size:13px;border:1px solid var(--line-strong,#c8bfab);border-radius:8px;padding:8px;box-sizing:border-box}",
+    "#rv-pop .rv-pop-act{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}",
+    "#rv-pop button{font-family:var(--sans,system-ui,sans-serif);font-size:12px;padding:6px 12px;border-radius:7px;cursor:pointer;border:1px solid var(--line-strong,#c8bfab);background:var(--card,#fffdf8)}",
+    "#rv-pop button.rv-save{background:#b9772a;color:#fff;border-color:#b9772a}",
+    ".rv-toast{position:fixed;bottom:82px;left:50%;transform:translateX(-50%);background:#23211c;color:#f6f3ec;font-size:13px;padding:9px 16px;border-radius:20px;z-index:9010;opacity:0;transition:opacity .25s;pointer-events:none}",
+    ".rv-toast.show{opacity:1}",
+    "#rv-fallback{position:fixed;inset:0;z-index:9020;background:rgba(35,33,28,.5);display:none;align-items:center;justify-content:center;padding:24px}",
+    "#rv-fallback.open{display:flex}",
+    "#rv-fallback .rv-fb-card{background:var(--card,#fffdf8);border-radius:12px;padding:16px;max-width:560px;width:100%}",
+    "#rv-fallback textarea{width:100%;height:240px;font-family:var(--mono,ui-monospace,monospace);font-size:12px;box-sizing:border-box}"
+  ].join("\n");
+  var styleEl = document.createElement("style");
+  styleEl.textContent = css;
+  document.head.appendChild(styleEl);
+
+  // state must be initialised before activate() can render
+  var built = false, mode = "interact", pendingEl = null, notes = load();
+
+  function $(id) { return document.getElementById(id); }
+
+  // local files: show a launcher button instead of opening immediately
+  if (viaToggle && !viaQuery) {
+    var launch = document.createElement("button");
+    launch.id = "rv-launch";
+    launch.setAttribute("aria-label", "Review & edit this page");
+    launch.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span>Review &amp; edit</span>';
+    launch.onclick = function () { launch.style.display = "none"; activate(); };
+    document.body.appendChild(launch);
+    // Slide decks put their nav in the top-right — move launcher to bottom-left to avoid collision.
+    // Scrolling pages: position just below any fixed/sticky top nav instead.
+    requestAnimationFrame(function () {
+      // If the page's own CSS repositioned the launcher (e.g. the assembler's
+      // deck-offset rule), it knows its chrome better than this heuristic — keep it.
+      var cs = getComputedStyle(launch);
+      if (cs.top !== "8px" || cs.right !== "14px") return;
+      var isDeck = !!document.querySelector(".slide,[data-deck],[data-slide],.slides-track,.deck");
+      if (isDeck) {
+        launch.style.top = "auto";
+        launch.style.right = "auto";
+        launch.style.bottom = "16px";
+        launch.style.left = "14px";
+      } else {
+        var navBottom = 0;
+        document.querySelectorAll("nav,header,[role=navigation],[role=banner]").forEach(function (el) {
+          var s = getComputedStyle(el);
+          if (s.position === "fixed" || s.position === "sticky") {
+            navBottom = Math.max(navBottom, el.getBoundingClientRect().bottom);
+          }
+        });
+        if (navBottom > 0) launch.style.top = (navBottom + 8) + "px";
+      }
+    });
+  } else {
+    activate();
+  }
+
+  function activate() {
+    document.body.classList.add("rv-on");
+    if (!document.querySelector(".slide,[data-deck]")) document.body.classList.add("rv-pad");
+    var bar = document.getElementById("rv-bar"); if (bar) bar.style.display = ""; // re-show on re-entry
+    if (built) return;
+    built = true;
+    markEditable();
+    buildToolbar();
+    buildPanel();
+    buildPopover();
+    buildFallback();
+    renderNotes();
+  }
+
+  // ---- editable prose (broad, but never controls or the review UI) ----
+  function markEditable() {
+    // Skip the overlay's own UI, interactive controls, and anything already
+    // covered by an editable ancestor (so we don't double-mark nested text).
+    var skip = "#rv-bar,#rv-notes,#rv-pop,#rv-fallback,#rv-launch,input,textarea,select,[data-rv-edit],[contenteditable],[data-rv-edit-exclude]";
+    function mark(el) {
+      if (el.closest(skip)) return;
+      el.setAttribute("data-rv-edit", "");
+    }
+    // 1) Known text-bearing elements (broadened well past the old p/h/li set:
+    //    table cells, summaries, definition lists, captions all hold prose too).
+    var sel = "h1,h2,h3,h4,h5,h6,p,li,blockquote,figcaption,figure,summary,caption,td,th,dt,dd,button,a,label,[data-rv-edit-include]";
+    Array.prototype.forEach.call(document.querySelectorAll(sel), mark);
+    // 2) Generic containers (div/section/etc.) that hold their OWN text directly
+    //    rather than via a block child — extremely common in AI-generated markup,
+    //    and the reason "some text wasn't editable". Only mark the ones with loose
+    //    text so we don't turn whole layout wrappers into one big editable blob.
+    Array.prototype.forEach.call(
+      document.querySelectorAll("div,section,article,header,footer,main,aside,span"),
+      function (el) {
+        var ownText = Array.prototype.some.call(el.childNodes, function (n) {
+          return n.nodeType === 3 && n.textContent.trim();
+        });
+        if (ownText) mark(el);
+      }
+    );
+  }
+
+  function buildToolbar() {
+    var bar = document.createElement("div");
+    bar.id = "rv-bar";
+    bar.innerHTML =
+      '<span class="rv-tag">Review mode</span>' +
+      '<div class="rv-seg" id="rv-seg">' +
+        '<button data-mode="interact" class="on">Preview</button>' +
+        '<button data-mode="edit">Edit text</button>' +
+        '<button data-mode="note">Add note</button>' +
+      "</div>" +
+      '<span class="rv-spacer"></span>' +
+      '<button class="rv-act" id="rv-toggle-notes">Notes (0)</button>' +
+      '<button class="rv-act" id="rv-copy">Copy notes for LLM</button>' +
+      '<button class="rv-act" id="rv-download">Download edits</button>' +
+      '<span class="rv-exit" id="rv-exit">Exit</span>';
+    document.body.appendChild(bar);
+    Array.prototype.forEach.call(bar.querySelectorAll("#rv-seg button"), function (b) {
+      b.onclick = function () { setMode(b.dataset.mode); };
+    });
+    $("rv-toggle-notes").onclick = function () { $("rv-notes").classList.toggle("open"); };
+    $("rv-copy").onclick = copyBrief;
+    $("rv-download").onclick = downloadEdits;
+    $("rv-exit").onclick = function () {
+      if (viaQuery) location.href = location.pathname; // drop ?edit
+      else { document.body.classList.remove("rv-on", "rv-mode-edit", "rv-mode-note", "rv-pad"); setMode("interact"); $("rv-bar").style.display = "none"; var l = $("rv-launch"); if (l) l.style.display = ""; }
+    };
+  }
+
+  function buildPanel() {
+    var p = document.createElement("div");
+    p.id = "rv-notes";
+    p.innerHTML = '<div class="rv-notes-hd"><h4>Annotations</h4><button id="rv-collapse" title="Collapse panel (your notes are kept)" aria-label="Collapse panel">Collapse &rsaquo;</button></div><div class="rv-list" id="rv-list"></div>';
+    document.body.appendChild(p);
+    // Collapse hides the panel without deleting notes (they persist in
+    // localStorage and reopen via the toolbar's "Notes (N)" button).
+    $("rv-collapse").onclick = function () { $("rv-notes").classList.remove("open"); };
+  }
+
+  function buildPopover() {
+    var pop = document.createElement("div");
+    pop.id = "rv-pop";
+    pop.innerHTML =
+      '<div class="rv-ex" id="rv-pop-ex"></div>' +
+      '<textarea id="rv-pop-ta" placeholder="What should change here?"></textarea>' +
+      '<div class="rv-pop-act"><button id="rv-pop-cancel">Cancel</button>' +
+      '<button class="rv-save" id="rv-pop-save">Save note</button></div>';
+    document.body.appendChild(pop);
+    $("rv-pop-cancel").onclick = closePop;
+    $("rv-pop-save").onclick = saveNote;
+  }
+
+  function buildFallback() {
+    var f = document.createElement("div");
+    f.id = "rv-fallback";
+    f.innerHTML = '<div class="rv-fb-card"><p style="margin:0 0 8px;font-family:var(--sans,sans-serif);font-size:13px">Copy the revision brief below (clipboard was blocked):</p><textarea id="rv-fb-ta" readonly></textarea><div style="text-align:right;margin-top:8px"><button class="rv-act" id="rv-fb-close" style="background:#23211c">Close</button></div></div>';
+    document.body.appendChild(f);
+    $("rv-fb-close").onclick = function () { f.classList.remove("open"); };
+  }
+
+  function setMode(m) {
+    mode = m;
+    document.body.classList.toggle("rv-mode-edit", m === "edit");
+    document.body.classList.toggle("rv-mode-note", m === "note");
+    Array.prototype.forEach.call(document.querySelectorAll("[data-rv-edit]"), function (el) {
+      el.contentEditable = (m === "edit" ? "true" : "false");
+      el.classList.toggle("rv-target", m === "note");
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("#rv-seg button"), function (b) {
+      b.classList.toggle("on", b.dataset.mode === m);
+    });
+    if (m !== "note") closePop();
+  }
+
+  // ---- note capture (capture-phase so it beats demo handlers) ----
+  document.addEventListener("click", function (e) {
+    if (mode !== "note") return;
+    if (e.target.closest("#rv-bar,#rv-notes,#rv-pop,#rv-fallback,#rv-launch")) return;
+    var el = e.target;
+    if (!el || el === document.body || el === document.documentElement) return;
+    e.preventDefault(); e.stopPropagation();
+    pendingEl = el;
+    var ex = excerpt(el);
+    $("rv-pop-ex").textContent = "“" + ex + "”";
+    $("rv-pop-ta").value = "";
+    openPop(e.clientX, e.clientY);
+    setTimeout(function () { $("rv-pop-ta").focus(); }, 30);
+  }, true);
+
+  // In Edit mode, clicking an editable button/link must place the caret to edit
+  // its text — NOT trigger its action. Capture-phase so it beats page handlers.
+  document.addEventListener("click", function (e) {
+    if (mode !== "edit") return;
+    if (e.target.closest("#rv-bar,#rv-notes,#rv-pop,#rv-fallback,#rv-launch")) return;
+    if (e.target.closest("[data-rv-edit]") && e.target.closest("button,a")) {
+      e.preventDefault(); e.stopPropagation();
+    }
+  }, true);
+
+  function saveNote() {
+    var txt = $("rv-pop-ta").value.trim();
+    if (!txt || !pendingEl) { closePop(); return; }
+    pendingEl.classList.add("rv-annotated");
+    notes.push({ loc: locate(pendingEl), excerpt: excerpt(pendingEl), note: txt, el: pendingEl });
+    closePop(); save(); renderNotes();
+    $("rv-notes").classList.add("open"); toast("Note added");
+  }
+
+  function openPop(x, y) {
+    var pop = $("rv-pop");
+    pop.classList.add("open");
+    var w = 280, h = pop.offsetHeight || 190;
+    pop.style.left = Math.max(12, Math.min(x, window.innerWidth - w - 12)) + "px";
+    pop.style.top = Math.max(54, Math.min(y, window.innerHeight - h - 12)) + "px";
+  }
+  function closePop() { $("rv-pop") && $("rv-pop").classList.remove("open"); pendingEl = null; }
+
+  function renderNotes() {
+    $("rv-toggle-notes").textContent = "Notes (" + notes.length + ")";
+    var list = $("rv-list");
+    if (!notes.length) {
+      list.innerHTML = '<div class="rv-empty">No annotations yet. Switch to “Add note”, then click any text to leave a comment for the LLM.</div>';
+      return;
+    }
+    list.innerHTML = "";
+    notes.forEach(function (n, i) {
+      var d = document.createElement("div");
+      d.className = "rv-note";
+      d.innerHTML =
+        '<button class="rv-del" title="Delete this note">×</button>' +
+        '<div class="rv-loc">' + esc(n.loc) + "</div>" +
+        '<div class="rv-ex">“' + esc(n.excerpt) + '”</div>' +
+        '<div class="rv-txt">' + esc(n.note) + "</div>";
+      d.querySelector(".rv-loc").onclick = function () { gotoNote(n); };
+      d.querySelector(".rv-del").onclick = function () { notes.splice(i, 1); save(); renderNotes(); };
+      list.appendChild(d);
+    });
+  }
+
+  // Shared revision-brief text, used by both "Copy notes" and the download.
+  function briefText() {
+    var out = "# Revision requests\n(" + notes.length + " annotation" + (notes.length > 1 ? "s" : "") + " from a reviewer)\n\n";
+    notes.forEach(function (n, i) {
+      out += (i + 1) + ". " + n.loc + "\n   Text: \"" + n.excerpt + "\"\n   Change: " + n.note + "\n\n";
+    });
+    out += "Please apply these to the source HTML, keeping the structured data arrays and CSS tokens intact, then re-screenshot to verify.";
+    return out;
+  }
+
+  function copyBrief() {
+    if (!notes.length) { toast("No notes yet"); return; }
+    copy(briefText());
+  }
+
+  function downloadEdits() {
+    var was = mode; setMode("interact");
+    var clone = document.documentElement.cloneNode(true);
+    rm(clone, "#rv-bar,#rv-notes,#rv-pop,#rv-fallback,#rv-launch,.rv-toast");
+    Array.prototype.forEach.call(clone.querySelectorAll("[data-rv-edit]"), function (n) {
+      n.removeAttribute("data-rv-edit"); n.removeAttribute("contenteditable"); n.classList.remove("rv-target");
+    });
+    Array.prototype.forEach.call(clone.querySelectorAll(".rv-annotated"), function (n) { n.classList.remove("rv-annotated"); });
+    var b = clone.querySelector("body");
+    if (b) b.classList.remove("rv-on", "rv-mode-edit", "rv-mode-note");
+    var html = "<!DOCTYPE html>\n" + clone.outerHTML;
+    // Append the reviewer's notes as an HTML comment so a single download carries
+    // BOTH the inline text edits and the comments. Invisible on the rendered page;
+    // sanitize so note text can't break out of the comment.
+    if (notes.length) {
+      var safe = briefText().replace(/<!--/g, "<!-").replace(/-->/g, "->").replace(/--/g, "—");
+      html += "\n\n<!-- ===== REVIEWER NOTES (" + notes.length + ") — appended by review-mode.js =====\n\n" +
+              safe + "\n\n===== end reviewer notes ===== -->\n";
+    }
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([html], { type: "text/html" }));
+    a.download = (document.title || "page").replace(/[^a-z0-9]+/gi, "-").toLowerCase() + "-edited.html";
+    a.click();
+    setMode(was);
+    toast(notes.length ? "Downloaded — edits + " + notes.length + " note" + (notes.length > 1 ? "s" : "") : "Downloaded edited copy");
+  }
+
+  // ---- location label: nearest section heading, deck-agnostic ----
+  function locate(el) {
+    var sec = el.closest("section,[data-section],.slide,article");
+    var head = sec && sec.querySelector("h1,h2,h3,h4");
+    if (!head) head = nearestHeading(el);
+    return head ? head.innerText.trim().replace(/\s+/g, " ").slice(0, 60) : "Page";
+  }
+  function nearestHeading(el) {
+    var heads = Array.prototype.slice.call(document.querySelectorAll("h1,h2,h3,h4"))
+      .filter(function (h) { return !h.closest("#rv-bar,#rv-notes,#rv-pop"); });
+    var best = null;
+    for (var i = 0; i < heads.length; i++) {
+      var h = heads[i];
+      if (h === el || (h.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING)) best = h;
+      else break;
+    }
+    return best;
+  }
+  function gotoNote(n) {
+    if (typeof window.reviewGoto === "function") { window.reviewGoto(n); return; }
+    if (n.el && n.el.isConnected) {
+      n.el.scrollIntoView({ behavior: "smooth", block: "center" });
+      n.el.classList.add("rv-flash");
+      setTimeout(function () { n.el.classList.remove("rv-flash"); }, 1200);
+    }
+  }
+
+  // ---- helpers ----
+  function excerpt(el) { return (el.innerText || el.textContent || "").trim().replace(/\s+/g, " ").slice(0, 140); }
+  function esc(s) { return (s || "").replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }); }
+  function rm(root, sel) { Array.prototype.forEach.call(root.querySelectorAll(sel), function (n) { n.remove(); }); }
+  // Per-page key so notes from one explainer never leak into another on the same origin.
+  function notesKey() { try { return "rv-notes:" + (location.pathname || "") + (location.search || ""); } catch (e) { return "rv-notes"; } }
+  function save() { try { localStorage.setItem(notesKey(), JSON.stringify(notes.map(function (n) { return { loc: n.loc, excerpt: n.excerpt, note: n.note }; }))); } catch (e) {} }
+  function load() { try { return JSON.parse(localStorage.getItem(notesKey()) || "[]"); } catch (e) { return []; } }
+  function copy(t) {
+    var ok = false;
+    try { if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(t); ok = true; } } catch (e) {}
+    if (ok) { toast("Revision brief copied — paste it to the LLM"); }
+    else { $("rv-fb-ta").value = t; $("rv-fallback").classList.add("open"); $("rv-fb-ta").select(); } // clipboard blocked (e.g. file://)
+  }
+  var tT;
+  function toast(m) {
+    var el = document.querySelector(".rv-toast");
+    if (!el) { el = document.createElement("div"); el.className = "rv-toast"; document.body.appendChild(el); }
+    el.textContent = m; el.classList.add("show");
+    clearTimeout(tT); tT = setTimeout(function () { el.classList.remove("show"); }, 1900);
+  }
+})();
+
+</script>
+</body>
+</html>

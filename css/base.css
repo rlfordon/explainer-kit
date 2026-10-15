@@ -39,6 +39,9 @@ h4{font-size:18px;margin:var(--s5) 0 var(--s2)}
 .hero h1{font-size:clamp(38px,6.2vw,68px);max-width:17ch;margin-bottom:var(--s5)}
 .hero .dek{font-size:20px;color:var(--ink-2);max-width:60ch;margin-bottom:var(--s7)}
 .hero p:not(.dek){max-width:var(--measure);color:var(--ink-2)}
+.hero.dark{background:var(--bg);border-bottom:0}
+.hero.dark .meta{border-top-color:var(--line)}
+.hero .eyebrow{margin-bottom:var(--s4)}
 .hero-anim{animation:rise .6s ease-out both}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.hero-anim{animation:none}}
@@ -70,6 +73,7 @@ section[id]{scroll-margin-top:72px}
 
 /* columns: a paragraph that is only "|" */
 .cols{display:grid;gap:var(--s7);align-items:start}
+.cols>.col{min-width:0}
 .cols-rule .col{border-top:2px solid var(--ink);padding-top:var(--s4)}
 .cols-rule .col h3{margin-top:0;font-size:19px}
 .cols-rule .col ul{list-style:none;padding:0;margin:0}
@@ -87,6 +91,11 @@ section[id]{scroll-margin-top:72px}
 .warn{background:var(--warn-dim);color:var(--warn)}
 .flag{color:var(--warn);border:1px solid currentColor;background:transparent}
 .muted{color:var(--ink-3);font-weight:400}
+
+/* citations: [[4](#s4)]{.c} */
+.c{font-family:var(--mono);font-size:.68em;font-weight:600;vertical-align:super;line-height:0;margin-left:1px}
+.c a{border:0;padding:0 1px}
+.c+.c{margin-left:2px}
 
 /* tables */
 .tablewrap{overflow-x:auto;border:1px solid var(--line);background:var(--surface-2);border-radius:var(--r);margin:0 0 var(--s5)}

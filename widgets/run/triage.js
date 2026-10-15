@@ -42,6 +42,7 @@ export function triage(root) {
       const z = p >= b ? "high" : (incl ? p <= a : p < a) ? "low" : "mid";
       s[z]++; s[z + (d.good ? "Good" : "Bad")]++;
       d.el.style.left = pct(p);
+      d.el.classList.toggle("mid", z === "mid");
       d.el.classList.toggle("err", (z === "high" && !d.good) || (z === "low" && d.good));
     }
     const setBand = (el, x0, x1) => {

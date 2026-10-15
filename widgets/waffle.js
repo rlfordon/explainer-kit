@@ -8,7 +8,7 @@
  *   Flagged | 23 | accent
  *   ```
  * A header row, then Label | count | colour. A count of `rest` takes whatever `total` leaves. Colours: ok, bad,
- * warn, accent, accent-soft, ink, muted, or a topic colour. Squares are scattered by `seed`
+ * warn, accent, accent-soft, ink, muted, faint, or a topic colour. Squares are scattered by `seed`
  * (the same picture on every load); .ordered fills them in row order instead. At most
  * 5,000 squares.
  */
@@ -16,7 +16,7 @@ import { firstTable, cells, esc, cleanClass } from "../lib/wkit.js";
 import { rng } from "../lib/rand.js";
 
 const COLOURS = { ok: "var(--ok)", bad: "var(--bad)", warn: "var(--warn)", accent: "var(--accent)", ink: "var(--ink)", muted: "var(--line-2)",
-  "accent-soft": "color-mix(in srgb,var(--accent) 45%,var(--surface-2))" };
+  "accent-soft": "color-mix(in srgb,var(--accent) 45%,var(--surface-2))", faint: "var(--raise)" };
 const MAX = 5000;
 
 export const waffle = {

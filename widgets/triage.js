@@ -24,7 +24,9 @@
  *   midGood midBad highGood highBad, lo hi (lib/expr.js; formats as in calc).
  * Attributes: lo, hi (starting thresholds), lo-range / hi-range ("min max", default "0 1"),
  *   lo-label, hi-label, lo-incl=yes (the low zone includes lo itself; otherwise p < lo),
- *   axis (the axis caption), .rows (one row per class instead of one jittered band).
+ *   axis (the axis caption), .rows (one row per class instead of one jittered band),
+ *   zone-colors="bad warn ok" (the low, middle and high zones' colours; the default),
+ *   .fade-mid (grey the dots between the thresholds, so the two ends stand out).
  * A score at or above hi is in the high zone.
  */
 import { shell, esc, cleanClass } from "../lib/wkit.js";
@@ -129,7 +131,7 @@ export const triage = {
       const p = scale(it), z = zoneOf(p, lo, hi, incl), c = classes[it.c];
       const err = (z === "high" && !it.good) || (z === "low" && it.good);
       const y = rows ? ((it.c + 0.18 + 0.64 * jitter(i, 7)) / nRows) : 0.08 + 0.84 * jitter(i, 7);
-      return `<span class="tg-dot${c.ring ? " ring" : ""}${err ? " err" : ""}${c.topic ? " c-" + esc(c.topic) : ""}" data-p="${it.p}" data-c="${it.c}"${it.good ? ' data-g="1"' : ""}` +
+      return `<span class="tg-dot${c.ring ? " ring" : ""}${err ? " err" : ""}${z === "mid" ? " mid" : ""}${c.topic ? " c-" + esc(c.topic) : ""}" data-p="${it.p}" data-c="${it.c}"${it.good ? ' data-g="1"' : ""}` +
         ` style="${c.colour ? "--dc:" + c.colour + ";" : ""}left:${pct(p)};top:${(y * 100).toFixed(2)}%"></span>`;
     }).join("");
     const band = (z, a, w) => `<div class="tg-band ${z}" style="left:${pct(a)};width:${pct(w)}"><span${w < 0.13 ? " hidden" : ""}>${ctx.inline(zl[z])}</span></div>`;
@@ -140,6 +142,7 @@ export const triage = {
       `<div class="tg-plot" style="--rows:${nRows}" role="img" aria-label="${esc(items.length + " items by score: " + summary)}">` +
       band("low", 0, lo) + band("mid", lo, hi - lo) + band("high", hi, 1 - hi) +
       `<div class="tg-line lo" style="left:${pct(lo)}"></div><div class="tg-line hi" style="left:${pct(hi)}"></div>` +
+      (rows ? classes.map((c, i) => `<span class="tg-rowlab" style="top:${(i / nRows * 100).toFixed(2)}%" aria-hidden="true">${ctx.inline(c.label)}</span>`).join("") : "") +
       dots + `</div><div class="tg-axis" aria-hidden="true">${[0, 0.25, 0.5, 0.75, 1].map((v) => `<span style="left:${v * 100}%">${v.toFixed(2)}</span>`).join("")}</div>${axisLabel}</div></div>`;
 
     // legend, stacked share of each zone, readouts, sentences
@@ -153,8 +156,11 @@ export const triage = {
       const shown = !sy.cond || (ok && Boolean(evalSafe(sy.cond, known, scope)));
       h += `<p class="cx-say tg-say"${sy.cond && ok ? ` data-if="${esc(sy.cond)}"` : ""}${shown ? "" : " hidden"}>${liveText(sy.text, ctx, known, scope, "triage: say")}</p>`;
     }
-    // the low-zone rule travels as data the runtime reads
+    // zone colours (named colours only) and the low-zone rule travel as attributes
+    const zc = String(kv["zone-colors"] || "").split(/\s+/).map((w) => COLOURS[w.toLowerCase()]);
+    const zstyle = zc.length === 3 && zc.every(Boolean) ? ` style="--z-low:${zc[0]};--z-mid:${zc[1]};--z-high:${zc[2]}"` : "";
+    if (kv["zone-colors"] && !zstyle) ctx.warn("triage: zone-colors needs three of ok, bad, warn, accent, ink, muted");
     return shell("triage", b, ctx, h,
-      { data: `${incl ? ' data-incl="1"' : ""} data-classes="${esc(classes.map((c) => c.key).join(" "))}"` });
+      { data: `${zstyle}${incl ? ' data-incl="1"' : ""} data-classes="${esc(classes.map((c) => c.key).join(" "))}"` });
   },
 };
