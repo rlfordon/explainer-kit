@@ -13,11 +13,15 @@ entry in `"keys"` is an author's public key with the name readers see.
 - A link is the page itself, packed into the part of the address after the `#`. Browsers
   never send that part to any server, so the page is stored nowhere: not on the website,
   not on any service.
+- A **short link** is the exception: an encrypted copy of the page is stored on a small
+  service the author runs on Cloudflare. The key that unlocks it is in the short link, after
+  the `#`, so the service and Cloudflare cannot read the page. They can see when it is opened.
 - The viewer that opens links, a single static page on the author's own website (the host
-  website), **never runs code from a link**, **never sends anything anywhere**, and **opens
+  website), **never runs code from a link**, **never sends the page anywhere**, and **opens
   only pages signed by the author's key**.
-- **Anyone who has a link can read the page.** Links are not yet encrypted, so treat a link
-  like the page itself: do not put anything in one that you would not send by plain email.
+- **Anyone who has a link can read the page.** That holds for short links too, since the
+  key travels in the link. Treat a link like the page itself: do not put anything in one
+  that you would not send by plain email.
 
 ## The problem this is designed against
 
@@ -57,10 +61,11 @@ with widgets already built into it (timelines, decision trees, calculators and s
 ### 2. Nothing leaves the reader's browser
 
 The viewer's Content Security Policy is the browser-enforced rulebook for the page. It
-allows only the viewer's own script (identified by its exact fingerprint) and fonts from the
-viewer's own folder. It blocks every other request: no outside images, no connections to
-other servers, no forms that submit anywhere. Even a mistake in the kit could not send the
-page out.
+allows only the viewer's own script (identified by its exact fingerprint), fonts from the
+viewer's own folder, and fetching from the author's short-link service (section 4). It
+blocks every other request: no outside images, no connections to other servers, no forms
+that submit anywhere. Even a mistake in the kit could not send the page out: the only server
+it can reach is the one that already holds the page, encrypted.
 
 - The fonts are hosted next to the viewer, so opening a link never contacts Google or any
   font service.
@@ -73,7 +78,8 @@ page out.
 
 What servers can see: the host website (and the company that hosts it, such as GitHub Pages)
 sees that someone loaded the viewer (their IP address and the time), the same as any web page. It never sees which page they
-opened, because the page lives in the part of the address browsers keep to themselves.
+opened, because the page lives in the part of the address browsers keep to themselves. For a
+short link, Cloudflare also sees which stored copy was fetched (section 4).
 
 ### 3. Only the author's pages open (signing)
 
@@ -94,15 +100,42 @@ A signature proves who made the page and that it is unchanged. The viewer still 
 signed page with the trusted widgets only, so a stolen key would let someone show text under
 the author's name, but never run code.
 
-### 4. Tested on every change
+### 4. Short links
+
+A long link can run to thousands of characters, too long for a text message or a QR code. A
+short link is about 75:
+
+- **The page is encrypted on the author's computer** (AES-GCM, with a new random key for
+  every link), and only the encrypted copy is uploaded, under a random 8-character name, to a
+  small Cloudflare service the author runs (`worker/`).
+- **The key stays in the link**, after the `#`. The viewer fetches the encrypted copy by its
+  name, unlocks it in the reader's browser, and then checks the author's signature exactly as
+  for a long link.
+- **Cloudflare cannot read or change the page.** It holds only scrambled bytes. If it altered
+  them, unlocking would fail; if it served a different page, the signature check would.
+  It could only refuse to serve it.
+- **Only the author can store pages.** Every upload and withdrawal is signed with the
+  author's key, and the service refuses anything else, including an old request replayed.
+- **Each link can expire or be withdrawn on its own.** Links expire after 90 days unless the
+  author chooses otherwise, and `--short-delete` withdraws one within about a minute.
+- **The service serves no web pages**, only the encrypted bytes and plain-text errors, so its
+  own address cannot be used to show a page either.
+
+**The trade-off the author accepted:** Cloudflare sees each time a short link is opened, from
+what IP address and browser, and how large the page is. It never sees the key, so never the
+page. The long link, which involves no service at all, is always printed alongside as a
+backup.
+
+### 5. Tested on every change
 
 | Test | What it proves |
 |---|---|
 | `test/security.mjs` | A deliberately hostile link (scripts, event handlers, bad URLs, CSS tricks, hostile formulas, attacks aimed at the widgets) renders inert: no script runs, no dialog opens, no request goes out. |
 | `test/signing.mjs` | Signed links open. Unsigned, unknown-key, altered, borrowed-signature and cut-off links are refused. |
+| `test/short.mjs` | Short links open, signed. The service refuses unsigned, stale, replayed and oversized uploads and never overwrites; a copy that was moved, changed, withdrawn or has expired is refused; the viewer fetches nothing but the one copy. |
 | `test/expr.mjs` | Formulas give the right answers and hostile ones are rejected. |
 | `test/check.mjs` | Clicks through a page and lists every network request it makes. |
-| `test/live.mjs` | The live viewer on the website opens a signed link and refuses an unsigned one. |
+| `test/live.mjs` | The live viewer on the website opens a signed link and a short link, and refuses an unsigned one. |
 
 ## What a link does not protect
 
@@ -110,8 +143,10 @@ the author's name, but never run code.
   forwarded to. Email providers keep a copy of every link in their mailboxes, and a browser
   keeps opened links in its history (and syncs that history if the reader has turned
   syncing on).
-- **One link cannot be withdrawn.** Today the only way to stop a link opening is to retire
-  the key that signed it, which stops every link that key signed.
+- **A long link cannot be withdrawn.** The only way to stop one opening is to retire the key
+  that signed it, which stops every link that key signed. A short link can be withdrawn on
+  its own, but a reader who opened it may have kept the page, and anyone who has seen it
+  may also have the long link it was made from if the author sent that too.
 - **Long links can break.** Some apps cut long addresses. A damaged link is refused, never
   shown in part.
 
@@ -130,11 +165,16 @@ private should go as links.
   repository. It is not encrypted on disk, so anyone with access to the computer's user
   account could copy it. Back it up somewhere safe, such as a password manager.
 - **If the key is lost or stolen**, remove its entry from `kit.json` `"keys"`, rebuild the
-  viewer and deploy it. Every link it signed stops opening. Make a new key with
-  `node build.mjs --keygen` and re-send any links still needed.
+  viewer and deploy it, and redeploy the short-link service (`npx wrangler deploy` in
+  `worker/`) so it stops accepting uploads signed with it. Every link it signed stops
+  opening. Make a new key with `node build.mjs --keygen` and re-send any links still needed.
+- **The list of short links** (`~/.explainer-kit/short-links.json`) holds every short link
+  made, keys included. Guard it like the signing key.
 - **The account that publishes the host website is the deepest point of trust.** Someone who
   took it over (a GitHub account, for a site on GitHub Pages) could replace the viewer itself.
-  Keep two-factor authentication on for it, and for any service added later.
+  Keep two-factor authentication on for it, and on the Cloudflare account that runs the
+  short-link service: someone who took that over could delete or withhold pages, though not
+  read or forge them.
 - **The source code is public.** That is fine: nothing in the design depends on keeping the
   code secret, only the private key.
 
@@ -142,7 +182,6 @@ private should go as links.
 
 | Plan | What it changes | Status |
 |---|---|---|
-| **Short links** | A link of about 80 characters, for text messages and QR codes. The page is encrypted on the author's computer, and only the encrypted copy is stored, on a small Cloudflare service the author runs. The key to unlock it stays in the short link, so Cloudflare cannot read the pages. Only the author can create links, and each one can expire or be deleted on its own. The trade-off: Cloudflare can see when each short link is opened, and from what IP address. The long link stays as a backup. | Decided, to be built next |
 | **Sealing** | Encrypts the page with a password sent separately, following Tiny Little Office's sealed form. A forwarded link alone is then not enough to read it, and every mailbox holds only scrambled text. The signature is checked before the reader is asked for the password, so a forged link is refused first. | Planned |
 | **Custom demos in signed links** | Would let a signed link carry a custom interactive demo, run in a sealed-off frame that cannot touch the site or make network requests. It reopens part of the problem above, contained by the frame and the signature, and makes links much longer. | Open decision |
 | **Opt-in chat in links** | A button where the reader enters their own AI key. The page and their questions would go to the AI provider, by the reader's choice, and the "nothing was sent" note would change while chat is on. | Open decision |

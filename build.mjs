@@ -10,6 +10,11 @@
  *   node build.mjs page.md --check         → lint only: warnings and link size, writes nothing
  *   node build.mjs --viewer-only           → rebuild viewer/index.html (and the kit.json "viewerCopy")
  *   node build.mjs --keygen --name "Name"  → make a signing key (see lib/keys.mjs); links are then signed
+ *   node build.mjs page.md --short [--expires 90d|12h|2w|never]
+ *                                        → also store an encrypted copy on the link service (kit.json
+ *                                          "shortener") and print a short link (lib/short.js)
+ *   node build.mjs --short-list            → the short links made on this computer
+ *   node build.mjs --short-delete <link|id> → withdraw a short link
  *
  * The file target trusts its author: `html`, `style` and `demo` fences pass through. The link
  * target trusts no one: the viewer renders only the widget set (see lib/page.js).
@@ -28,6 +33,7 @@ import { bundle, modRef } from "./lib/bundle.mjs";
 import { encodeFragment } from "./lib/codec.js";
 import { esc } from "./lib/md.js";
 import { KEY_FILE, loadSigner, newKey, saveSecret, publicKeys } from "./lib/keys.mjs";
+import { createShort, deleteShort, parseExpiry, idOf, loadRecord, saveRecord, LINKS_FILE } from "./lib/shortlinks.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const VENDOR = join(HERE, "vendor/html-explainer"); // review overlay + chat dock, from html-explainer (MIT)
@@ -36,7 +42,7 @@ const n = (x) => x.toLocaleString("en-US");
 
 // kit.json: { "viewer": hosted viewer URL for share links, "viewerCopy": where --viewer-only
 // also writes the viewer (e.g. a website's public folder), "keys": public signing keys the
-// viewer trusts (added by --keygen) }
+// viewer trusts (added by --keygen), "shortener": the short-link service's address (worker/) }
 const KIT = join(HERE, "kit.json");
 export const loadKit = () => (existsSync(KIT) ? JSON.parse(readFileSync(KIT, "utf8")) : {});
 
@@ -96,15 +102,22 @@ ${page.html}${script ? `<script>\n${script}\n</script>\n` : ""}</body>
   return { page, html };
 }
 
+/* the short-link service's origin, or "" (an https address only) */
+export function serviceOrigin(s) {
+  try { const u = new URL(s); return u.protocol === "https:" ? u.origin : ""; } catch (e) { return ""; }
+}
+
 /* The viewer: one HTML file, every widget, a CSP that allows only its own script. With keys,
- * it opens only links signed by one of them; they sit in a JSON block, which never runs. */
-export function buildViewer(out = join(HERE, "viewer/index.html"), { keys = loadKit().keys } = {}) {
+ * it opens only links signed by one of them; they sit in a JSON block, which never runs. With
+ * a short-link service, the CSP lets it fetch from that one address, and nowhere else. */
+export function buildViewer(out = join(HERE, "viewer/index.html"), { keys = loadKit().keys, shortener = loadKit().shortener } = {}) {
   const trusted = JSON.stringify(publicKeys(keys)).replace(/</g, "\\u003c");
+  const service = serviceOrigin(shortener);
   const script = bundle([join(HERE, "viewer/boot.js")]);
   const hash = createHash("sha256").update(script, "utf8").digest("base64");
   // the themes' fonts are served from the viewer's own folder (fonts/), so font-src 'self'
   const css = minCss(read("fonts/fonts.css") + widgetCss(Object.keys(WIDGETS)) + read("viewer/viewer.css"));
-  const csp = `default-src 'none'; script-src 'sha256-${hash}'; style-src 'unsafe-inline'; img-src data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'`;
+  const csp = `default-src 'none'; script-src 'sha256-${hash}'; style-src 'unsafe-inline'; img-src data:; font-src 'self'; connect-src ${service || "'none'"}; base-uri 'none'; form-action 'none'`;
   const html = `<!DOCTYPE html>
 ${notice()}<html lang="en">
 <head>
@@ -122,6 +135,7 @@ ${css}
 <body>
 <div id="x-root"></div>
 <script type="application/json" id="x-keys">${trusted}</script>
+<script type="application/json" id="x-short">${JSON.stringify(service)}</script>
 <script>${script}</script>
 </body>
 </html>
@@ -142,12 +156,14 @@ export function tierOf(len) {
   return len <= 2900 ? "QR code" : len <= 8000 ? "chat-friendly" : len <= 16384 ? "long (fine in email; too long for SMS)" : len <= 100000 ? "very long (needs a short link)" : "too big";
 }
 
-/* ---------- CLI ---------- */
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+/* ---------- CLI ----------
+ * After a request to the link service, it ends with `break cli` rather than process.exit():
+ * on Windows, Node can crash exiting while that connection is still closing. */
+cli: if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
   const flag = (f) => args.includes(f);
   const opt = (f) => { const i = args.indexOf(f); return i >= 0 ? args[i + 1] : undefined; };
-  const input = args.find((a, i) => !a.startsWith("--") && !["-o", "--viewer", "--name"].includes(args[i - 1]) && a !== "-o");
+  const input = args.find((a, i) => !a.startsWith("--") && !["-o", "--viewer", "--name", "--expires", "--short-delete"].includes(args[i - 1]) && a !== "-o");
   const kit = loadKit();
 
   if (flag("--keygen")) {
@@ -172,8 +188,30 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     }
     process.exit(0);
   }
+  if (flag("--short-list")) {
+    const list = loadRecord();
+    if (!list.length) console.log(`no short links recorded in ${LINKS_FILE}`);
+    const day = (t) => (t ? new Date(t * 1000).toISOString().slice(0, 10) : "never");
+    for (const r of list) {
+      const state = r.deleted ? `withdrawn ${day(r.deleted)}` : r.expires && r.expires * 1000 < Date.now() ? `expired ${day(r.expires)}` : `expires ${day(r.expires)}`;
+      console.log(`${r.id}  made ${day(r.created)}  ${state}  ${r.title}\n          ${r.url}`);
+    }
+    process.exit(0);
+  }
+  if (flag("--short-delete")) {
+    const service = serviceOrigin(kit.shortener), signer = loadSigner();
+    if (!service || !signer) { console.error('withdrawing a short link needs kit.json "shortener" and the signing key'); process.exit(1); }
+    let id;
+    try { id = idOf(opt("--short-delete") || ""); } catch (e) { console.error(e.message); process.exit(1); }
+    let was;
+    try { was = await deleteShort(id, { service, signer }); } catch (e) { console.error(e.message); process.exitCode = 1; break cli; }
+    const list = loadRecord(), r = list.find((x) => x.id === id);
+    if (r && !r.deleted) { r.deleted = Math.floor(Date.now() / 1000); saveRecord(list); }
+    console.log(was ? `withdrawn: ${id} stops opening within a minute or so, as Cloudflare's copies catch up` : `${id} was not on the link service (already expired or withdrawn)`);
+    break cli;
+  }
   if (!input) {
-    console.error('usage: node build.mjs page.md [-o out.html] [--no-review] [--chat] [--link [--viewer URL]] | --viewer-only | --keygen --name "Name"');
+    console.error('usage: node build.mjs page.md [-o out.html] [--no-review] [--chat] [--link [--viewer URL]] [--short [--expires 90d]] | --short-list | --short-delete <link> | --viewer-only | --keygen --name "Name"');
     process.exit(1);
   }
   const src = readFileSync(input, "utf8");
@@ -190,7 +228,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     if (!all.length) console.log("  no warnings");
     process.exit(file.warnings.length ? 1 : 0);
   }
-  if (!flag("--link") || flag("--file")) {
+  if (!(flag("--link") || flag("--short")) || flag("--file")) {
     const out = resolve(opt("-o") || input.replace(/\.(md|txt)$/i, "") + ".html");
     const { page, html } = buildFile(src, { review: !flag("--no-review"), chat: flag("--chat"), out });
     warnings = page.warnings;
@@ -198,7 +236,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     console.log(`file → ${out} (${n(size)} bytes; widgets: ${page.used.join(", ") || "none"})`);
     void html;
   }
-  if (flag("--link")) {
+  if (flag("--link") || flag("--short")) {
     // a viewer with keys refuses unsigned links and links from keys it does not hold
     if (trusted.length && !signer) {
       console.error(`no signing key at ${KEY_FILE}, and the viewer opens only signed links.\n` +
@@ -217,6 +255,19 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     console.log(url); // the local viewer: works on this computer only
     const share = opt("--viewer") || kit.viewer;
     if (share) console.log(`\nto share (viewer at ${share}):\n${makeLink(src, share, signer).url}`);
+    if (flag("--short")) {
+      const service = serviceOrigin(kit.shortener);
+      if (!service) { console.error('\n--short needs kit.json "shortener": the link service\'s https address (see worker/README.md)'); process.exit(1); }
+      if (!share) { console.error('\n--short needs kit.json "viewer" (or --viewer): the hosted viewer\'s address'); process.exit(1); }
+      let expiresIn;
+      try { expiresIn = parseExpiry(opt("--expires")); } catch (e) { console.error(e.message); process.exit(1); }
+      const { fragment: long } = makeLink(src, "", signer);
+      let s;
+      try { s = await createShort(long, { service, viewer: share, signer, expiresIn }); } catch (e) { console.error("\n" + e.message); process.exitCode = 1; break cli; }
+      saveRecord([...loadRecord(), { id: s.id, title: page.title || input, created: Math.floor(Date.now() / 1000), expires: s.expires, url: s.url }]);
+      const until = s.expires ? `until ${new Date(s.expires * 1000).toISOString().slice(0, 10)}` : "with no expiry";
+      console.log(`\nshort link (${s.url.length} characters; opens ${until}; withdraw with --short-delete ${s.id}):\n${s.url}`);
+    }
   }
   if (warnings && warnings.length) {
     console.log(`\n${warnings.length} warning${warnings.length > 1 ? "s" : ""}:`);

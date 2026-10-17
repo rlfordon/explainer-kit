@@ -48,7 +48,7 @@ mulberry32 (lib/rand.js), by Tommy Ettinger, is in the public domain.
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-zxJhvdqtxQAxsEISo7rRnyOe7KkgglZcMnNraUWdCuQ='; style-src 'unsafe-inline'; img-src data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-wfGskp4dbe2TlQ55gy1JJGVjFr1+PEWm5S0OtnbyPRE='; style-src 'unsafe-inline'; img-src data:; font-src 'self'; connect-src https://explainer-links.rlfordon.workers.dev; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -656,6 +656,7 @@ main:focus{outline:none}
 <body>
 <div id="x-root"></div>
 <script type="application/json" id="x-keys">[{"id":"~aJueo_3","name":"Rebecca Fordon","x":"GciCLfCAtfmihBzSMF3Btu7MHgGm9qrosteu5ugwZiU","y":"LDmBswJJh_cX8b7BGYJ1l0Qx4CmbugoWli-l6i3pwC0"}]</script>
+<script type="application/json" id="x-short">"https://explainer-links.rlfordon.workers.dev"</script>
 <script>(function(){"use strict";
 const __m={};
 __m["../lib/codec.js"]=(function(){
@@ -732,7 +733,8 @@ const REFUSED = {
   nocrypto: "This browser could not check the link's signature. Try opening it in an up-to-date browser.",
 };
 
-async function verify(key, sig, data) {
+/* true when sig (64 bytes, IEEE P1363) is key's signature over data; key: { x, y } */
+async function verifySig(key, sig, data) {
   const subtle = globalThis.crypto && globalThis.crypto.subtle;
   if (!subtle) throw new Error(REFUSED.nocrypto);
   try {
@@ -767,7 +769,7 @@ async function decodeFragment(hash, keys = []) {
   if (key) {
     let s;
     try { s = fromB64(sig); } catch (e) { throw new Error(REFUSED.altered); }
-    if (s.length !== 64 || !(await verify(key, s, signedBytes(flag, bytes)))) throw new Error(REFUSED.altered);
+    if (s.length !== 64 || !(await verifySig(key, s, signedBytes(flag, bytes)))) throw new Error(REFUSED.altered);
     signer = key.name;
   }
   if (flag === "r") return { text: new TextDecoder().decode(bytes), signer };
@@ -782,7 +784,106 @@ async function decodeFragment(hash, keys = []) {
   }
 }
 
-return {VERSION,SIGN_CONTEXT,toB64,fromB64,spaced,signedBytes,encodeFragment,REFUSED,decodeFragment};
+return {VERSION,SIGN_CONTEXT,toB64,fromB64,spaced,signedBytes,encodeFragment,REFUSED,verifySig,decodeFragment};
+})();
+__m["../lib/short.js"]=(function(){
+/* short.js — short links: a signed link, encrypted, stored on the link service, opened by an
+ * address of about 80 characters.
+ *
+ *   #/v1/k<id><key>      id: 8 characters naming the stored copy; key: 22 characters (128 bits)
+ *
+ * The author's computer encrypts the whole signed fragment (codec.js) with a fresh AES-GCM key
+ * and uploads only the ciphertext. The key stays in the short link, after the #, so neither
+ * the website nor the link service ever sees it, and the service holds nothing it can read.
+ * The viewer fetches the ciphertext by id, decrypts it in the browser, and then checks the
+ * inner link's signature exactly as it would a long link: the service can withhold a page
+ * but cannot change one (AES-GCM refuses altered bytes, and the signature refuses anything
+ * the author did not sign).
+ *
+ * Uploads and deletions are signed with the author's key (uploadMessage), so only an author
+ * the service trusts can store anything. Used by the viewer (boot.js), the build
+ * (shortlinks.mjs) and the service (worker/index.js).
+ */
+const { toB64, fromB64, decodeFragment } = __m["../lib/codec.js"];
+
+const SHORT_RE = /^#\/v1\/k([A-Za-z0-9~_\-]{8})([A-Za-z0-9~_\-]{22})$/;
+const ID_RE = /^[A-Za-z0-9~_]{8}$/;
+const MAX_SEALED = 1024 * 1024; // bytes of ciphertext; a 100,000-character link is about 75 KB
+const AAD = "explainer-kit/short/v1/";
+const IV = 12;
+
+const ASK = " Ask the person who sent it for a new link.";
+const SHORT_REFUSED = {
+  gone: "This link has expired, or the person who sent it has withdrawn it." + ASK,
+  offline: "The page could not be fetched. Check your connection and try again. If it keeps failing, ask the person who sent it for the long version of the link.",
+  damaged: "This link is damaged: part of it was changed or cut off when it was copied." + ASK,
+  noservice: "This viewer is not set up to open short links." + ASK,
+};
+
+const rand = (n) => crypto.getRandomValues(new Uint8Array(n));
+const newShortId = () => toB64(rand(6));
+const newShortKey = () => toB64(rand(16));
+const shortFragment = (id, key) => `#/v1/k${id}${key}`;
+
+function aesKey(key, use) {
+  const raw = fromB64(key);
+  if (raw.length !== 16) throw new Error("bad key");
+  return crypto.subtle.importKey("raw", raw, "AES-GCM", false, [use]);
+}
+
+/* fragment (a signed long link's #…) → iv + ciphertext; the id is bound in as associated data,
+ * so a copy stored under another id does not decrypt */
+async function sealShort(fragment, id, key) {
+  const iv = rand(IV);
+  const ct = new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv, additionalData: new TextEncoder().encode(AAD + id) },
+    await aesKey(key, "encrypt"), new TextEncoder().encode(fragment)));
+  const out = new Uint8Array(IV + ct.length);
+  out.set(iv);
+  out.set(ct, IV);
+  return out;
+}
+
+async function openSealed(bytes, id, key) {
+  if (bytes.length <= IV + 16) throw new Error("too short");
+  const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv: bytes.slice(0, IV), additionalData: new TextEncoder().encode(AAD + id) },
+    await aesKey(key, "decrypt"), bytes.slice(IV));
+  return new TextDecoder().decode(pt);
+}
+
+/* What an upload (POST) or deletion (DELETE) is signed over. expires: Unix seconds, 0 for
+ * never; time: Unix seconds when signed (the service refuses one more than 5 minutes off);
+ * bodyHash: base64 of SHA-256 over the request body (empty for DELETE). */
+function uploadMessage(method, id, expires, time, bodyHash) {
+  return new TextEncoder().encode(`${AAD}${method}\n${id}\n${expires}\n${time}\n${bodyHash}`);
+}
+
+async function sha256B64(bytes) {
+  return toB64(new Uint8Array(await crypto.subtle.digest("SHA-256", bytes)));
+}
+
+/* Browser: short fragment → { text, signer }, like decodeFragment. service: the link service's
+ * origin (from the viewer's build). get: fetch, replaceable in tests. */
+async function openShort(hash, keys, service, get = (u, o) => fetch(u, o)) {
+  const m = String(hash).match(SHORT_RE);
+  if (!m) throw new Error("This address does not hold an explainer.");
+  if (!service) throw new Error(SHORT_REFUSED.noservice);
+  const id = m[1].replace(/-/g, "~"), key = m[2].replace(/-/g, "~");
+  let res, bytes;
+  try {
+    res = await get(`${service}/${id}`, { credentials: "omit", referrerPolicy: "no-referrer", cache: "no-store" });
+    if (res.ok) bytes = new Uint8Array(await res.arrayBuffer());
+  } catch (e) {
+    throw new Error(SHORT_REFUSED.offline);
+  }
+  if (res.status === 404 || res.status === 410) throw new Error(SHORT_REFUSED.gone);
+  if (!res.ok) throw new Error(SHORT_REFUSED.offline);
+  if (bytes.length > MAX_SEALED) throw new Error(SHORT_REFUSED.damaged);
+  let inner;
+  try { inner = await openSealed(bytes, id, key); } catch (e) { throw new Error(SHORT_REFUSED.damaged); }
+  return decodeFragment(inner, keys); // the signature check, exactly as for a long link
+}
+
+return {SHORT_RE,ID_RE,MAX_SEALED,SHORT_REFUSED,newShortId,newShortKey,shortFragment,sealShort,openSealed,uploadMessage,sha256B64,openShort};
 })();
 __m["../lib/md.js"]=(function(){
 /* md.js — the explainer source format: a small Markdown dialect, after Tiny Little Office's TLO.
@@ -4054,8 +4155,12 @@ __m["boot.js"]=(function(){
  * through), and keeps in-page links from rewriting the fragment, which is the document.
  * ?theme=<name> before the # swaps the page's theme (a named theme, nothing else).
  * The public keys in #x-keys (put there by the build) are the only authors it trusts: with
- * any, it opens only links one of them signed (lib/codec.js checks before decompressing). */
+ * any, it opens only links one of them signed (lib/codec.js checks before decompressing).
+ * A short link (#/v1/k…) names an encrypted copy on the link service in #x-short, the one
+ * address the CSP lets it fetch from; the key stays here, and the page inside is checked
+ * against the same keys (lib/short.js). */
 const { decodeFragment } = __m["../lib/codec.js"];
+const { openShort, SHORT_RE } = __m["../lib/short.js"];
 const { renderPage } = __m["../lib/page.js"];
 const { themeCss, THEMES } = __m["../lib/theme.js"];
 const { esc } = __m["../lib/md.js"];
@@ -4065,13 +4170,20 @@ const root = document.getElementById("x-root");
 const theme = document.getElementById("x-theme");
 let keys = [];
 try { keys = JSON.parse(document.getElementById("x-keys").textContent) || []; } catch (e) { keys = []; }
+let service = "";
+try { service = JSON.parse(document.getElementById("x-short").textContent) || ""; } catch (e) { service = ""; }
 let shown = "";
 
-function message(title, body) {
+const NOTE = {
+  long: "Nothing in this page is sent anywhere: the explainer lives in the link itself, after the #, and is read only by your browser.",
+  short: "A short link fetches an encrypted copy of the page. The key that unlocks it is in your link, after the #, and never leaves your browser.",
+};
+
+function message(title, body, short = SHORT_RE.test(location.hash)) {
   document.title = title;
   theme.textContent = themeCss({});
   root.innerHTML = '<main class="x-msg"><div class="wrap"><p class="eyebrow">Explainer viewer</p><h1></h1><p class="dek"></p>' +
-    '<p class="note">Nothing in this page is sent anywhere: the explainer lives in the link itself, after the #, and is read only by your browser.</p></div></main>';
+    `<p class="note">${short ? NOTE.short : NOTE.long}</p></div></main>`;
   root.querySelector("h1").textContent = title;
   root.querySelector(".dek").textContent = body;
 }
@@ -4083,7 +4195,9 @@ async function show() {
   if (!/^#\/v\d+\//.test(hash)) return; // an in-page anchor typed by hand
   shown = hash;
   let src, signer;
-  try { ({ text: src, signer } = await decodeFragment(hash, keys)); }
+  const short = SHORT_RE.test(hash);
+  if (short) message("Opening…", "Fetching the encrypted page. It is unlocked here, in your browser.");
+  try { ({ text: src, signer } = short ? await openShort(hash, keys, service) : await decodeFragment(hash, keys)); }
   catch (e) { message("This link could not be opened", e.message); return; }
   if (location.hash !== hash) return; // the reader moved on while it was being checked
   const page = renderPage(src, { mode: "link" });
@@ -4094,9 +4208,14 @@ async function show() {
   theme.textContent = themeCss(head, { hosted: true });
   // Say where the page came from: signed by a key this viewer holds, or (in a viewer with no
   // keys) from whoever wrote the link.
+  // A short link's page was fetched, encrypted, from the link service: say so.
   const origin = signer
-    ? `<span class="x-signed">Signed by ${esc(signer)}.</span> This page lives in the link you opened, and was checked against ${esc(signer)}’s key in this browser. Nothing in it was sent to any server.`
-    : "This page came from the link you opened. It is not published by this site, and nothing in it was sent to any server: the page lives in the link itself.";
+    ? `<span class="x-signed">Signed by ${esc(signer)}.</span> ` + (short
+      ? `This page was fetched in encrypted form, unlocked in this browser with the key in your link, and checked against ${esc(signer)}’s key. The service that stores it cannot read it.`
+      : `This page lives in the link you opened, and was checked against ${esc(signer)}’s key in this browser. Nothing in it was sent to any server.`)
+    : short
+      ? "This page came from the link you opened, fetched in encrypted form and unlocked in this browser. It is not published by this site."
+      : "This page came from the link you opened. It is not published by this site, and nothing in it was sent to any server: the page lives in the link itself.";
   root.innerHTML = page.html + `<footer class="x-origin"><div class="wrap">${origin}</div></footer>`;
   for (const el of root.querySelectorAll("[data-w]")) {
     const f = HYDRATE[el.dataset.w];

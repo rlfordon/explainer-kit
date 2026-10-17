@@ -1,6 +1,7 @@
 {
   "viewer": "https://rlfordon.github.io/explainer/",
   "viewerCopy": "../website/public/explainer/index.html",
+  "shortener": "https://explainer-links.rlfordon.workers.dev",
   "keys": [
     {
       "id": "~aJueo_3",

@@ -15,10 +15,14 @@ both are tested:
    reader types somewhere else. Tiny Little Office made the same call for the same reason.
 2. **Nothing leaves the browser.** The viewer's Content Security Policy lets the page load
    only its own script and its own fonts. That is what lets a client page say "nothing in
-   this page was sent anywhere," and mean it.
+   this page was sent anywhere," and mean it. A short link is the one exception: it fetches
+   an encrypted copy from the author's link service, and the key to read it stays in the
+   browser.
 
 Signing (done, October 2026) adds a third: the viewer opens only links signed by a key on
 its list, so a stranger cannot use the viewer's address at all. See the README's *Signing*.
+Short links (done, October 2026) keep all three: the service holds only ciphertext, and
+the page inside is checked against the same keys. See the README's *Short links*.
 
 ## What a link cannot carry, and why
 
@@ -44,8 +48,6 @@ viewer yet, and in a link its "Download edits" should produce a new link, not an
 - **An opt-in chat in links?** A button where the reader enters their own key, with a plain
   notice that the page and questions go to the provider. It breaks guarantee 2 by the
   reader's choice, so the "nothing was sent" footer would need to change while it is on.
-- **A short-link service storing only ciphertext?** Needed for SMS and QR, and it is also the
-  only way to make one link expire or be revoked on its own (signing revokes a whole key).
 
 ## Trusted widgets: closing the gap without running link code
 
@@ -89,8 +91,11 @@ What `jev-legal-research.html` and `jev-beyond-classification.html` use, mapped 
 - **Seal**: encrypt the payload (AES-GCM, a generated password sent separately), following
   Tiny Little Office's sealed form, so a client page is ciphertext in every mailbox. The
   signature goes over the sealed payload, so the viewer can refuse a forged link before
-  asking for a password.
-- **Short links** (see the decision above).
+  asking for a password. Short links already do the AES-GCM half (`lib/short.js`); a sealed
+  short link would also keep the page from whoever holds only the link.
+- **Short links**: done (October 2026), a Cloudflare Worker storing ciphertext
+  (`worker/`). Still to consider: a QR code printed by `--short`, and a custom domain for
+  the service.
 
 ## Authoring
 

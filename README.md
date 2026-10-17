@@ -25,12 +25,14 @@ node test/check.mjs examples/client-options.html --shots shots/   # click everyt
 node test/security.mjs                         # a hostile link must render inert
 node test/signing.mjs                          # unsigned or altered links must be refused
 node test/expr.mjs                             # formulas: right answers, hostile ones rejected
-node test/live.mjs                             # the hosted viewer opens signed links only
+node test/short.mjs                            # short links: encrypted, signed, withdrawable
+node test/live.mjs                             # the hosted viewer opens signed and short links
 ```
 
 Build flags: `-o out.html`, `--no-review` (skip the overlay), `--chat` (add the chat dock),
 `--viewer https://…/` (where your hosted viewer lives, for `--link`), `--viewer-only`,
-`--keygen --name "Name"` (make a signing key; see *Signing*).
+`--keygen --name "Name"` (make a signing key; see *Signing*), `--short [--expires 90d]`,
+`--short-list`, `--short-delete <link>` (see *Short links*).
 
 | Example | Source | File | Link |
 |---|---|---|---|
@@ -166,16 +168,20 @@ Nothing about the author or the host website is built into the code. It all come
 | `"viewer"` | The viewer's address on the host website. `--link` prints a share link for it next to the local one. |
 | `"viewerCopy"` | Optional: a path in the host website's files where `--viewer-only` also writes the viewer, ready to commit and deploy. |
 | `"keys"` | The authors' public keys, each with the name readers see under a signed page. `--keygen` adds one. |
+| `"shortener"` | Optional: the short-link service's address (see *Short links*). The viewer may fetch from it and nowhere else. |
 
 The `kit.json` in this repository belongs to the maintainer's own site. To use the kit for
 yours, set `"viewer"` and `"viewerCopy"` to your site, empty `"keys"`, and run `--keygen`;
-otherwise your viewer would trust the maintainer's key, not yours.
+otherwise your viewer would trust the maintainer's key, not yours. Remove `"shortener"` too,
+or deploy your own service (`worker/README.md`).
 
 The viewer's guarantees, all tested:
 
 - **Nothing leaves the browser.** Its CSP is `default-src 'none'` with only its own script
   (by hash) and fonts from its own folder (`font-src 'self'`) allowed; the only requests are
   the viewer page and the theme's fonts, never the page content. `test/check.mjs` confirms it.
+  The one exception is a short link, which fetches its encrypted page from the link service
+  (`connect-src` allows that one address); the key to read it never leaves the browser.
 - **Never runs code from the link.** The renderer escapes every string, allows only
   `https`, `mailto`, `tel` and `#` links, validates every colour and font name, and passes no
   raw HTML, CSS or script through. `test/security.mjs` throws a hostile link at it.
@@ -186,8 +192,8 @@ The viewer's guarantees, all tested:
 [SECURITY.md](SECURITY.md) explains all of this in plain terms, with what a link does not
 protect and what is coming.
 
-What a link does *not* do yet: it is not encrypted (anyone who sees the link can read the
-page), and one link cannot expire or be revoked on its own. See *Next*.
+What a long link does *not* do: it is not encrypted (anyone who sees the link can read the
+page), and it cannot expire or be revoked on its own. A short link can (below).
 
 ### Signing
 
@@ -216,6 +222,33 @@ The name comes from the viewer's list, never from the link.
   it in the browser (Web Crypto) before decompressing anything. A viewer built with no keys
   opens any link, unchecked, as before.
 
+### Short links
+
+`node build.mjs page.md --short` makes a link of about 75 characters, short enough for a text
+message or a QR code:
+
+```
+https://rlfordon.github.io/explainer/#/v1/kAbCd3fGhT9x_Kq2mWv8Lz4yPn~R5sE
+```
+
+The signed long link is encrypted on your computer (AES-GCM, a new key for every link) and
+only the encrypted copy is uploaded, to a small Cloudflare Worker you run (`worker/`). The
+key stays in the short link after the `#`, so neither the website nor Cloudflare can read the
+page. The viewer fetches the copy, unlocks it in the browser, and checks its signature as it
+would a long link. Only your key can upload or withdraw.
+
+- **Expiry**: 90 days unless you say otherwise: `--expires 12h`, `2w`, `30d` or `never`.
+- **Withdrawing**: `node build.mjs --short-delete <link or id>`. It stops opening within a
+  minute. `--short-list` shows every short link made on this computer, from
+  `~/.explainer-kit/short-links.json` (which holds the links, keys and all: guard it like the
+  signing key).
+- **The long link is the backup.** `--short` prints it too, and it works without the service.
+- **The trade-off**: Cloudflare sees when each short link is opened and from what IP address,
+  though never the page.
+- **The format**: `#/v1/k` + an 8-character id + a 22-character key (128 bits).
+  `lib/short.js` has the details, `worker/README.md` the service and its setup, and
+  `test/short.mjs` tests both, with the service run locally.
+
 ## Layout
 
 ```
@@ -226,6 +259,9 @@ lib/theme.js         palettes, tokens, topic colours, fonts
 lib/widgets.js       the widget registry
 lib/codec.js         source ↔ fragment; signature check (runs in Node and the browser)
 lib/keys.mjs         signing keys: make, load, sign (Node only)
+lib/short.js         short links: encrypt, decrypt, open (Node, the browser and the Worker)
+lib/shortlinks.mjs   short links: upload, withdraw, the local list (Node only)
+worker/              the short-link service: a Cloudflare Worker + KV (see its README)
 lib/bundle.mjs       a tiny bundler, so the viewer and pages ship one inline script
 lib/expr.js          the formula language and number formats (calc, triage)
 lib/live.js          live {formula} values inside widget text
@@ -236,14 +272,14 @@ widgets/css/*.css    one stylesheet per widget; css/base.css is the shared shell
 viewer/              boot.js + hydrate.js + viewer.css → index.html (generated)
 vendor/html-explainer/  review-mode.js, chat-dock.js, assemble.mjs (MIT, Derek Schwede)
 test/                check.mjs (exercise + screenshot), security.mjs + evil.md, signing.mjs,
-                     keyed.mjs (a throwaway key and viewer, so tests never touch yours),
-                     expr.mjs, live.mjs; widgets/*.md, one test page per new widget
+                     short.mjs, keyed.mjs (a throwaway key and viewer, so tests never touch
+                     yours), expr.mjs, live.mjs; widgets/*.md, one test page per new widget
 ```
 
 ## Next
 
 See [ROADMAP.md](ROADMAP.md). It covers what a link can't carry and why, the decisions
-still open, the widgets being built for the Jev pages, and sealing, decks and short links.
+still open, the widgets being built for the Jev pages, and sealing and decks.
 
 ## License
 

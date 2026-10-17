@@ -10,6 +10,7 @@
     "check": "node test/check.mjs",
     "security": "node test/security.mjs",
     "signing": "node test/signing.mjs",
+    "short": "node test/short.mjs",
     "keygen": "node build.mjs --keygen",
     "expr": "node test/expr.mjs",
     "live": "node test/live.mjs"

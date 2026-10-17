@@ -1,0 +1,15 @@
+# The short-link service (see README.md here). Deploy from this folder: npx wrangler deploy
+name = "explainer-links"
+main = "index.js"
+compatibility_date = "2026-06-01"
+workers_dev = true
+preview_urls = false
+
+# Encrypted pages, keyed by short-link id
+[[kv_namespaces]]
+binding = "LINKS"
+id = "68b975030b9e40bba3104061ba6cb72b"
+
+# No request logs kept by Cloudflare's Workers Logs
+[observability]
+enabled = false
