@@ -4,9 +4,10 @@ Modular explainers. You write one Markdown file; the build turns it into either
 
 - **a standalone HTML page** — like the pages [html-explainer](../html-explainer) makes, with its
   Review & edit overlay — or
-- **a private link** — the whole page compressed into the part of the address after the `#`,
+- **a link** — the whole page compressed into the part of the address after the `#`,
   opened by a small viewer page. Browsers never send that part to any server, so the page is
-  hosted nowhere: whoever has the link has the page.
+  hosted nowhere. But it is not encrypted: whoever has the link has the page, so treat the
+  link like the page itself ([SECURITY.md](SECURITY.md)).
 
 It melds two projects. From **html-explainer** it takes the design system and the widgets
 (the timeline, router, tracer and quiz come from `fbi-cia-nsa.html`). From
@@ -25,12 +26,14 @@ node test/check.mjs examples/client-options.html --shots shots/   # click everyt
 node test/security.mjs                         # a hostile link must render inert
 node test/signing.mjs                          # unsigned or altered links must be refused
 node test/expr.mjs                             # formulas: right answers, hostile ones rejected
+node test/link.mjs                             # a link carries only what its page shows
 node test/short.mjs                            # short links: encrypted, signed, withdrawable
 node test/live.mjs                             # the hosted viewer opens signed and short links
 ```
 
 Build flags: `-o out.html`, `--no-review` (skip the overlay), `--chat` (add the chat dock),
-`--viewer https://…/` (where your hosted viewer lives, for `--link`), `--viewer-only`,
+`--viewer https://…/` (where your hosted viewer lives, for `--link`), `--viewer-only`
+(add `--open` to build one with no keys, which opens any link unchecked; it refuses otherwise),
 `--keygen --name "Name"` (make a signing key; see *Signing*), `--short [--expires 90d]`,
 `--short-list`, `--short-delete <link>` (see *Short links*).
 
@@ -146,7 +149,7 @@ never hands it to the browser to run, so a link can carry a calculator safely.
 - ```` ```demo {title="…"} ```` — HTML with its own `<script>`, in the demo card.
 
 In a link these become a "runs only in the full version" placeholder (`style` is dropped),
-and `--check` says so. That is the trade: a public explainer can carry a bespoke centrepiece;
+and what is inside them is left out of the link itself, not just hidden; `--check` says so. That is the trade: a public explainer can carry a bespoke centrepiece;
 a link carries only the trusted widgets.
 
 ## The link and the viewer
@@ -154,6 +157,15 @@ a link carries only the trusted widgets.
 `build.mjs --link` compresses the **source text** (deflate-raw, base64url with `~` for `-`,
 a period every 200 characters so Messages and Signal keep it whole — both tricks from Tiny
 Little Office) and appends it to the viewer's address: `viewer/index.html#/v1/z…`.
+
+Anyone can decode a link, so it carries only what its page shows (`linkSource` in
+`lib/page.js`). Front matter a link page does not read (anything but `title`, `brand`,
+`hero`, `eyebrow`, `dek`, `meta`, `by`, `foot`, `lang`, `theme`, `palette`, `fonts`, `colors`,
+`accent`) is left out, and so is what is inside `html`, `style` and `demo` fences. The build
+lists each thing it left out. If one of those fences sits inside another widget, where it
+cannot be cut out cleanly, the build refuses to make the link. This catches notes left in
+by mistake. It is not a scrubber: text the page does show, or tucked into a widget's
+settings, still goes in, so read the source before you send it.
 
 `viewer/index.html` is one static file. Host it on the author's own website (the host
 website): anywhere static, such as GitHub Pages or a firm's own domain. Old links keep
@@ -186,7 +198,8 @@ The viewer's guarantees, all tested:
   `https`, `mailto`, `tel` and `#` links, validates every colour and font name, and passes no
   raw HTML, CSS or script through. `test/security.mjs` throws a hostile link at it.
 - **The fragment is the document**, so in-page links scroll instead of rewriting it.
-- **Leaves nothing behind**: checklist ticks are not stored when reading a link.
+- **Stores nothing**: checklist ticks are not saved when reading a link. The reader's browser
+  history still keeps the link, and with it the page.
 - **Opens only signed links.** See below. `test/signing.mjs` checks it.
 
 [SECURITY.md](SECURITY.md) explains all of this in plain terms, with what a link does not
@@ -211,16 +224,17 @@ The name comes from the viewer's list, never from the link.
   already sent keep opening, but you cannot make new ones with it. Make a new key, which
   is added to the list beside the old one.
 - **Revoking**: if the key is stolen or a device is lost, delete its entry from `kit.json`
-  `"keys"`, rebuild and deploy the viewer. Every link that key signed stops opening, and
-  readers see *signed with a key this viewer does not recognise*. Make a new key, and
-  re-send any links you still need.
+  `"keys"`, rebuild and deploy the viewer. Every link that key signed stops opening in the
+  viewer, and readers see *signed with a key this viewer does not recognise*. Make a new key,
+  and re-send any links you still need. Revoking does not take a page back: anyone who has a
+  long link can still decode its text without the viewer.
 - **What a signature proves**: who made the page, and that it is unchanged. It does not prove
   the page is harmless: the viewer still renders a signed page with the trusted widgets only.
 - **The format**: `#/v1/s` + the inner flag (`z` or `r`) + an 8-character key id + an
   86-character ECDSA P-256 / SHA-256 signature + the payload. That adds about 100
   characters. The signature covers the flag and the payload's bytes, and the viewer checks
-  it in the browser (Web Crypto) before decompressing anything. A viewer built with no keys
-  opens any link, unchecked, as before.
+  it in the browser (Web Crypto) before decompressing anything. A viewer with no keys would
+  open any link, unchecked, so `--viewer-only` refuses to build one unless you add `--open`.
 
 ### Short links
 
@@ -239,7 +253,7 @@ would a long link. Only your key can upload or withdraw.
 
 - **Expiry**: 90 days unless you say otherwise: `--expires 12h`, `2w`, `30d` or `never`.
 - **Withdrawing**: `node build.mjs --short-delete <link or id>`. It stops opening within a
-  minute. `--short-list` shows every short link made on this computer, from
+  minute. Anyone who opened it, or fetched the encrypted copy, before then keeps the page. `--short-list` shows every short link made on this computer, from
   `~/.explainer-kit/short-links.json` (which holds the links, keys and all: guard it like the
   signing key).
 - **The long link is the backup.** `--short` prints it too, and it works without the service.

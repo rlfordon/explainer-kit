@@ -1,6 +1,6 @@
 ---
 name: explainer-kit
-description: Build an interactive explainer page, or a private shareable link to one, from a short Markdown source with reusable widgets (timeline, router, stepper, decision tree, quiz, checklist, cards, stats, myths, glossary). Use when someone wants an explainer, client-facing summary, or one-pager they can send as a link without hosting it, or wants explainers built from shared parts rather than bespoke HTML. For a fully bespoke, design-led public explainer, html-explainer's own process still applies; this kit is its modular sibling.
+description: Build an interactive explainer page, or a shareable link to one (not encrypted, so whoever holds it can read it), from a short Markdown source with reusable widgets (timeline, router, stepper, decision tree, quiz, checklist, cards, stats, myths, glossary). Use when someone wants an explainer, client-facing summary, or one-pager they can send as a link without hosting it, or wants explainers built from shared parts rather than bespoke HTML. For a fully bespoke, design-led public explainer, html-explainer's own process still applies; this kit is its modular sibling.
 ---
 
 # explainer-kit (draft)
@@ -12,7 +12,7 @@ the opening comment of `widgets/<name>.js`.
 
 ## 1. Scope (ask only what you cannot infer)
 
-- **File or link?** A link (sent to a client, private, nothing hosted) allows only the
+- **File or link?** A link (sent to a client, nothing hosted, readable by anyone holding it) allows only the
   trusted widgets. A file may also carry a bespoke `demo` fence. This decides how ambitious
   the centrepiece can be.
 - **Who reads it, and what should they be able to decide or do afterwards?**
@@ -71,7 +71,9 @@ rebuild. `check.mjs` passing is necessary, not sufficient.
 - Never put HTML in prose; use the format's marks and spans. Raw HTML belongs only in `html`
   and `demo` fences, and only for a file.
 - A link is the document: anyone holding it can read it. Until sealing ships, do not put
-  anything in a link that could not be emailed in plain text.
+  anything in a link that could not be emailed in plain text. Keep notes and drafts out of
+  the source: the build leaves out front matter and raw fences the page does not show, and
+  says so, but anything else in the source travels in the link.
 - Links are signed with the user's own key (`~/.explainer-kit/signing-key.json`), and the
   hosted viewer opens nothing else. If `--link` says the key is missing, stop and tell the
   user. Never make a new key or edit `kit.json` "keys" to get around it, because that changes

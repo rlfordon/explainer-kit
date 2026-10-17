@@ -21,7 +21,9 @@ entry in `"keys"` is an author's public key with the name readers see.
   only pages signed by the author's key**.
 - **Anyone who has a link can read the page.** That holds for short links too, since the
   key travels in the link. Treat a link like the page itself: do not put anything in one
-  that you would not send by plain email.
+  that you would not send by plain email. In some ways a link travels less safely than
+  plain email: mail filters copy and open links, and browsers keep them in their history
+  (see *What a link does not protect*).
 
 ## The problem this is designed against
 
@@ -54,6 +56,13 @@ with widgets already built into it (timelines, decision trees, calculators and s
   styling, which could otherwise hide parts of the page or draw a fake "Signed by" line.
 - Raw HTML, custom styling and custom demos are dropped from links. They work only in the
   standalone file version (see below).
+- **A link carries only what its page shows.** A link holds the page's source text, and
+  anyone can decode it without the viewer, so anything hidden on the page would still be
+  readable there. The build therefore leaves out the inside of those raw fences, and any
+  front-matter line the page does not show (a note such as `internal: floor is 2.1M`). It
+  lists what it left out, and refuses to make the link if it cannot leave something out
+  cleanly. This catches notes left in by mistake. It is not a full scrubber: read the source
+  before you send it.
 - Calculators and threshold demos use a small formula language that the kit reads itself and
   never hands to the browser to run. A hostile formula can produce a wrong number and nothing
   else. It has no loops and cannot reach anything outside the page.
@@ -64,8 +73,8 @@ The viewer's Content Security Policy is the browser-enforced rulebook for the pa
 allows only the viewer's own script (identified by its exact fingerprint), fonts from the
 viewer's own folder, and fetching from the author's short-link service (section 4). It
 blocks every other request: no outside images, no connections to other servers, no forms
-that submit anywhere. Even a mistake in the kit could not send the page out: the only server
-it can reach is the one that already holds the page, encrypted.
+that submit anywhere. The only server the viewer can reach is the author's short-link
+service, which stores nothing unless the upload is signed with the author's key.
 
 - The fonts are hosted next to the viewer, so opening a link never contacts Google or any
   font service.
@@ -95,6 +104,13 @@ signature matches a public key built into it.
   when the key was made. That name comes from the viewer's own list, never from the link.
 - **Technical detail:** ECDSA P-256 with SHA-256, checked in the browser with Web Crypto
   before anything in the link is unpacked.
+
+- **The viewer is never built open by accident.** A viewer with no keys on its list would open
+  any link, unchecked. The build refuses to make one unless the author asks for it outright
+  (`--open`), so a mistake in `kit.json` cannot silently switch signing off.
+- **"Signed by" holds only on the right address.** Anyone can copy the open-source viewer,
+  make a key under any name and host it elsewhere. Tell readers the viewer's exact address
+  ahead of time, and have them check it.
 
 A signature proves who made the page and that it is unchanged. The viewer still draws a
 signed page with the trusted widgets only, so a stolen key would let someone show text under
@@ -134,6 +150,7 @@ backup.
 | `test/signing.mjs` | Signed links open. Unsigned, unknown-key, altered, borrowed-signature and cut-off links are refused. |
 | `test/short.mjs` | Short links open, signed. The service refuses unsigned, stale, replayed and oversized uploads and never overwrites; a copy that was moved, changed, withdrawn or has expired is refused; the viewer fetches nothing but the one copy. |
 | `test/expr.mjs` | Formulas give the right answers and hostile ones are rejected. |
+| `test/link.mjs` | A link carries only what its page shows: hidden front matter and the inside of raw fences stay out, and every example page looks the same. A viewer with no keys is refused. |
 | `test/check.mjs` | Clicks through a page and lists every network request it makes. |
 | `test/live.mjs` | The live viewer on the website opens a signed link and a short link, and refuses an unsigned one. |
 
@@ -143,10 +160,22 @@ backup.
   forwarded to. Email providers keep a copy of every link in their mailboxes, and a browser
   keeps opened links in its history (and syncs that history if the reader has turned
   syncing on).
-- **A long link cannot be withdrawn.** The only way to stop one opening is to retire the key
-  that signed it, which stops every link that key signed. A short link can be withdrawn on
-  its own, but a reader who opened it may have kept the page, and anyone who has seen it
-  may also have the long link it was made from if the author sent that too.
+- **Mail filters may copy and open the link.** Many workplaces run security filters (such as
+  Microsoft Defender Safe Links, Proofpoint or Mimecast) that rewrite every link in an email
+  and test-open it before the reader clicks. Such a filter may keep the whole address,
+  including the part after the `#`. If it does, the filter's vendor holds the page. This has
+  not been tested with any particular filter. A short link does not help here, since its key
+  is in the address too. For anything sensitive, ask the reader whether their email is
+  filtered this way, or send the link through an end-to-end encrypted channel instead.
+- **Nothing takes a page back.** Retiring a key stops the viewer opening the links it
+  signed, but a long link is the page itself. Anyone who has one can still decode the text
+  without the viewer. Withdrawing a short link, or letting it expire, stops new fetches. But
+  anyone who already opened it, or fetched the encrypted copy (a mail filter, say), keeps
+  the page. The same goes for anyone who also has the long link it was made from. Treat a
+  link sent to the wrong person as a disclosure, not something to undo.
+- **For highly sensitive material, a link is not enough on its own.** Settlement figures,
+  weaknesses in a case or negotiating positions should go through the firm's existing secure
+  channel until sealing ships (below), or be kept out of the page and given another way.
 - **Long links can break.** Some apps cut long addresses. A damaged link is refused, never
   shown in part.
 
@@ -167,7 +196,8 @@ private should go as links.
 - **If the key is lost or stolen**, remove its entry from `kit.json` `"keys"`, rebuild the
   viewer and deploy it, and redeploy the short-link service (`npx wrangler deploy` in
   `worker/`) so it stops accepting uploads signed with it. Every link it signed stops
-  opening. Make a new key with `node build.mjs --keygen` and re-send any links still needed.
+  opening in the viewer, though the text of a long link stays readable to anyone who has it.
+  Make a new key with `node build.mjs --keygen` and re-send any links still needed.
 - **The list of short links** (`~/.explainer-kit/short-links.json`) holds every short link
   made, keys included. Guard it like the signing key.
 - **The account that publishes the host website is the deepest point of trust.** Someone who

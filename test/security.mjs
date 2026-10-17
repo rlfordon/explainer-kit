@@ -17,7 +17,8 @@ import { testKit } from "./keyed.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const kit = testKit();
-const { url } = makeLink(readFileSync(join(here, "evil.md"), "utf8"), kit.viewer, kit.signer);
+// raw: the build keeps raw fences out of links, but anyone can write a link by hand
+const { url } = makeLink(readFileSync(join(here, "evil.md"), "utf8"), kit.viewer, kit.signer, { raw: true });
 
 const browser = await chromium.launch();
 const page = await browser.newPage();

@@ -8,7 +8,8 @@
  *   node build.mjs page.md --link [--viewer https://you.github.io/explainer/]
  *                                        → print a local link, and a share link via kit.json "viewer" or --viewer
  *   node build.mjs page.md --check         → lint only: warnings and link size, writes nothing
- *   node build.mjs --viewer-only           → rebuild viewer/index.html (and the kit.json "viewerCopy")
+ *   node build.mjs --viewer-only [--open]  → rebuild viewer/index.html (and the kit.json "viewerCopy");
+ *                                          it refuses with no kit.json "keys" unless --open
  *   node build.mjs --keygen --name "Name"  → make a signing key (see lib/keys.mjs); links are then signed
  *   node build.mjs page.md --short [--expires 90d|12h|2w|never]
  *                                        → also store an encrypted copy on the link service (kit.json
@@ -26,7 +27,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { deflateRawSync } from "node:zlib";
-import { renderPage } from "./lib/page.js";
+import { renderPage, linkSource } from "./lib/page.js";
 import { themeCss, fontLink } from "./lib/theme.js";
 import { RUNTIME, STATIC, WIDGETS } from "./lib/widgets.js";
 import { bundle, modRef } from "./lib/bundle.mjs";
@@ -109,8 +110,13 @@ export function serviceOrigin(s) {
 
 /* The viewer: one HTML file, every widget, a CSP that allows only its own script. With keys,
  * it opens only links signed by one of them; they sit in a JSON block, which never runs. With
- * a short-link service, the CSP lets it fetch from that one address, and nowhere else. */
-export function buildViewer(out = join(HERE, "viewer/index.html"), { keys = loadKit().keys, shortener = loadKit().shortener } = {}) {
+ * a short-link service, the CSP lets it fetch from that one address, and nowhere else.
+ * With no keys it would open any link, unchecked, so it refuses unless told `open`. */
+export function buildViewer(out = join(HERE, "viewer/index.html"), { keys = loadKit().keys, shortener = loadKit().shortener, open = false } = {}) {
+  if (!publicKeys(keys).length && !open) {
+    throw new Error('kit.json has no "keys", so this viewer would open any link, unchecked, signed or not.\n' +
+      "Make a key with --keygen (or restore kit.json), or pass --open if you really want a viewer that trusts everyone.");
+  }
   const trusted = JSON.stringify(publicKeys(keys)).replace(/</g, "\\u003c");
   const service = serviceOrigin(shortener);
   const script = bundle([join(HERE, "viewer/boot.js")]);
@@ -146,10 +152,14 @@ ${css}
   return { out, bytes: Buffer.byteLength(html), keys: JSON.parse(trusted).length };
 }
 
-/* signer: from loadSigner() (lib/keys.mjs); without one the link is unsigned */
-export function makeLink(src, viewer, signer) {
-  const frag = encodeFragment(src, (b) => deflateRawSync(b, { level: 9, memLevel: 9 }), signer);
-  return { url: viewer + frag, fragment: frag };
+/* signer: from loadSigner() (lib/keys.mjs); without one the link is unsigned. The link carries
+ * only what its page shows (linkSource, lib/page.js); `left` lists what was kept out. It
+ * throws if the page has something it cannot keep out. raw: encode src exactly as given
+ * (test/security.mjs, which must hand the viewer the hostile parts). */
+export function makeLink(src, viewer, signer, { raw = false } = {}) {
+  const { src: text, left } = raw ? { src, left: [] } : linkSource(src);
+  const frag = encodeFragment(text, (b) => deflateRawSync(b, { level: 9, memLevel: 9 }), signer);
+  return { url: viewer + frag, fragment: frag, left };
 }
 
 export function tierOf(len) {
@@ -180,10 +190,12 @@ cli: if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.me
   }
 
   if (flag("--viewer-only")) {
-    const v = buildViewer(opt("-o") ? resolve(opt("-o")) : undefined);
-    console.log(`viewer → ${v.out} (${n(v.bytes)} bytes)`);
+    const open = flag("--open");
+    let v;
+    try { v = buildViewer(opt("-o") ? resolve(opt("-o")) : undefined, { open }); } catch (e) { console.error(e.message); process.exit(1); }
+    console.log(`viewer → ${v.out} (${n(v.bytes)} bytes)${v.keys ? "" : "; no keys: it opens any link, unchecked"}`);
     if (!opt("-o") && kit.viewerCopy) {
-      const c = buildViewer(resolve(HERE, kit.viewerCopy));
+      const c = buildViewer(resolve(HERE, kit.viewerCopy), { open });
       console.log(`viewer → ${c.out} (copy for ${kit.viewer || "the hosted viewer"}; commit and deploy it there)`);
     }
     process.exit(0);
@@ -211,22 +223,26 @@ cli: if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.me
     break cli;
   }
   if (!input) {
-    console.error('usage: node build.mjs page.md [-o out.html] [--no-review] [--chat] [--link [--viewer URL]] [--short [--expires 90d]] | --short-list | --short-delete <link> | --viewer-only | --keygen --name "Name"');
+    console.error('usage: node build.mjs page.md [-o out.html] [--no-review] [--chat] [--link [--viewer URL]] [--short [--expires 90d]] | --short-list | --short-delete <link> | --viewer-only [--open] | --keygen --name "Name"');
     process.exit(1);
   }
   const src = readFileSync(input, "utf8");
   const trusted = publicKeys(kit.keys);
   const signer = loadSigner();
   let warnings;
+  // what a link leaves out of itself, said in the author's warnings (see linkSource, lib/page.js)
+  const keptOut = (left) => left.map((x) => `kept out of the link: ${x}`);
   if (flag("--check")) {
     // lint: render both targets, write nothing
     const file = renderPage(src, { mode: "file" }), link = renderPage(src, { mode: "link" });
-    const { fragment } = makeLink(src, "", signer);
-    console.log(`${input}: widgets ${file.used.join(", ") || "none"}; link ${n(fragment.length)} characters — ${tierOf(fragment.length)}`);
-    const all = [...new Set([...file.warnings, ...link.warnings])];
+    let made;
+    try { made = makeLink(src, "", signer); } catch (e) { made = { fragment: "", left: [], error: e.message }; }
+    console.log(`${input}: widgets ${file.used.join(", ") || "none"}; ` +
+      (made.error ? "no link can be made" : `link ${n(made.fragment.length)} characters — ${tierOf(made.fragment.length)}`));
+    const all = [...new Set([...file.warnings, ...link.warnings, ...keptOut(made.left), ...(made.error ? ["link: " + made.error] : [])])];
     for (const w of all) console.log("  • " + w);
     if (!all.length) console.log("  no warnings");
-    process.exit(file.warnings.length ? 1 : 0);
+    process.exit(file.warnings.length || made.error ? 1 : 0);
   }
   if (!(flag("--link") || flag("--short")) || flag("--file")) {
     const out = resolve(opt("-o") || input.replace(/\.(md|txt)$/i, "") + ".html");
@@ -247,10 +263,13 @@ cli: if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.me
       console.error(`the signing key ${signer.id} is not in kit.json "keys", so the viewer would refuse its links. Add its public half there.`);
       process.exit(1);
     }
-    const v = buildViewer();
+    // the local viewer, for this computer only; with no keys yet, links are unsigned and it opens them
+    const v = buildViewer(undefined, { open: !trusted.length });
     const page = renderPage(src, { mode: "link" });
-    warnings = page.warnings;
-    const { url, fragment } = makeLink(src, pathToFileURL(v.out).href, signer);
+    let made;
+    try { made = makeLink(src, pathToFileURL(v.out).href, signer); } catch (e) { console.error(e.message); process.exit(1); }
+    const { url, fragment } = made;
+    warnings = [...page.warnings, ...keptOut(made.left)];
     console.log(`link fragment: ${n(fragment.length)} characters — ${tierOf(fragment.length)}${signer ? `; signed by ${signer.name} (${signer.id})` : "; unsigned"}`);
     console.log(url); // the local viewer: works on this computer only
     const share = opt("--viewer") || kit.viewer;
